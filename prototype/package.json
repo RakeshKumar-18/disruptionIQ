@@ -1,0 +1,5 @@
+{
+  "name": "disruptioniq-prototype",
+  "private": true,
+  "description": "Standalone demo deployed on Vercel. This file stops Vercel from running the main Next.js app's build (which needs a database) when it builds api/explain.js."
+}
