@@ -1,0 +1,155 @@
+// DisruptionIQ data model (step 1: mirrors the browser prototype, now in Postgres).
+// Step 2 adds shipment lines, customers with tiers and penalties, and order lines.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id
+  name          String
+  role          String // see src/lib/rbac.ts
+  pinHash       String
+  sessions      Session[]
+  plansCreated  Plan[]    @relation("PlanCreatedBy")
+  plansApproved Plan[]    @relation("PlanApprovedBy")
+}
+
+model Session {
+  token     String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([userId])
+}
+
+model Supplier {
+  id        String     @id
+  name      String
+  region    String
+  leadDays  Int
+  status    String
+  shipments Shipment[]
+}
+
+model Warehouse {
+  id        String          @id
+  name      String
+  region    String
+  inventory InventoryItem[]
+  orders    Order[]
+}
+
+model InventoryItem {
+  id           String    @id
+  sku          String
+  product      String
+  warehouseId  String
+  warehouse    Warehouse @relation(fields: [warehouseId], references: [id])
+  qty          Int
+  reserved     Int       @default(0)
+  reorderLevel Int       @default(0)
+
+  @@unique([sku, warehouseId])
+}
+
+model Shipment {
+  id          String       @id
+  carrier     String
+  supplierId  String
+  supplier    Supplier     @relation(fields: [supplierId], references: [id])
+  origin      String
+  destination String
+  eta         DateTime
+  status      String
+  delayDays   Int          @default(0)
+  lastEventId String?
+  disruptions Disruption[]
+}
+
+model Order {
+  id          String    @id
+  customer    String
+  sku         String
+  qty         Int
+  due         DateTime  @db.Date
+  warehouseId String
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  priority    String // Critical | High | Normal
+  status      String // On track | At risk | Recovering
+  createdAt   DateTime  @default(now())
+  plans       Plan[]
+}
+
+model Disruption {
+  id           String    @id
+  title        String
+  type         String
+  severity     String
+  description  String
+  shipmentId   String?
+  shipment     Shipment? @relation(fields: [shipmentId], references: [id])
+  // SKUs this disruption touches. Seeded for the two scenarios; step 2 derives it from shipment lines.
+  affectedSkus String[]
+  status       String    @default("Active")
+  createdAt    DateTime  @default(now())
+  plans        Plan[]
+}
+
+model Plan {
+  id           String     @id
+  disruptionId String
+  disruption   Disruption @relation(fields: [disruptionId], references: [id])
+  orderId      String
+  order        Order      @relation(fields: [orderId], references: [id])
+  kind         String
+  summary      String
+  impact       String
+  status       String // Pending approval | Approved | Rejected | Executed
+  createdById  String
+  createdBy    User       @relation("PlanCreatedBy", fields: [createdById], references: [id])
+  approvedById String?
+  approvedBy   User?      @relation("PlanApprovedBy", fields: [approvedById], references: [id])
+  createdAt    DateTime   @default(now())
+  executedAt   DateTime?
+}
+
+// Raw inbound carrier events. The primary key on eventId is what makes duplicates safe.
+model CarrierEvent {
+  eventId    String   @id
+  shipmentId String
+  eta        DateTime
+  status     String?
+  payload    Json
+  receivedAt DateTime @default(now())
+}
+
+model Notification {
+  id       Int      @id @default(autoincrement())
+  at       DateTime @default(now())
+  message  String
+  severity String   @default("info")
+  read     Boolean  @default(false)
+}
+
+model AuditLog {
+  id     Int      @id @default(autoincrement())
+  at     DateTime @default(now())
+  actor  String
+  action String
+  entity String
+  detail String
+}
+
+// Atomic counters for readable IDs such as PLAN-702 and DIS-303.
+model Counter {
+  name  String @id
+  value Int
+}
