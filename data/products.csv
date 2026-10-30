@@ -1,0 +1,501 @@
+product_id,product_name,category,unit_cost,criticality,reorder_level,active
+PRD00001,Automotive SKU-0001,Office Supplies,5946.49,Medium,29,True
+PRD00002,Electrical Components SKU-0002,Textiles,9559.47,High,204,True
+PRD00003,Electronics SKU-0003,Textiles,4405.16,Low,234,True
+PRD00004,Office Supplies SKU-0004,Medical Supplies,5446.27,Medium,230,True
+PRD00005,Electronics SKU-0005,Electronics,4736.23,Low,210,True
+PRD00006,Industrial Parts SKU-0006,Office Supplies,8347.97,Low,176,True
+PRD00007,Packaging SKU-0007,Food-grade Materials,12983.83,Medium,127,True
+PRD00008,Packaging SKU-0008,Electronics,10441.96,Medium,87,True
+PRD00009,Electronics SKU-0009,Industrial Parts,11935.43,High,50,True
+PRD00010,Office Supplies SKU-0010,Industrial Parts,5794.54,Medium,62,True
+PRD00011,Medical Supplies SKU-0011,Food-grade Materials,12399.13,Medium,113,True
+PRD00012,Food-grade Materials SKU-0012,Safety Equipment,9659.87,Medium,163,True
+PRD00013,Automotive SKU-0013,Packaging,1035.37,Medium,229,True
+PRD00014,Office Supplies SKU-0014,Packaging,4085.94,Medium,114,True
+PRD00015,Office Supplies SKU-0015,Food-grade Materials,11216.45,Medium,135,True
+PRD00016,Medical Supplies SKU-0016,Industrial Parts,5830.27,Medium,139,True
+PRD00017,Medical Supplies SKU-0017,Office Supplies,3833.23,High,161,True
+PRD00018,Industrial Parts SKU-0018,Safety Equipment,7244.19,Medium,85,True
+PRD00019,Automotive SKU-0019,Medical Supplies,14767.4,High,23,True
+PRD00020,Electronics SKU-0020,Electrical Components,2969.12,Medium,236,True
+PRD00021,Textiles SKU-0021,Packaging,3934.17,Medium,57,True
+PRD00022,Safety Equipment SKU-0022,Food-grade Materials,9634.46,High,177,True
+PRD00023,Office Supplies SKU-0023,Industrial Parts,5360.7,Medium,199,True
+PRD00024,Automotive SKU-0024,Textiles,2039.87,Low,165,True
+PRD00025,Electronics SKU-0025,Office Supplies,7979.38,Low,115,True
+PRD00026,Industrial Parts SKU-0026,Medical Supplies,1319.02,Low,25,True
+PRD00027,Textiles SKU-0027,Safety Equipment,4190.78,Medium,210,True
+PRD00028,Automotive SKU-0028,Textiles,12293.58,Medium,235,True
+PRD00029,Electronics SKU-0029,Industrial Parts,13577.4,Low,160,True
+PRD00030,Industrial Parts SKU-0030,Electronics,11003.73,Medium,137,True
+PRD00031,Packaging SKU-0031,Textiles,4831.29,Critical,100,True
+PRD00032,Safety Equipment SKU-0032,Medical Supplies,14694.52,Medium,185,True
+PRD00033,Automotive SKU-0033,Packaging,13583.96,Low,63,True
+PRD00034,Electronics SKU-0034,Industrial Parts,10022.12,Medium,243,True
+PRD00035,Industrial Parts SKU-0035,Food-grade Materials,2892.57,Medium,71,True
+PRD00036,Automotive SKU-0036,Textiles,14523.21,Medium,60,True
+PRD00037,Packaging SKU-0037,Office Supplies,922.78,High,30,True
+PRD00038,Electrical Components SKU-0038,Packaging,8006.43,Critical,114,True
+PRD00039,Electronics SKU-0039,Packaging,7618.57,Medium,140,True
+PRD00040,Safety Equipment SKU-0040,Industrial Parts,11848.43,Low,17,True
+PRD00041,Packaging SKU-0041,Automotive,4069.24,High,123,True
+PRD00042,Packaging SKU-0042,Electrical Components,14028.94,Medium,164,True
+PRD00043,Automotive SKU-0043,Food-grade Materials,10310.45,Low,40,True
+PRD00044,Safety Equipment SKU-0044,Textiles,2169.25,High,173,True
+PRD00045,Safety Equipment SKU-0045,Food-grade Materials,2319.96,Critical,47,True
+PRD00046,Office Supplies SKU-0046,Electronics,5435.57,Medium,34,True
+PRD00047,Automotive SKU-0047,Electronics,10297.87,Medium,208,True
+PRD00048,Automotive SKU-0048,Packaging,8615.6,Medium,247,True
+PRD00049,Medical Supplies SKU-0049,Packaging,2224.43,Medium,68,True
+PRD00050,Packaging SKU-0050,Electrical Components,3105.48,Medium,46,True
+PRD00051,Industrial Parts SKU-0051,Automotive,9309.46,High,104,True
+PRD00052,Automotive SKU-0052,Office Supplies,3990.6,High,179,True
+PRD00053,Industrial Parts SKU-0053,Food-grade Materials,11333.24,Medium,107,True
+PRD00054,Electrical Components SKU-0054,Safety Equipment,5894.47,High,73,True
+PRD00055,Packaging SKU-0055,Packaging,8835.49,High,88,True
+PRD00056,Packaging SKU-0056,Electrical Components,8758.31,Medium,136,True
+PRD00057,Electronics SKU-0057,Industrial Parts,4734.05,Low,199,True
+PRD00058,Industrial Parts SKU-0058,Medical Supplies,12884.11,High,13,True
+PRD00059,Safety Equipment SKU-0059,Office Supplies,1583.49,Low,100,True
+PRD00060,Electrical Components SKU-0060,Packaging,8836.86,High,176,True
+PRD00061,Food-grade Materials SKU-0061,Automotive,8388.72,Medium,99,True
+PRD00062,Medical Supplies SKU-0062,Packaging,10895.15,Low,155,True
+PRD00063,Safety Equipment SKU-0063,Electrical Components,14796.29,High,115,True
+PRD00064,Automotive SKU-0064,Electrical Components,13473.17,Low,169,True
+PRD00065,Industrial Parts SKU-0065,Industrial Parts,3346.69,High,42,True
+PRD00066,Food-grade Materials SKU-0066,Industrial Parts,6973.12,Medium,137,True
+PRD00067,Packaging SKU-0067,Food-grade Materials,2669.17,Critical,157,True
+PRD00068,Textiles SKU-0068,Industrial Parts,11373.79,Low,193,True
+PRD00069,Food-grade Materials SKU-0069,Medical Supplies,7083.28,Medium,106,True
+PRD00070,Automotive SKU-0070,Electrical Components,1577.51,Medium,11,True
+PRD00071,Electronics SKU-0071,Electrical Components,4968.44,Low,206,True
+PRD00072,Textiles SKU-0072,Food-grade Materials,2921.27,Medium,135,True
+PRD00073,Food-grade Materials SKU-0073,Industrial Parts,5203.65,Medium,195,True
+PRD00074,Office Supplies SKU-0074,Automotive,10378.04,Medium,223,True
+PRD00075,Medical Supplies SKU-0075,Textiles,8401.18,Low,62,True
+PRD00076,Textiles SKU-0076,Textiles,14601.18,High,124,True
+PRD00077,Industrial Parts SKU-0077,Automotive,10689.25,Critical,32,True
+PRD00078,Packaging SKU-0078,Medical Supplies,5042.25,High,228,True
+PRD00079,Medical Supplies SKU-0079,Packaging,8762.78,Medium,182,True
+PRD00080,Industrial Parts SKU-0080,Electrical Components,3318.12,Medium,242,True
+PRD00081,Medical Supplies SKU-0081,Packaging,5373.58,Medium,233,True
+PRD00082,Food-grade Materials SKU-0082,Food-grade Materials,7095.6,Low,16,True
+PRD00083,Safety Equipment SKU-0083,Office Supplies,11250.47,Medium,194,True
+PRD00084,Medical Supplies SKU-0084,Medical Supplies,10498.28,Low,52,True
+PRD00085,Electronics SKU-0085,Medical Supplies,4428.01,Low,82,True
+PRD00086,Medical Supplies SKU-0086,Industrial Parts,1961.35,Medium,11,True
+PRD00087,Safety Equipment SKU-0087,Electronics,7274.52,Medium,33,True
+PRD00088,Food-grade Materials SKU-0088,Electrical Components,2043.04,Medium,56,True
+PRD00089,Safety Equipment SKU-0089,Electrical Components,13370.97,Medium,235,True
+PRD00090,Safety Equipment SKU-0090,Food-grade Materials,7793.64,Medium,246,True
+PRD00091,Medical Supplies SKU-0091,Electrical Components,13657.7,Medium,107,True
+PRD00092,Textiles SKU-0092,Office Supplies,9414.44,Critical,209,True
+PRD00093,Automotive SKU-0093,Safety Equipment,6947.2,Low,144,True
+PRD00094,Automotive SKU-0094,Office Supplies,1727.77,Low,142,True
+PRD00095,Textiles SKU-0095,Electrical Components,8595.89,High,128,True
+PRD00096,Packaging SKU-0096,Food-grade Materials,3777.24,Medium,160,True
+PRD00097,Electrical Components SKU-0097,Electronics,3612.85,Medium,178,True
+PRD00098,Food-grade Materials SKU-0098,Office Supplies,7469.57,High,24,True
+PRD00099,Safety Equipment SKU-0099,Automotive,12090.99,Medium,94,True
+PRD00100,Office Supplies SKU-0100,Textiles,9409.62,Low,12,True
+PRD00101,Packaging SKU-0101,Electronics,11554.2,Low,86,True
+PRD00102,Electronics SKU-0102,Automotive,2485.05,Low,120,True
+PRD00103,Food-grade Materials SKU-0103,Textiles,1816.36,Low,194,True
+PRD00104,Electronics SKU-0104,Medical Supplies,3847.69,High,150,True
+PRD00105,Food-grade Materials SKU-0105,Textiles,14782.42,High,85,True
+PRD00106,Electronics SKU-0106,Safety Equipment,6754.52,Medium,206,True
+PRD00107,Electrical Components SKU-0107,Packaging,7191.58,Critical,17,True
+PRD00108,Food-grade Materials SKU-0108,Food-grade Materials,7730.09,Low,157,True
+PRD00109,Office Supplies SKU-0109,Packaging,1501.27,Medium,32,True
+PRD00110,Packaging SKU-0110,Safety Equipment,5702.63,Low,88,True
+PRD00111,Safety Equipment SKU-0111,Textiles,1649.17,Low,117,True
+PRD00112,Medical Supplies SKU-0112,Packaging,11481.65,Medium,249,True
+PRD00113,Industrial Parts SKU-0113,Food-grade Materials,12744.81,Low,19,True
+PRD00114,Packaging SKU-0114,Packaging,6947.97,Low,123,True
+PRD00115,Automotive SKU-0115,Packaging,10830.15,Medium,114,True
+PRD00116,Electronics SKU-0116,Food-grade Materials,14780.9,Low,146,True
+PRD00117,Office Supplies SKU-0117,Industrial Parts,9602.46,Medium,54,True
+PRD00118,Textiles SKU-0118,Textiles,5212.63,Low,160,True
+PRD00119,Packaging SKU-0119,Electronics,9818.92,High,98,True
+PRD00120,Automotive SKU-0120,Textiles,12508.4,Low,18,True
+PRD00121,Food-grade Materials SKU-0121,Packaging,12958.39,High,125,True
+PRD00122,Safety Equipment SKU-0122,Automotive,9924.79,Low,63,True
+PRD00123,Automotive SKU-0123,Medical Supplies,8921.76,High,77,True
+PRD00124,Office Supplies SKU-0124,Food-grade Materials,13049.4,Medium,155,True
+PRD00125,Automotive SKU-0125,Medical Supplies,8718.1,Low,234,True
+PRD00126,Packaging SKU-0126,Textiles,13420.89,High,19,True
+PRD00127,Medical Supplies SKU-0127,Packaging,14217.67,Low,238,True
+PRD00128,Electrical Components SKU-0128,Safety Equipment,12997.85,Low,206,True
+PRD00129,Food-grade Materials SKU-0129,Safety Equipment,6972.94,Critical,58,True
+PRD00130,Electrical Components SKU-0130,Medical Supplies,13600.86,Low,42,True
+PRD00131,Safety Equipment SKU-0131,Automotive,10910.87,High,142,True
+PRD00132,Medical Supplies SKU-0132,Textiles,12685.54,Medium,237,True
+PRD00133,Office Supplies SKU-0133,Industrial Parts,8673.1,High,160,True
+PRD00134,Electronics SKU-0134,Office Supplies,4328.78,Critical,229,True
+PRD00135,Electrical Components SKU-0135,Food-grade Materials,12543.26,Medium,186,True
+PRD00136,Medical Supplies SKU-0136,Electronics,2870.14,Low,35,True
+PRD00137,Industrial Parts SKU-0137,Electronics,12731.16,Low,181,True
+PRD00138,Textiles SKU-0138,Packaging,11473.86,Low,53,True
+PRD00139,Office Supplies SKU-0139,Office Supplies,7720.37,Low,183,True
+PRD00140,Packaging SKU-0140,Packaging,7966.89,High,243,True
+PRD00141,Industrial Parts SKU-0141,Food-grade Materials,825.84,High,222,True
+PRD00142,Textiles SKU-0142,Medical Supplies,14956.55,Medium,209,True
+PRD00143,Medical Supplies SKU-0143,Food-grade Materials,10941.64,Low,172,True
+PRD00144,Industrial Parts SKU-0144,Automotive,12763.61,Medium,18,True
+PRD00145,Safety Equipment SKU-0145,Automotive,7253.12,Medium,50,True
+PRD00146,Electronics SKU-0146,Industrial Parts,10371.39,Medium,176,True
+PRD00147,Electronics SKU-0147,Electrical Components,13806.08,Medium,194,True
+PRD00148,Industrial Parts SKU-0148,Industrial Parts,12901.99,High,75,True
+PRD00149,Electronics SKU-0149,Packaging,1070.21,Low,185,True
+PRD00150,Packaging SKU-0150,Packaging,6636.42,Medium,57,True
+PRD00151,Electronics SKU-0151,Packaging,2655.64,High,155,True
+PRD00152,Food-grade Materials SKU-0152,Packaging,7590.98,Medium,142,True
+PRD00153,Food-grade Materials SKU-0153,Office Supplies,540.39,High,198,True
+PRD00154,Industrial Parts SKU-0154,Packaging,14925.12,Medium,93,True
+PRD00155,Packaging SKU-0155,Office Supplies,1893.85,Medium,136,True
+PRD00156,Industrial Parts SKU-0156,Electrical Components,11830.96,Medium,124,True
+PRD00157,Textiles SKU-0157,Automotive,6238.09,High,230,True
+PRD00158,Office Supplies SKU-0158,Electrical Components,594.38,High,95,True
+PRD00159,Office Supplies SKU-0159,Office Supplies,1042.03,Low,110,True
+PRD00160,Electrical Components SKU-0160,Electronics,11456.3,Medium,89,True
+PRD00161,Safety Equipment SKU-0161,Food-grade Materials,12265.44,Low,118,True
+PRD00162,Food-grade Materials SKU-0162,Textiles,750.53,Low,178,True
+PRD00163,Packaging SKU-0163,Office Supplies,6675.15,High,187,True
+PRD00164,Electrical Components SKU-0164,Packaging,6059.36,Medium,180,True
+PRD00165,Safety Equipment SKU-0165,Industrial Parts,7446.06,Critical,87,True
+PRD00166,Food-grade Materials SKU-0166,Medical Supplies,8066.27,High,243,True
+PRD00167,Medical Supplies SKU-0167,Packaging,1663.32,Low,37,True
+PRD00168,Electrical Components SKU-0168,Safety Equipment,11586.84,Medium,106,True
+PRD00169,Safety Equipment SKU-0169,Electronics,13631.36,Low,213,True
+PRD00170,Office Supplies SKU-0170,Textiles,8285.89,Medium,122,True
+PRD00171,Textiles SKU-0171,Electrical Components,14997.87,Medium,235,True
+PRD00172,Automotive SKU-0172,Industrial Parts,7310.69,Critical,207,True
+PRD00173,Textiles SKU-0173,Food-grade Materials,6433.71,High,121,True
+PRD00174,Office Supplies SKU-0174,Industrial Parts,2814.62,Critical,152,True
+PRD00175,Industrial Parts SKU-0175,Automotive,6406.5,High,173,True
+PRD00176,Office Supplies SKU-0176,Electronics,652.2,High,223,True
+PRD00177,Food-grade Materials SKU-0177,Electronics,627.89,Low,44,True
+PRD00178,Packaging SKU-0178,Automotive,12059.47,High,153,True
+PRD00179,Food-grade Materials SKU-0179,Electronics,12513.19,Medium,53,True
+PRD00180,Medical Supplies SKU-0180,Textiles,13118.57,Low,178,True
+PRD00181,Electrical Components SKU-0181,Automotive,14095.62,Medium,159,True
+PRD00182,Electrical Components SKU-0182,Electronics,7265.66,Low,189,True
+PRD00183,Food-grade Materials SKU-0183,Automotive,2643.93,Medium,194,True
+PRD00184,Medical Supplies SKU-0184,Safety Equipment,10789.28,Medium,178,True
+PRD00185,Electrical Components SKU-0185,Safety Equipment,5549.05,Low,117,True
+PRD00186,Medical Supplies SKU-0186,Packaging,14252.46,Medium,211,True
+PRD00187,Electrical Components SKU-0187,Medical Supplies,286.5,Medium,29,True
+PRD00188,Food-grade Materials SKU-0188,Office Supplies,5799.25,Low,144,True
+PRD00189,Automotive SKU-0189,Textiles,7690.94,Low,185,True
+PRD00190,Medical Supplies SKU-0190,Medical Supplies,7759.49,High,207,True
+PRD00191,Food-grade Materials SKU-0191,Medical Supplies,10350.2,Low,177,True
+PRD00192,Industrial Parts SKU-0192,Food-grade Materials,10889.78,Medium,232,True
+PRD00193,Food-grade Materials SKU-0193,Food-grade Materials,13455.23,Low,115,True
+PRD00194,Textiles SKU-0194,Industrial Parts,9207.16,Low,190,True
+PRD00195,Food-grade Materials SKU-0195,Textiles,8609.18,Low,91,True
+PRD00196,Electrical Components SKU-0196,Industrial Parts,9801.06,Medium,238,True
+PRD00197,Electronics SKU-0197,Automotive,10458.98,Medium,49,True
+PRD00198,Food-grade Materials SKU-0198,Food-grade Materials,13533.57,High,227,True
+PRD00199,Textiles SKU-0199,Safety Equipment,411.1,Low,165,True
+PRD00200,Office Supplies SKU-0200,Automotive,11774.75,High,241,True
+PRD00201,Automotive SKU-0201,Packaging,13035.18,Medium,80,True
+PRD00202,Electrical Components SKU-0202,Medical Supplies,5471.49,Medium,122,True
+PRD00203,Industrial Parts SKU-0203,Safety Equipment,6159.62,Medium,139,True
+PRD00204,Industrial Parts SKU-0204,Electrical Components,14364.01,Low,175,True
+PRD00205,Electronics SKU-0205,Packaging,12214.46,High,237,True
+PRD00206,Textiles SKU-0206,Safety Equipment,7735.83,Medium,77,True
+PRD00207,Medical Supplies SKU-0207,Textiles,8354.76,Low,107,True
+PRD00208,Textiles SKU-0208,Food-grade Materials,13621.33,Low,215,True
+PRD00209,Packaging SKU-0209,Food-grade Materials,10886.66,Medium,239,True
+PRD00210,Industrial Parts SKU-0210,Office Supplies,9029.96,Low,87,True
+PRD00211,Automotive SKU-0211,Automotive,1586.25,Medium,134,True
+PRD00212,Packaging SKU-0212,Medical Supplies,2155.97,High,153,True
+PRD00213,Office Supplies SKU-0213,Electrical Components,3477.93,Low,160,True
+PRD00214,Packaging SKU-0214,Safety Equipment,5591.79,Critical,172,True
+PRD00215,Safety Equipment SKU-0215,Safety Equipment,1740.92,High,16,True
+PRD00216,Industrial Parts SKU-0216,Safety Equipment,14003.27,Medium,133,True
+PRD00217,Electrical Components SKU-0217,Electronics,14636.37,High,201,True
+PRD00218,Industrial Parts SKU-0218,Packaging,12144.24,High,231,True
+PRD00219,Office Supplies SKU-0219,Textiles,12225.9,Medium,198,True
+PRD00220,Industrial Parts SKU-0220,Automotive,2225.61,High,249,True
+PRD00221,Medical Supplies SKU-0221,Industrial Parts,9035.83,High,183,True
+PRD00222,Food-grade Materials SKU-0222,Industrial Parts,8630.17,Low,59,True
+PRD00223,Food-grade Materials SKU-0223,Office Supplies,13266.48,Low,165,True
+PRD00224,Medical Supplies SKU-0224,Electrical Components,7692.44,Medium,27,True
+PRD00225,Packaging SKU-0225,Electrical Components,12765.92,Medium,35,True
+PRD00226,Automotive SKU-0226,Automotive,13699.93,High,149,True
+PRD00227,Packaging SKU-0227,Medical Supplies,5647.64,Critical,37,True
+PRD00228,Safety Equipment SKU-0228,Safety Equipment,9759.33,Medium,83,True
+PRD00229,Office Supplies SKU-0229,Automotive,3416.16,High,147,True
+PRD00230,Electrical Components SKU-0230,Automotive,11814.16,Low,122,True
+PRD00231,Industrial Parts SKU-0231,Electrical Components,7728.29,Medium,103,True
+PRD00232,Automotive SKU-0232,Textiles,1891.87,Medium,146,True
+PRD00233,Industrial Parts SKU-0233,Electronics,11817.68,Medium,55,True
+PRD00234,Packaging SKU-0234,Packaging,11169.98,Medium,222,True
+PRD00235,Textiles SKU-0235,Medical Supplies,14509.69,High,87,True
+PRD00236,Textiles SKU-0236,Packaging,2714.68,Critical,148,True
+PRD00237,Safety Equipment SKU-0237,Industrial Parts,8182.46,High,40,True
+PRD00238,Industrial Parts SKU-0238,Packaging,13432.47,Critical,95,True
+PRD00239,Automotive SKU-0239,Packaging,14184.13,Medium,211,True
+PRD00240,Industrial Parts SKU-0240,Medical Supplies,13670.62,Medium,16,True
+PRD00241,Textiles SKU-0241,Office Supplies,13209.56,Low,73,True
+PRD00242,Medical Supplies SKU-0242,Industrial Parts,10148.84,High,27,True
+PRD00243,Packaging SKU-0243,Automotive,12045.26,High,135,True
+PRD00244,Electrical Components SKU-0244,Industrial Parts,14354.88,Low,239,True
+PRD00245,Textiles SKU-0245,Medical Supplies,13845.41,Low,140,True
+PRD00246,Office Supplies SKU-0246,Electronics,1595.07,Low,89,True
+PRD00247,Medical Supplies SKU-0247,Industrial Parts,11576.28,Medium,20,True
+PRD00248,Industrial Parts SKU-0248,Medical Supplies,12956.89,Medium,234,True
+PRD00249,Electrical Components SKU-0249,Medical Supplies,5893.44,High,12,True
+PRD00250,Safety Equipment SKU-0250,Electronics,3251.68,High,242,True
+PRD00251,Safety Equipment SKU-0251,Electronics,11141.36,High,155,True
+PRD00252,Medical Supplies SKU-0252,Industrial Parts,8438.81,High,84,True
+PRD00253,Automotive SKU-0253,Office Supplies,330.75,Medium,110,True
+PRD00254,Safety Equipment SKU-0254,Automotive,1302.9,Medium,230,True
+PRD00255,Automotive SKU-0255,Industrial Parts,3078.46,Medium,249,True
+PRD00256,Automotive SKU-0256,Food-grade Materials,8767.76,Medium,245,True
+PRD00257,Industrial Parts SKU-0257,Safety Equipment,7310.71,Medium,166,True
+PRD00258,Office Supplies SKU-0258,Medical Supplies,361.73,Medium,102,True
+PRD00259,Textiles SKU-0259,Food-grade Materials,2911.62,Medium,166,True
+PRD00260,Food-grade Materials SKU-0260,Medical Supplies,595.41,High,185,True
+PRD00261,Safety Equipment SKU-0261,Textiles,1536.45,Medium,40,True
+PRD00262,Office Supplies SKU-0262,Electrical Components,2639.07,Medium,151,True
+PRD00263,Packaging SKU-0263,Safety Equipment,7688.27,Critical,208,True
+PRD00264,Electronics SKU-0264,Office Supplies,2492.29,High,52,True
+PRD00265,Electrical Components SKU-0265,Electronics,6871.24,Low,17,True
+PRD00266,Packaging SKU-0266,Medical Supplies,10020.81,Low,154,True
+PRD00267,Electrical Components SKU-0267,Electrical Components,13671.47,Low,79,True
+PRD00268,Packaging SKU-0268,Industrial Parts,6826.34,Medium,79,True
+PRD00269,Food-grade Materials SKU-0269,Office Supplies,230.94,Medium,198,True
+PRD00270,Medical Supplies SKU-0270,Safety Equipment,5692.72,Medium,189,True
+PRD00271,Safety Equipment SKU-0271,Safety Equipment,8755.0,High,145,True
+PRD00272,Industrial Parts SKU-0272,Packaging,2372.39,High,231,True
+PRD00273,Safety Equipment SKU-0273,Automotive,14337.69,Low,141,True
+PRD00274,Electrical Components SKU-0274,Industrial Parts,9373.32,High,48,True
+PRD00275,Industrial Parts SKU-0275,Safety Equipment,5267.38,Medium,233,True
+PRD00276,Food-grade Materials SKU-0276,Industrial Parts,14997.03,Low,102,True
+PRD00277,Industrial Parts SKU-0277,Medical Supplies,5015.91,High,127,True
+PRD00278,Medical Supplies SKU-0278,Industrial Parts,11551.71,Medium,199,True
+PRD00279,Industrial Parts SKU-0279,Food-grade Materials,10084.11,Medium,202,True
+PRD00280,Food-grade Materials SKU-0280,Office Supplies,6821.95,Low,142,True
+PRD00281,Industrial Parts SKU-0281,Food-grade Materials,11050.43,Low,229,True
+PRD00282,Electronics SKU-0282,Electronics,13586.04,Medium,237,True
+PRD00283,Safety Equipment SKU-0283,Industrial Parts,11064.32,Low,175,True
+PRD00284,Industrial Parts SKU-0284,Office Supplies,13175.95,Medium,93,True
+PRD00285,Automotive SKU-0285,Food-grade Materials,8439.21,Low,172,True
+PRD00286,Food-grade Materials SKU-0286,Office Supplies,13192.65,Medium,158,True
+PRD00287,Office Supplies SKU-0287,Food-grade Materials,1639.08,High,92,True
+PRD00288,Electronics SKU-0288,Industrial Parts,3374.43,Medium,224,True
+PRD00289,Automotive SKU-0289,Electronics,8236.28,Low,202,True
+PRD00290,Office Supplies SKU-0290,Electrical Components,10096.73,Medium,139,True
+PRD00291,Office Supplies SKU-0291,Medical Supplies,10278.98,High,145,True
+PRD00292,Industrial Parts SKU-0292,Medical Supplies,8312.8,Low,199,True
+PRD00293,Packaging SKU-0293,Packaging,1761.78,Medium,217,True
+PRD00294,Packaging SKU-0294,Office Supplies,3369.7,High,86,True
+PRD00295,Textiles SKU-0295,Industrial Parts,3271.38,Low,244,True
+PRD00296,Packaging SKU-0296,Electronics,9060.99,High,181,True
+PRD00297,Electronics SKU-0297,Electrical Components,947.96,Low,110,True
+PRD00298,Food-grade Materials SKU-0298,Electronics,4702.44,High,128,True
+PRD00299,Office Supplies SKU-0299,Office Supplies,7869.5,Medium,74,True
+PRD00300,Automotive SKU-0300,Safety Equipment,5021.51,Medium,206,True
+PRD00301,Medical Supplies SKU-0301,Automotive,366.39,Medium,121,True
+PRD00302,Safety Equipment SKU-0302,Office Supplies,7156.27,Low,203,True
+PRD00303,Office Supplies SKU-0303,Electrical Components,11799.85,High,40,True
+PRD00304,Electrical Components SKU-0304,Medical Supplies,2910.96,High,49,True
+PRD00305,Electronics SKU-0305,Safety Equipment,9383.52,Low,240,True
+PRD00306,Industrial Parts SKU-0306,Electrical Components,2018.19,Medium,88,True
+PRD00307,Packaging SKU-0307,Safety Equipment,10273.95,High,153,True
+PRD00308,Food-grade Materials SKU-0308,Electronics,14790.82,Critical,230,True
+PRD00309,Safety Equipment SKU-0309,Textiles,4551.4,Medium,74,True
+PRD00310,Medical Supplies SKU-0310,Electronics,716.91,Medium,189,True
+PRD00311,Industrial Parts SKU-0311,Textiles,701.26,Low,180,True
+PRD00312,Automotive SKU-0312,Industrial Parts,14357.5,Low,105,True
+PRD00313,Packaging SKU-0313,Textiles,9530.08,Medium,248,True
+PRD00314,Electrical Components SKU-0314,Automotive,4417.23,High,128,True
+PRD00315,Packaging SKU-0315,Medical Supplies,11591.85,Low,49,True
+PRD00316,Automotive SKU-0316,Electronics,14403.98,Medium,58,True
+PRD00317,Industrial Parts SKU-0317,Medical Supplies,5751.0,Medium,227,True
+PRD00318,Industrial Parts SKU-0318,Industrial Parts,9863.2,High,13,True
+PRD00319,Automotive SKU-0319,Electrical Components,7843.9,Low,188,True
+PRD00320,Textiles SKU-0320,Textiles,1929.91,Medium,14,True
+PRD00321,Automotive SKU-0321,Packaging,9988.63,Medium,65,True
+PRD00322,Automotive SKU-0322,Office Supplies,6694.11,Low,87,True
+PRD00323,Industrial Parts SKU-0323,Textiles,5526.67,High,100,True
+PRD00324,Textiles SKU-0324,Safety Equipment,14831.02,Medium,132,True
+PRD00325,Automotive SKU-0325,Automotive,7541.2,Medium,68,True
+PRD00326,Office Supplies SKU-0326,Textiles,9055.94,Low,147,True
+PRD00327,Textiles SKU-0327,Packaging,3786.0,Medium,82,True
+PRD00328,Textiles SKU-0328,Medical Supplies,8315.52,Low,161,True
+PRD00329,Textiles SKU-0329,Safety Equipment,2048.64,Medium,203,True
+PRD00330,Packaging SKU-0330,Office Supplies,1863.47,Low,36,True
+PRD00331,Electrical Components SKU-0331,Food-grade Materials,11565.37,Medium,105,True
+PRD00332,Safety Equipment SKU-0332,Industrial Parts,10415.26,Critical,179,True
+PRD00333,Electronics SKU-0333,Electronics,12224.88,Medium,81,True
+PRD00334,Food-grade Materials SKU-0334,Automotive,11544.15,Low,195,True
+PRD00335,Medical Supplies SKU-0335,Electronics,11243.46,Low,94,True
+PRD00336,Electrical Components SKU-0336,Office Supplies,164.03,Medium,157,True
+PRD00337,Office Supplies SKU-0337,Electrical Components,3465.28,Critical,45,True
+PRD00338,Electronics SKU-0338,Textiles,6833.38,Low,140,True
+PRD00339,Industrial Parts SKU-0339,Food-grade Materials,6342.52,Medium,156,True
+PRD00340,Food-grade Materials SKU-0340,Textiles,5456.73,Low,16,True
+PRD00341,Food-grade Materials SKU-0341,Food-grade Materials,1257.04,Medium,173,True
+PRD00342,Food-grade Materials SKU-0342,Packaging,1127.39,Critical,143,True
+PRD00343,Electrical Components SKU-0343,Medical Supplies,4183.05,Medium,121,True
+PRD00344,Packaging SKU-0344,Electronics,6344.08,High,230,True
+PRD00345,Safety Equipment SKU-0345,Industrial Parts,12370.93,Medium,210,True
+PRD00346,Safety Equipment SKU-0346,Food-grade Materials,3640.96,Medium,238,True
+PRD00347,Office Supplies SKU-0347,Automotive,1912.03,Low,240,True
+PRD00348,Textiles SKU-0348,Textiles,732.47,Low,175,True
+PRD00349,Automotive SKU-0349,Industrial Parts,4939.11,High,43,True
+PRD00350,Packaging SKU-0350,Electronics,11840.52,Low,107,True
+PRD00351,Office Supplies SKU-0351,Packaging,8859.42,Critical,67,True
+PRD00352,Industrial Parts SKU-0352,Safety Equipment,6637.48,Medium,35,True
+PRD00353,Textiles SKU-0353,Office Supplies,13520.62,Medium,40,True
+PRD00354,Automotive SKU-0354,Packaging,12243.25,Medium,168,True
+PRD00355,Electronics SKU-0355,Automotive,7979.2,Medium,175,True
+PRD00356,Electrical Components SKU-0356,Electrical Components,7607.87,Medium,242,True
+PRD00357,Automotive SKU-0357,Electronics,4405.51,Medium,191,True
+PRD00358,Office Supplies SKU-0358,Packaging,4194.88,Low,57,True
+PRD00359,Electrical Components SKU-0359,Electrical Components,9376.42,Critical,68,True
+PRD00360,Textiles SKU-0360,Electronics,5449.37,Medium,53,True
+PRD00361,Industrial Parts SKU-0361,Automotive,11562.65,Low,246,True
+PRD00362,Medical Supplies SKU-0362,Packaging,8871.95,Low,90,True
+PRD00363,Safety Equipment SKU-0363,Industrial Parts,5704.45,Critical,124,True
+PRD00364,Industrial Parts SKU-0364,Medical Supplies,9281.07,Medium,23,True
+PRD00365,Safety Equipment SKU-0365,Safety Equipment,2960.65,High,171,True
+PRD00366,Safety Equipment SKU-0366,Automotive,12524.79,High,143,True
+PRD00367,Office Supplies SKU-0367,Packaging,8872.17,Medium,210,True
+PRD00368,Automotive SKU-0368,Automotive,9927.18,Medium,194,True
+PRD00369,Food-grade Materials SKU-0369,Electronics,12267.86,Low,208,True
+PRD00370,Electronics SKU-0370,Office Supplies,8572.13,Low,144,True
+PRD00371,Packaging SKU-0371,Electrical Components,9835.08,Low,146,True
+PRD00372,Medical Supplies SKU-0372,Office Supplies,2323.4,Low,241,True
+PRD00373,Electronics SKU-0373,Safety Equipment,8201.5,High,64,True
+PRD00374,Office Supplies SKU-0374,Automotive,1450.77,High,133,True
+PRD00375,Safety Equipment SKU-0375,Packaging,10600.77,Low,177,True
+PRD00376,Packaging SKU-0376,Textiles,11402.54,Low,58,True
+PRD00377,Textiles SKU-0377,Office Supplies,8243.35,High,190,True
+PRD00378,Electrical Components SKU-0378,Food-grade Materials,10115.16,Critical,220,True
+PRD00379,Packaging SKU-0379,Automotive,6522.98,Low,234,True
+PRD00380,Electrical Components SKU-0380,Electrical Components,1608.27,High,168,True
+PRD00381,Packaging SKU-0381,Electrical Components,7913.95,Medium,225,True
+PRD00382,Medical Supplies SKU-0382,Automotive,6785.99,Low,171,True
+PRD00383,Safety Equipment SKU-0383,Electronics,12278.83,Medium,196,True
+PRD00384,Medical Supplies SKU-0384,Safety Equipment,3165.93,High,167,True
+PRD00385,Medical Supplies SKU-0385,Food-grade Materials,5631.37,Medium,66,True
+PRD00386,Automotive SKU-0386,Food-grade Materials,5953.32,Critical,167,True
+PRD00387,Textiles SKU-0387,Medical Supplies,11720.3,High,71,True
+PRD00388,Packaging SKU-0388,Textiles,6653.9,Medium,199,True
+PRD00389,Safety Equipment SKU-0389,Electronics,13864.48,Medium,210,True
+PRD00390,Food-grade Materials SKU-0390,Food-grade Materials,12710.18,High,99,True
+PRD00391,Packaging SKU-0391,Medical Supplies,14088.9,Low,96,True
+PRD00392,Packaging SKU-0392,Industrial Parts,5334.43,Medium,134,True
+PRD00393,Industrial Parts SKU-0393,Automotive,12514.79,Medium,56,True
+PRD00394,Industrial Parts SKU-0394,Safety Equipment,13657.59,Medium,67,True
+PRD00395,Medical Supplies SKU-0395,Electrical Components,1751.3,Low,89,True
+PRD00396,Textiles SKU-0396,Packaging,516.59,Low,65,True
+PRD00397,Medical Supplies SKU-0397,Office Supplies,14474.65,High,50,True
+PRD00398,Industrial Parts SKU-0398,Safety Equipment,5206.76,High,22,True
+PRD00399,Automotive SKU-0399,Electrical Components,4018.64,Medium,30,True
+PRD00400,Office Supplies SKU-0400,Electronics,2167.54,Medium,173,True
+PRD00401,Packaging SKU-0401,Industrial Parts,9294.13,High,69,True
+PRD00402,Medical Supplies SKU-0402,Textiles,12536.72,Low,114,True
+PRD00403,Office Supplies SKU-0403,Textiles,488.19,Medium,64,True
+PRD00404,Electronics SKU-0404,Office Supplies,8705.9,High,203,True
+PRD00405,Automotive SKU-0405,Electrical Components,547.61,High,82,True
+PRD00406,Safety Equipment SKU-0406,Safety Equipment,9239.35,Low,54,True
+PRD00407,Food-grade Materials SKU-0407,Electrical Components,14939.08,Low,159,True
+PRD00408,Packaging SKU-0408,Safety Equipment,12514.07,Medium,24,True
+PRD00409,Safety Equipment SKU-0409,Safety Equipment,14308.63,Low,144,True
+PRD00410,Office Supplies SKU-0410,Food-grade Materials,9693.92,Critical,134,True
+PRD00411,Electrical Components SKU-0411,Textiles,9845.61,Low,221,True
+PRD00412,Industrial Parts SKU-0412,Food-grade Materials,6301.53,High,246,True
+PRD00413,Electrical Components SKU-0413,Automotive,5178.82,Low,68,True
+PRD00414,Food-grade Materials SKU-0414,Industrial Parts,14313.17,Low,189,True
+PRD00415,Automotive SKU-0415,Automotive,5892.64,Critical,65,True
+PRD00416,Electronics SKU-0416,Medical Supplies,7273.8,Low,181,True
+PRD00417,Food-grade Materials SKU-0417,Medical Supplies,11621.1,Medium,140,True
+PRD00418,Food-grade Materials SKU-0418,Electronics,8612.11,Low,40,True
+PRD00419,Packaging SKU-0419,Medical Supplies,8287.89,Low,188,True
+PRD00420,Textiles SKU-0420,Industrial Parts,7119.06,Medium,85,True
+PRD00421,Safety Equipment SKU-0421,Electrical Components,8146.74,Medium,217,True
+PRD00422,Industrial Parts SKU-0422,Electrical Components,2416.37,Medium,108,True
+PRD00423,Electronics SKU-0423,Automotive,9935.53,High,232,True
+PRD00424,Textiles SKU-0424,Textiles,2352.73,Low,73,True
+PRD00425,Safety Equipment SKU-0425,Office Supplies,6825.71,Low,21,True
+PRD00426,Medical Supplies SKU-0426,Industrial Parts,2444.74,Low,134,True
+PRD00427,Industrial Parts SKU-0427,Packaging,8591.94,Low,128,True
+PRD00428,Industrial Parts SKU-0428,Industrial Parts,7330.67,Low,97,True
+PRD00429,Electrical Components SKU-0429,Textiles,4231.4,High,15,True
+PRD00430,Textiles SKU-0430,Electronics,4442.27,Medium,58,True
+PRD00431,Electronics SKU-0431,Industrial Parts,6738.27,Critical,170,True
+PRD00432,Packaging SKU-0432,Office Supplies,2124.91,High,48,True
+PRD00433,Packaging SKU-0433,Safety Equipment,5235.36,High,116,True
+PRD00434,Electrical Components SKU-0434,Office Supplies,9774.63,High,57,True
+PRD00435,Electrical Components SKU-0435,Medical Supplies,10801.24,Medium,117,True
+PRD00436,Packaging SKU-0436,Medical Supplies,10775.91,Medium,200,True
+PRD00437,Packaging SKU-0437,Electrical Components,6545.91,Medium,193,True
+PRD00438,Industrial Parts SKU-0438,Food-grade Materials,11063.72,Low,214,True
+PRD00439,Office Supplies SKU-0439,Electrical Components,9623.83,Low,15,True
+PRD00440,Packaging SKU-0440,Office Supplies,10748.41,Medium,228,True
+PRD00441,Electrical Components SKU-0441,Packaging,5620.59,Medium,37,True
+PRD00442,Safety Equipment SKU-0442,Office Supplies,10418.42,Medium,154,True
+PRD00443,Industrial Parts SKU-0443,Office Supplies,8129.5,Medium,50,True
+PRD00444,Medical Supplies SKU-0444,Office Supplies,10976.35,High,103,True
+PRD00445,Electrical Components SKU-0445,Automotive,2738.27,Medium,95,True
+PRD00446,Industrial Parts SKU-0446,Electrical Components,14376.3,Low,124,True
+PRD00447,Electrical Components SKU-0447,Electrical Components,8621.32,Medium,136,True
+PRD00448,Safety Equipment SKU-0448,Medical Supplies,6978.51,High,66,True
+PRD00449,Office Supplies SKU-0449,Office Supplies,4678.07,Critical,168,True
+PRD00450,Textiles SKU-0450,Industrial Parts,13815.46,Low,227,True
+PRD00451,Industrial Parts SKU-0451,Office Supplies,10032.19,High,193,True
+PRD00452,Automotive SKU-0452,Medical Supplies,9292.29,High,174,True
+PRD00453,Safety Equipment SKU-0453,Safety Equipment,14902.59,Low,63,True
+PRD00454,Packaging SKU-0454,Industrial Parts,10100.39,Critical,69,True
+PRD00455,Office Supplies SKU-0455,Electronics,12121.9,Low,111,True
+PRD00456,Electrical Components SKU-0456,Electrical Components,14957.08,Low,204,True
+PRD00457,Food-grade Materials SKU-0457,Medical Supplies,306.76,Critical,149,True
+PRD00458,Food-grade Materials SKU-0458,Electronics,8745.3,Medium,144,True
+PRD00459,Medical Supplies SKU-0459,Food-grade Materials,6704.39,High,217,True
+PRD00460,Safety Equipment SKU-0460,Office Supplies,13326.75,Medium,217,True
+PRD00461,Office Supplies SKU-0461,Packaging,9384.51,Low,209,True
+PRD00462,Safety Equipment SKU-0462,Textiles,5902.56,Medium,206,True
+PRD00463,Textiles SKU-0463,Textiles,3019.67,Low,135,True
+PRD00464,Office Supplies SKU-0464,Safety Equipment,7650.71,Medium,171,True
+PRD00465,Safety Equipment SKU-0465,Textiles,12512.81,Low,238,True
+PRD00466,Safety Equipment SKU-0466,Office Supplies,4511.09,High,149,True
+PRD00467,Industrial Parts SKU-0467,Packaging,5437.85,Medium,241,True
+PRD00468,Food-grade Materials SKU-0468,Electronics,5553.23,High,83,True
+PRD00469,Electrical Components SKU-0469,Office Supplies,4481.03,High,206,True
+PRD00470,Safety Equipment SKU-0470,Safety Equipment,3182.34,Medium,154,True
+PRD00471,Textiles SKU-0471,Food-grade Materials,6856.22,Critical,210,True
+PRD00472,Packaging SKU-0472,Textiles,9398.68,Medium,158,True
+PRD00473,Electrical Components SKU-0473,Automotive,12359.96,Low,37,True
+PRD00474,Safety Equipment SKU-0474,Electronics,8877.65,Medium,235,True
+PRD00475,Safety Equipment SKU-0475,Medical Supplies,10873.69,High,40,True
+PRD00476,Food-grade Materials SKU-0476,Automotive,5501.76,Medium,65,True
+PRD00477,Office Supplies SKU-0477,Food-grade Materials,8806.03,Medium,28,True
+PRD00478,Packaging SKU-0478,Safety Equipment,9237.76,Medium,135,True
+PRD00479,Office Supplies SKU-0479,Electrical Components,1305.09,High,44,True
+PRD00480,Packaging SKU-0480,Textiles,4281.5,High,124,True
+PRD00481,Office Supplies SKU-0481,Textiles,13992.93,Medium,92,True
+PRD00482,Safety Equipment SKU-0482,Food-grade Materials,12162.74,High,213,True
+PRD00483,Electronics SKU-0483,Office Supplies,10597.41,Low,190,True
+PRD00484,Textiles SKU-0484,Automotive,2004.56,High,219,True
+PRD00485,Textiles SKU-0485,Electrical Components,6287.24,Critical,160,True
+PRD00486,Food-grade Materials SKU-0486,Automotive,494.56,Critical,86,True
+PRD00487,Food-grade Materials SKU-0487,Safety Equipment,536.32,Low,134,True
+PRD00488,Automotive SKU-0488,Office Supplies,8750.57,Medium,16,True
+PRD00489,Electronics SKU-0489,Industrial Parts,5363.92,Low,196,True
+PRD00490,Safety Equipment SKU-0490,Textiles,8484.04,High,166,True
+PRD00491,Automotive SKU-0491,Automotive,3754.18,Low,72,True
+PRD00492,Office Supplies SKU-0492,Electrical Components,5941.87,Low,188,True
+PRD00493,Office Supplies SKU-0493,Automotive,3693.21,Low,215,True
+PRD00494,Food-grade Materials SKU-0494,Electrical Components,4358.62,Low,132,True
+PRD00495,Safety Equipment SKU-0495,Industrial Parts,9793.72,Medium,126,True
+PRD00496,Food-grade Materials SKU-0496,Electrical Components,5212.6,Critical,43,True
+PRD00497,Safety Equipment SKU-0497,Packaging,7274.06,Low,20,True
+PRD00498,Medical Supplies SKU-0498,Textiles,2469.14,Critical,229,True
+PRD00499,Textiles SKU-0499,Office Supplies,4835.55,Medium,157,True
+PRD00500,Industrial Parts SKU-0500,Textiles,5652.2,Medium,59,True

@@ -1,5 +1,6 @@
-// Root layout for any future React pages. The current UI is served from public/index.html.
-export const metadata = { title: "DisruptionIQ" };
+import "./globals.css";
+
+export const metadata = { title: "DisruptionIQ", description: "From delivery delays to recovery plans" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

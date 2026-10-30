@@ -10,15 +10,15 @@
     "postinstall": "prisma generate",
     "db:local": "node scripts/local-db.mjs",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "prisma db seed",
-    "db:reset": "prisma migrate reset --force",
+    "db:import": "tsx prisma/import-dataset.ts",
     "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/import-dataset.ts"
   },
   "dependencies": {
     "@prisma/client": "6.19.3",
+    "csv-parse": "5.6.0",
     "next": "15.5.28",
     "prisma": "6.19.3",
     "react": "19.1.0",

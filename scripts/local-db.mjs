@@ -5,8 +5,21 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+try {
+  process.loadEnvFile(fileURLToPath(new URL("../.env", import.meta.url)));
+} catch {
+  // no .env yet: use the defaults below
+}
 const port = Number(process.env.LOCAL_DB_PORT || 54329);
 const dir = fileURLToPath(new URL("../.localdb", import.meta.url));
+// Create whichever database DATABASE_URL names (defaults to "disruptioniq").
+const dbName = (() => {
+  try {
+    return new URL(process.env.DATABASE_URL).pathname.slice(1) || "disruptioniq";
+  } catch {
+    return "disruptioniq";
+  }
+})();
 
 const pg = new EmbeddedPostgres({
   databaseDir: dir,
@@ -21,13 +34,13 @@ const pg = new EmbeddedPostgres({
 if (!existsSync(join(dir, "PG_VERSION"))) await pg.initialise();
 await pg.start();
 try {
-  await pg.createDatabase("disruptioniq");
+  await pg.createDatabase(dbName);
 } catch {
   // database already exists
 }
 
 console.log(`Local Postgres is running on port ${port}.`);
-console.log(`DATABASE_URL="postgresql://postgres:postgres@localhost:${port}/disruptioniq"`);
+console.log(`DATABASE_URL="postgresql://postgres:postgres@localhost:${port}/${dbName}"`);
 console.log("Leave this window open. Press Ctrl+C to stop.");
 
 const stop = async () => {

@@ -1,0 +1,13 @@
+scenario_id,scenario_name,scenario_type,default_severity,description
+SCN01,Supplier shipment delay,SUPPLIER_DELAY,Critical,Supplier shipment is late; inbound stock and customer commitments are exposed.
+SCN02,Warehouse inventory shortage,INVENTORY_SHORTAGE,High,Available stock is below committed order demand; evaluate transfers and split fulfilment.
+SCN03,Carrier route disruption,ROUTE_DISRUPTION,High,Route closure adds transit time; identify shipments and orders on affected corridor.
+SCN04,Customs clearance hold,CUSTOMS_HOLD,High,Inbound shipment is held for documentation; identify downstream stock risk.
+SCN05,Quality inspection hold,QUALITY_HOLD,Critical,A batch is quarantined after inspection; held stock must not be allocated.
+SCN06,Demand spike,DEMAND_SPIKE,High,Demand rises sharply for fast-moving SKUs; forecast stockout and protect priority orders.
+SCN07,Warehouse capacity outage,WAREHOUSE_OUTAGE,Critical,Warehouse capacity drops; reroute inbound shipments and rebalance fulfilment.
+SCN08,Weather-related transport delay,WEATHER_DELAY,Medium,Severe weather affects regional hubs; revise ETAs and reprioritise impacted orders.
+SCN09,Fuel price surge,FUEL_COST_SURGE,Medium,"Fuel prices rise sharply, increasing carrier quotes and making some expedited recovery plans uneconomic."
+SCN10,Port congestion,PORT_CONGESTION,High,Congestion at a major port increases dwell time for multiple inbound shipments and threatens replenishment dates.
+SCN11,Supplier production shutdown,SUPPLIER_SHUTDOWN,Critical,"A key supplier temporarily stops production, affecting multiple open purchase orders and dependent customer orders."
+SCN12,Cold-chain temperature excursion,COLD_CHAIN_EXCURSION,Critical,A temperature-sensitive shipment exceeds its permitted range and is held pending quality disposition; unsafe stock cannot be allocated.

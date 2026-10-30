@@ -1,0 +1,6 @@
+user_id,display_name,role,active
+USR001,Asha Analyst,Operations Analyst,True
+USR002,Ravi Manager,Supply Chain Manager,True
+USR003,Meena Operator,Warehouse Operator,True
+USR004,Karthik Procurement,Procurement Approver,True
+USR005,Admin User,Administrator,True

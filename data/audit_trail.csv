@@ -1,0 +1,2 @@
+audit_id,entity_type,entity_id,action,actor_user_id,timestamp,details
+AUD000001,Disruption,DIS00001,DETECTED,USR001,2026-10-30 10:00:00,Synthetic disruption detected; recovery not executed.

@@ -1,0 +1,39 @@
+recovery_id,disruption_id,option_type,description,estimated_cost,estimated_delay_reduction_days,requires_approval,execution_status,recommendation_rank
+REC00101,DIS00001,EXPEDITE_SHIPMENT,"Candidate response to SUPPLIER_DELAY; backend must revalidate stock, capacity, deadlines, cost and permissions.",22231.55,4,True,Not Executed,1
+REC00102,DIS00001,REALLOCATE_STOCK,"Candidate response to SUPPLIER_DELAY; backend must revalidate stock, capacity, deadlines, cost and permissions.",3371.58,1,True,Not Executed,2
+REC00103,DIS00001,ALTERNATIVE_SUPPLIER,"Candidate response to SUPPLIER_DELAY; backend must revalidate stock, capacity, deadlines, cost and permissions.",1752.65,0,True,Not Executed,3
+REC00104,DIS00001,SPLIT_ORDER,"Candidate response to SUPPLIER_DELAY; backend must revalidate stock, capacity, deadlines, cost and permissions.",14495.37,0,True,Not Executed,4
+REC00201,DIS00002,REALLOCATE_STOCK,"Candidate response to INVENTORY_SHORTAGE; backend must revalidate stock, capacity, deadlines, cost and permissions.",12482.3,1,True,Not Executed,1
+REC00202,DIS00002,SPLIT_ORDER,"Candidate response to INVENTORY_SHORTAGE; backend must revalidate stock, capacity, deadlines, cost and permissions.",7152.87,2,True,Not Executed,2
+REC00203,DIS00002,ALTERNATIVE_SUPPLIER,"Candidate response to INVENTORY_SHORTAGE; backend must revalidate stock, capacity, deadlines, cost and permissions.",12344.31,2,True,Not Executed,3
+REC00301,DIS00003,REROUTE_SHIPMENT,"Candidate response to ROUTE_DISRUPTION; backend must revalidate stock, capacity, deadlines, cost and permissions.",6505.46,4,True,Not Executed,1
+REC00302,DIS00003,EXPEDITE_SHIPMENT,"Candidate response to ROUTE_DISRUPTION; backend must revalidate stock, capacity, deadlines, cost and permissions.",23953.11,4,True,Not Executed,2
+REC00303,DIS00003,CHANGE_CARRIER,"Candidate response to ROUTE_DISRUPTION; backend must revalidate stock, capacity, deadlines, cost and permissions.",7142.3,2,True,Not Executed,3
+REC00401,DIS00004,ALTERNATIVE_SUPPLIER,"Candidate response to CUSTOMS_HOLD; backend must revalidate stock, capacity, deadlines, cost and permissions.",24603.95,4,True,Not Executed,1
+REC00402,DIS00004,REALLOCATE_STOCK,"Candidate response to CUSTOMS_HOLD; backend must revalidate stock, capacity, deadlines, cost and permissions.",1906.88,3,True,Not Executed,2
+REC00403,DIS00004,EXPEDITE_CLEARANCE,"Candidate response to CUSTOMS_HOLD; backend must revalidate stock, capacity, deadlines, cost and permissions.",19573.32,3,True,Not Executed,3
+REC00501,DIS00005,QUARANTINE_BATCH,"Candidate response to QUALITY_HOLD; backend must revalidate stock, capacity, deadlines, cost and permissions.",11701.99,3,True,Not Executed,1
+REC00502,DIS00005,ALTERNATIVE_SUPPLIER,"Candidate response to QUALITY_HOLD; backend must revalidate stock, capacity, deadlines, cost and permissions.",5186.89,3,True,Not Executed,2
+REC00503,DIS00005,REALLOCATE_STOCK,"Candidate response to QUALITY_HOLD; backend must revalidate stock, capacity, deadlines, cost and permissions.",11702.89,1,True,Not Executed,3
+REC00601,DIS00006,REALLOCATE_STOCK,"Candidate response to DEMAND_SPIKE; backend must revalidate stock, capacity, deadlines, cost and permissions.",9298.11,0,True,Not Executed,1
+REC00602,DIS00006,PRIORITIZE_CRITICAL_ORDERS,"Candidate response to DEMAND_SPIKE; backend must revalidate stock, capacity, deadlines, cost and permissions.",3592.43,0,True,Not Executed,2
+REC00603,DIS00006,ALTERNATIVE_SUPPLIER,"Candidate response to DEMAND_SPIKE; backend must revalidate stock, capacity, deadlines, cost and permissions.",12198.61,1,True,Not Executed,3
+REC00701,DIS00007,REROUTE_SHIPMENT,"Candidate response to WAREHOUSE_OUTAGE; backend must revalidate stock, capacity, deadlines, cost and permissions.",18757.19,1,True,Not Executed,1
+REC00702,DIS00007,TRANSFER_STOCK,"Candidate response to WAREHOUSE_OUTAGE; backend must revalidate stock, capacity, deadlines, cost and permissions.",14700.47,3,True,Not Executed,2
+REC00703,DIS00007,REASSIGN_FULFILLMENT,"Candidate response to WAREHOUSE_OUTAGE; backend must revalidate stock, capacity, deadlines, cost and permissions.",12787.3,4,True,Not Executed,3
+REC00801,DIS00008,CHANGE_CARRIER,"Candidate response to WEATHER_DELAY; backend must revalidate stock, capacity, deadlines, cost and permissions.",15521.83,2,True,Not Executed,1
+REC00802,DIS00008,REROUTE_SHIPMENT,"Candidate response to WEATHER_DELAY; backend must revalidate stock, capacity, deadlines, cost and permissions.",3501.81,0,True,Not Executed,2
+REC00803,DIS00008,EXPEDITE_SHIPMENT,"Candidate response to WEATHER_DELAY; backend must revalidate stock, capacity, deadlines, cost and permissions.",8017.75,4,True,Not Executed,3
+REC00901,DIS00009,CONSOLIDATE_SHIPMENTS,"Candidate response to FUEL_COST_SURGE; validate live stock, quality status, costs, route and deadlines before approval.",21538.85,2,True,Not Executed,1
+REC00902,DIS00009,CHANGE_CARRIER,"Candidate response to FUEL_COST_SURGE; validate live stock, quality status, costs, route and deadlines before approval.",25470.86,2,True,Not Executed,2
+REC00903,DIS00009,REPLAN_TRANSPORT,"Candidate response to FUEL_COST_SURGE; validate live stock, quality status, costs, route and deadlines before approval.",19597.49,3,True,Not Executed,3
+REC01001,DIS00010,REROUTE_PORT,"Candidate response to PORT_CONGESTION; validate live stock, quality status, costs, route and deadlines before approval.",11562.27,0,True,Not Executed,1
+REC01002,DIS00010,EXPEDITE_CLEARANCE,"Candidate response to PORT_CONGESTION; validate live stock, quality status, costs, route and deadlines before approval.",29919.82,3,True,Not Executed,2
+REC01003,DIS00010,REALLOCATE_STOCK,"Candidate response to PORT_CONGESTION; validate live stock, quality status, costs, route and deadlines before approval.",13610.74,1,True,Not Executed,3
+REC01101,DIS00011,ALTERNATIVE_SUPPLIER,"Candidate response to SUPPLIER_SHUTDOWN; validate live stock, quality status, costs, route and deadlines before approval.",13154.72,0,True,Not Executed,1
+REC01102,DIS00011,REALLOCATE_STOCK,"Candidate response to SUPPLIER_SHUTDOWN; validate live stock, quality status, costs, route and deadlines before approval.",23910.05,1,True,Not Executed,2
+REC01103,DIS00011,SPLIT_ORDER,"Candidate response to SUPPLIER_SHUTDOWN; validate live stock, quality status, costs, route and deadlines before approval.",24731.8,3,True,Not Executed,3
+REC01104,DIS00011,EXPEDITE_ALTERNATE_PRODUCTION,"Candidate response to SUPPLIER_SHUTDOWN; validate live stock, quality status, costs, route and deadlines before approval.",27798.8,2,True,Not Executed,4
+REC01201,DIS00012,QUARANTINE_BATCH,"Candidate response to COLD_CHAIN_EXCURSION; validate live stock, quality status, costs, route and deadlines before approval.",17798.79,5,True,Not Executed,1
+REC01202,DIS00012,REPLACE_SHIPMENT,"Candidate response to COLD_CHAIN_EXCURSION; validate live stock, quality status, costs, route and deadlines before approval.",6172.18,0,True,Not Executed,2
+REC01203,DIS00012,ALTERNATIVE_SUPPLIER,"Candidate response to COLD_CHAIN_EXCURSION; validate live stock, quality status, costs, route and deadlines before approval.",12790.37,4,True,Not Executed,3

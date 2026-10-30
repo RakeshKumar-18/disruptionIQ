@@ -1,0 +1,13 @@
+disruption_id,scenario_id,disruption_type,source_id,description,severity,detected_at,status
+DIS00001,SCN01,SUPPLIER_DELAY,SHP000001,Supplier shipment is late; inbound stock and customer commitments are exposed.,Critical,2026-10-30 10:00:00,Active
+DIS00002,SCN02,INVENTORY_SHORTAGE,WH002,Available stock is below committed order demand; evaluate transfers and split fulfilment.,High,2026-10-30 10:00:00,Active
+DIS00003,SCN03,ROUTE_DISRUPTION,REG03,Route closure adds transit time; identify shipments and orders on affected corridor.,High,2026-10-30 10:00:00,Active
+DIS00004,SCN04,CUSTOMS_HOLD,SHP000004,Inbound shipment is held for documentation; identify downstream stock risk.,High,2026-10-30 10:00:00,Active
+DIS00005,SCN05,QUALITY_HOLD,SHP000005,A batch is quarantined after inspection; held stock must not be allocated.,Critical,2026-10-30 10:00:00,Active
+DIS00006,SCN06,DEMAND_SPIKE,REG06,Demand rises sharply for fast-moving SKUs; forecast stockout and protect priority orders.,High,2026-10-30 10:00:00,Active
+DIS00007,SCN07,WAREHOUSE_OUTAGE,WH007,Warehouse capacity drops; reroute inbound shipments and rebalance fulfilment.,Critical,2026-10-30 10:00:00,Active
+DIS00008,SCN08,WEATHER_DELAY,SHP000008,Severe weather affects regional hubs; revise ETAs and reprioritise impacted orders.,Medium,2026-10-30 10:00:00,Active
+DIS00009,SCN09,FUEL_COST_SURGE,REG09,"Fuel prices rise sharply, increasing carrier quotes and making some expedited recovery plans uneconomic.",Medium,2026-10-30 10:00:00,Active
+DIS00010,SCN10,PORT_CONGESTION,REG10,Congestion at a major port increases dwell time for multiple inbound shipments and threatens replenishment dates.,High,2026-10-30 10:00:00,Active
+DIS00011,SCN11,SUPPLIER_SHUTDOWN,SUP0011,"A key supplier temporarily stops production, affecting multiple open purchase orders and dependent customer orders.",Critical,2026-10-30 10:00:00,Active
+DIS00012,SCN12,COLD_CHAIN_EXCURSION,SHP000012,A temperature-sensitive shipment exceeds its permitted range and is held pending quality disposition; unsafe stock cannot be allocated.,Critical,2026-10-30 10:00:00,Active

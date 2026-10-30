@@ -1,89 +1,77 @@
 import { z } from "zod";
 import { requirePermission } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { ApiError, isUniqueViolation, readJson, route } from "@/lib/http";
+import { EVENT_TYPES, processEvent } from "@/lib/engine/events";
+import { ApiError, readJson, route } from "@/lib/http";
 import { audit, notify } from "@/lib/records";
+
+export const maxDuration = 60;
 
 const Body = z.object({
   filename: z.string().max(200).optional(),
-  type: z.string(),
-  rows: z.array(z.record(z.unknown())).max(5000),
+  type: z.enum(["inventory", "carrier_events"]),
+  rows: z.array(z.record(z.unknown())).min(1).max(2000),
 });
 
 class RowError extends Error {}
 const str = (v: unknown) => (v === undefined || v === null ? "" : String(v).trim());
 const int = (v: unknown) => (str(v) === "" ? NaN : Number(str(v)));
-const validDate = (v: unknown) => str(v) !== "" && !Number.isNaN(Date.parse(str(v)));
-const PRIORITIES = ["Critical", "High", "Normal"];
 
-// Each row is checked and saved on its own, so one bad row never blocks the good ones.
+// Same column names as the dataset files:
+//  inventory       -> inventory.csv (warehouse_id, product_id, on_hand_qty, reserved_qty, inbound_qty)
+//  carrier_events  -> carrier_webhook_events.csv (each row goes through the webhook pipeline,
+//                     so duplicates, stale and conflicting events are handled exactly the same way)
+// Each row is checked on its own: one bad row never blocks the good ones.
 export const POST = route(async (req) => {
   const user = await requirePermission("import");
   const body = Body.parse(await readJson(req));
-  if (!["orders", "inventory", "shipments"].includes(body.type)) {
-    throw new ApiError(400, "Unsupported import type. Use orders, inventory or shipments.");
-  }
-  const [warehouses, suppliers] = await Promise.all([db.warehouse.findMany(), db.supplier.findMany()]);
-  const whIds = new Set(warehouses.map((w) => w.id));
-  const supIds = new Set(suppliers.map((s) => s.id));
-
+  const [warehouses, products] = await Promise.all([db.warehouse.findMany({ select: { id: true } }), db.product.findMany({ select: { id: true } })]);
+  const wh = new Set(warehouses.map((w) => w.id));
+  const pr = new Set(products.map((p) => p.id));
   let accepted = 0, rejected = 0;
   const errors: { row: number; error: string }[] = [];
+  const outcomes: Record<string, number> = {};
 
   for (let i = 0; i < body.rows.length; i++) {
     const r = body.rows[i];
     try {
-      if (body.type === "orders") {
-        const qty = int(r.qty), priority = str(r.priority) || "Normal";
-        if (!str(r.id) || !str(r.sku) || !Number.isInteger(qty) || qty <= 0 || !validDate(r.due) || !whIds.has(str(r.warehouse_id)))
-          throw new RowError("Required fields, positive integer qty, valid due date and known warehouse are required.");
-        if (!PRIORITIES.includes(priority)) throw new RowError("Priority must be Critical, High or Normal.");
-        const data = {
-          customer: str(r.customer) || "Imported customer", sku: str(r.sku), qty, due: new Date(str(r.due).slice(0, 10)),
-          warehouseId: str(r.warehouse_id), priority, status: "On track",
-        };
-        await db.order.upsert({ where: { id: str(r.id) }, update: data, create: { id: str(r.id), ...data } });
-      } else if (body.type === "inventory") {
-        const qty = int(r.qty), reserved = str(r.reserved) ? int(r.reserved) : 0, reorder = str(r.reorder_level) ? int(r.reorder_level) : 0;
-        if (!str(r.id) || !str(r.sku) || !Number.isInteger(qty) || qty < 0 || !whIds.has(str(r.warehouse_id)))
-          throw new RowError("Required fields, non-negative integer qty and known warehouse are required.");
-        if (!Number.isInteger(reserved) || reserved < 0 || !Number.isInteger(reorder) || reorder < 0)
-          throw new RowError("reserved and reorder_level must be non-negative integers.");
-        const data = { sku: str(r.sku), product: str(r.product) || str(r.sku), warehouseId: str(r.warehouse_id), qty, reserved, reorderLevel: reorder };
-        await db.inventoryItem.upsert({ where: { id: str(r.id) }, update: data, create: { id: str(r.id), ...data } });
+      if (body.type === "inventory") {
+        const onHand = int(r.on_hand_qty), reserved = str(r.reserved_qty) ? int(r.reserved_qty) : 0, inbound = str(r.inbound_qty) ? int(r.inbound_qty) : 0;
+        if (!wh.has(str(r.warehouse_id))) throw new RowError(`Unknown warehouse "${str(r.warehouse_id)}".`);
+        if (!pr.has(str(r.product_id))) throw new RowError(`Unknown product "${str(r.product_id)}".`);
+        if (![onHand, reserved, inbound].every((n) => Number.isInteger(n) && n >= 0)) throw new RowError("Quantities must be whole numbers, 0 or more.");
+        if (reserved > onHand) throw new RowError("reserved_qty can't be more than on_hand_qty.");
+        await db.inventory.update({
+          where: { warehouseId_productId: { warehouseId: str(r.warehouse_id), productId: str(r.product_id) } },
+          data: { onHand, reserved, inbound, updatedAt: new Date() },
+        });
       } else {
-        if (!str(r.id) || !supIds.has(str(r.supplier_id)) || !validDate(r.eta))
-          throw new RowError("Valid id, known supplier and ETA are required.");
-        const eta = new Date(str(r.eta));
-        const existing = await db.shipment.findUnique({ where: { id: str(r.id) } });
-        if (existing) {
-          if (eta < existing.eta) throw new RowError("Conflicting earlier ETA rejected.");
-          await db.shipment.update({ where: { id: existing.id }, data: { eta, status: str(r.status) || existing.status } });
-        } else {
-          if (!str(r.carrier)) throw new RowError("carrier is required for a new shipment.");
-          const delay = str(r.delay_days) ? int(r.delay_days) : 0;
-          await db.shipment.create({
-            data: {
-              id: str(r.id), carrier: str(r.carrier), supplierId: str(r.supplier_id), origin: str(r.origin) || "Unknown",
-              destination: str(r.destination) || "Unknown", eta, status: str(r.status) || "In transit",
-              delayDays: Number.isInteger(delay) && delay >= 0 ? delay : 0,
-            },
-          });
-        }
+        const type = str(r.event_type);
+        if (!str(r.event_id) || !str(r.shipment_id)) throw new RowError("event_id and shipment_id are required.");
+        if (!(type in EVENT_TYPES)) throw new RowError(`Unknown event_type "${type}".`);
+        const delay = str(r.delay_days) ? int(r.delay_days) : 0;
+        if (!Number.isInteger(delay) || delay < 0 || delay > 60) throw new RowError("delay_days must be a whole number from 0 to 60.");
+        const when = str(r.event_timestamp);
+        if (when && Number.isNaN(Date.parse(when.replace(" ", "T")))) throw new RowError("event_timestamp is not a valid date.");
+        const res = await processEvent(
+          {
+            event_id: str(r.event_id), idempotency_key: str(r.idempotency_key) || str(r.event_id), event_type: type, shipment_id: str(r.shipment_id),
+            event_timestamp: when ? new Date(when.replace(" ", "T")).toISOString() : new Date().toISOString(), location: str(r.location) || undefined, delay_days: delay,
+          },
+          `Import (${user.name})`,
+        );
+        outcomes[res.outcome] = (outcomes[res.outcome] ?? 0) + 1;
       }
       accepted++;
     } catch (e) {
       rejected++;
-      const msg = e instanceof RowError ? e.message
-        : isUniqueViolation(e) ? "Another row already uses this SKU and warehouse."
-        : "Row could not be saved.";
-      errors.push({ row: i + 1, error: msg });
+      errors.push({ row: i + 1, error: e instanceof RowError || e instanceof ApiError ? e.message : "Row could not be saved." });
     }
   }
 
   await db.$transaction(async (tx) => {
-    await audit(tx, user.name, "DATA_IMPORTED", body.filename || "upload", `${accepted} accepted, ${rejected} rejected.`);
-    await notify(tx, `CSV/JSON import: ${accepted} accepted, ${rejected} rejected.`, rejected ? "warning" : "success");
+    await audit(tx, user.name, "DATA_IMPORTED", body.filename || body.type, `${body.type}: ${accepted} accepted, ${rejected} rejected.`);
+    await notify(tx, { role: "Administrator" }, `Import of ${body.filename || body.type}: ${accepted} accepted, ${rejected} rejected.`, rejected ? "warning" : "success");
   });
-  return { accepted, rejected, errors };
+  return { accepted, rejected, errors: errors.slice(0, 50), outcomes };
 });

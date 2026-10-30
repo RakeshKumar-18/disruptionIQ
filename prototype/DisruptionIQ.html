@@ -1,0 +1,747 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0A0A0B"><title>DisruptionIQ — Every delay has a ripple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+html{scroll-behavior:smooth}
+#portal{display:none}
+#site{width:100%;background:#0A0A0B;color:#F4EEDC;font-family:'Manrope',system-ui,sans-serif;font-size:16px;line-height:1.55;overflow-x:hidden}
+#site *{box-sizing:border-box}
+#site button{font:inherit;color:inherit;cursor:pointer;text-align:left;background:none;border:0;padding:0}
+#site button:disabled{cursor:not-allowed}
+#site a{color:#E8D9A8}#site a:hover{color:#F1E6C0}
+#site button:focus-visible,#site a:focus-visible,#site .s-node:focus-visible{outline:2px solid #E8D9A8;outline-offset:3px}
+.s-mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.s-serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+.s-wrap{max-width:1200px;margin:0 auto;padding-left:clamp(20px,5vw,48px);padding-right:clamp(20px,5vw,48px)}
+.s-lbl{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#C9A24B}
+.s-rise{animation:s-rise 1s cubic-bezier(.2,.7,.2,1) both}
+.s-gold{font-style:italic;background:linear-gradient(100deg,#8A6D2B 0%,#E8D9A8 35%,#C9A24B 50%,#F5EBC8 68%,#8A6D2B 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:s-shine 7s linear infinite}
+.s-floaty{animation:s-floaty 6s ease-in-out infinite}
+.s-rip{transform-box:fill-box;transform-origin:center;animation:s-ripple 4.2s ease-out infinite}
+.s-flow{stroke-dasharray:3 9;animation:s-flow 1.8s linear infinite}
+.s-flowslow{stroke-dasharray:2 10;animation:s-flow 7s linear infinite}
+.s-blink{animation:s-blink 1.6s ease-in-out infinite}
+.s-mq{display:flex;width:max-content;animation:s-marquee 48s linear infinite}
+.s-mq:hover{animation-play-state:paused}
+.s-ll{opacity:0;animation:s-logIn 17s ease infinite}
+.s-btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 24px;border-radius:8px;font-weight:600;letter-spacing:.01em;text-decoration:none;border:1px solid transparent;transition:transform .25s,box-shadow .25s,background .25s,border-color .25s}
+.s-btn:hover{transform:translateY(-2px)}
+.s-btn-gold{background:#C9A24B!important;color:#0A0A0B!important;border-color:#C9A24B}
+.s-btn-gold:hover{box-shadow:0 14px 44px -12px rgba(232,217,168,.75)}
+.s-btn-gold::after{content:'';position:absolute;top:0;bottom:0;width:55%;left:-80%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);transition:left .7s}
+.s-btn-gold:hover::after{left:130%}
+.s-btn-ghost{color:#E8D9A8!important;border-color:#4A4636}
+.s-btn-ghost:hover{border-color:#C9A24B;background:rgba(201,162,75,.09)}
+.s-btn:disabled{opacity:.38;transform:none;box-shadow:none}
+.s-glow{position:relative;border:1px solid transparent;border-radius:14px;background:linear-gradient(#121214,#121214) padding-box,conic-gradient(from var(--ang),#26262A 0%,#C9A24B 10%,#E8D9A8 15%,#26262A 30%,#26262A 100%) border-box;animation:s-spin 8s linear infinite}
+.s-lift{transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
+.s-lift:hover{transform:translateY(-8px);box-shadow:0 34px 70px -34px rgba(201,162,75,.5)}
+.s-navlink{color:#B9B5A6!important;text-decoration:none;padding:12px 4px;font-size:14px;font-weight:500;position:relative}
+.s-navlink:hover{color:#F1E6C0!important}
+.s-navlink::after{content:'';position:absolute;left:4px;right:4px;bottom:6px;height:1px;background:#C9A24B;transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.s-navlink:hover::after{transform:scaleX(1)}
+.s-h2{margin:14px 0 0;font-size:clamp(38px,5.4vw,72px);line-height:1;letter-spacing:-.02em}
+.s-sec{padding-top:110px;padding-bottom:40px}
+.s-p{margin:20px 0 0;color:#B9B5A6;font-size:18px;max-width:600px}
+.s-chip{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;border:1px solid #3A3426;border-radius:999px;color:#E8D9A8}
+/* simulator */
+.s-stages{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:30px}
+.s-stagetop{display:flex;align-items:center}
+.s-dot{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 12px 'JetBrains Mono',monospace;background:#17171A;color:#8A8A90;border:1px solid #2E2E33;transition:all .6s}
+.s-dot.lit{background:#C9A24B;color:#0A0A0B;border-color:#E8D9A8}
+.s-dot.now{box-shadow:0 0 0 6px rgba(201,162,75,.18),0 0 30px rgba(232,217,168,.5)}
+.s-track{display:block;flex:1;height:2px;background:#26262A;margin:0 8px;position:relative;overflow:hidden}
+.s-fill{display:block;position:absolute;top:0;bottom:0;left:0;width:0;background:linear-gradient(90deg,#8A6D2B,#E8D9A8);transition:width 1s ease}
+.s-fill.full{width:100%}
+.s-stlabel{margin-top:12px;font-size:13px;font-weight:500;padding-right:6px;color:#8A8A90;transition:color .6s}
+.s-stlabel.lit{color:#F4EEDC}
+.s-orow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px 18px;align-items:center;padding:16px 0;border-top:1px solid #26262A;opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease}
+.s-orow.on{opacity:1;transform:none}
+.s-bar{height:4px;background:#222226;border-radius:2px;margin-top:9px;overflow:hidden}
+.s-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8A6D2B,#F1E6C0);transition:width 1.3s ease}
+.s-tag{display:inline-block;margin-top:5px;font:10px 'JetBrains Mono',monospace;letter-spacing:.1em;padding:3px 7px;border-radius:3px;border:1px solid #4A4636;color:#E8D9A8;transition:all .6s}
+.s-tag.rec{background:#C9A24B;color:#0A0A0B;border-color:#C9A24B}
+.s-box{border:1px solid #2E2E33;border-radius:12px;padding:22px;background:#0F0F11}
+.s-shakeA{animation:s-shakeA .5s}.s-shakeB{animation:s-shakeB .5s}
+/* chain */
+.s-chainsvg{width:100%;height:auto;display:block}
+.s-node{cursor:pointer;outline:none}
+.s-node .nc{fill:#0A0A0B;stroke:#C9A24B;stroke-width:1.8;transition:fill .25s,stroke-width .25s}
+.s-node.alert .nc{stroke:#FF8A80}
+.s-node:hover .nc,.s-node.sel .nc{fill:#2a2314;stroke-width:3.5}
+.s-node text{font-family:'Manrope',sans-serif;fill:#F4EEDC;font-size:15px;font-weight:600;text-anchor:middle;pointer-events:none}
+.s-node text.sub{font-family:'JetBrains Mono',monospace;font-size:11px;fill:#8A8A90;font-weight:400}
+.s-edge{fill:none;stroke:#8A6D2B;stroke-width:1.6;stroke-dasharray:3 9;animation:s-flow 2.2s linear infinite}
+.s-edge.alert{stroke:#FF8A80;stroke-width:2.2}
+.s-edge.xfer{stroke:#E8D9A8;stroke-dasharray:6 6}
+.s-colhd{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;fill:#6E6E74;text-anchor:middle}
+.s-kpi{flex:1 1 150px;padding:18px 20px;border:1px solid #26262A;border-radius:10px;background:#0F0F11}
+.s-kpi b{display:block;font:400 40px/1 'Instrument Serif',serif;color:#F1E6C0}
+.s-kpi span{font-size:12px;color:#9A9AA0}
+.s-role{font:600 12px 'JetBrains Mono',monospace;letter-spacing:.04em;padding:8px 12px;border:1px solid #3A3426;border-radius:999px;color:#E8D9A8!important;transition:all .25s}
+.s-role:hover{background:rgba(201,162,75,.12);border-color:#C9A24B}
+@keyframes s-rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes s-shine{from{background-position:100% 0}to{background-position:-150% 0}}
+@keyframes s-floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes s-ripple{0%{transform:scale(1);opacity:.85}100%{transform:scale(8);opacity:0}}
+@keyframes s-flow{to{stroke-dashoffset:-48}}
+@keyframes s-blink{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes s-marquee{to{transform:translateX(-50%)}}
+@keyframes s-drift{to{background-position:56px 56px}}
+@keyframes s-sweep{0%{transform:translateX(-30vw)}100%{transform:translateX(130vw)}}
+@keyframes s-spin{to{--ang:360deg}}
+@keyframes s-shakeA{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+@keyframes s-shakeB{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+@keyframes s-logIn{0%{opacity:0;transform:translateX(-10px)}4%{opacity:1;transform:none}88%{opacity:1}95%,100%{opacity:0}}
+@keyframes s-ringOut{0%{transform:scale(.4);opacity:.5}100%{transform:scale(1.6);opacity:0}}
+@keyframes s-deny{0%,70%,100%{opacity:0;transform:translateY(6px)}78%,92%{opacity:1;transform:none}}
+@supports (animation-timeline: view()){.s-reveal{animation:s-rise linear both;animation-timeline:view();animation-range:entry 4% entry 55%}}
+@media(max-width:640px){.s-stages{grid-template-columns:repeat(5,minmax(0,1fr))}.s-stlabel{font-size:10px}.s-dot{width:26px;height:26px;flex-basis:26px}}
+
+
+:root{--bg:#121110;--panel:#1a1918;--panel2:#22211f;--line:#343330;--text:#fcf8ee;--muted:#bbb8b1;--soft:#d9d6cd;--cyan:#c9a24b;--blue:#e8d9a8;--amber:#ffbf5e;--red:#ff777d;--green:#70d6a0;--purple:#d9c9a0;--sans:'Manrope',system-ui,sans-serif;--display:'Manrope',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;color-scheme:dark}*{box-sizing:border-box}html,body{background:#121110}body{margin:0;color:var(--text);font-family:var(--sans);font-size:13px}button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:flex}.sidebar{width:242px;background:#141312;border-right:1px solid var(--line);padding:23px 14px 18px;display:flex;flex-direction:column;flex-shrink:0}.brand{display:flex;align-items:center;gap:10px;padding:0 9px;margin:1px 0 35px}.logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(140deg,#c9a24b,#e8d9a8);display:grid;place-items:center;color:#121110;font-size:17px;font-weight:900}.brand b{font:800 15px var(--display);letter-spacing:-.5px}.brand small{display:block;font:10px var(--mono);color:var(--muted);margin-top:2px}.navlabel{font:10px var(--mono);color:#8b8983;text-transform:uppercase;letter-spacing:1.1px;padding:0 11px;margin:19px 0 8px}.navitem{border:0;background:none;color:#c6c3bb;padding:10px 11px;border-radius:7px;text-align:left;width:100%;margin:2px 0;display:flex;align-items:center;gap:11px;font-weight:600}.navitem:hover,.navitem.active{color:var(--text);background:#262523}.navitem.active{box-shadow:inset 2px 0 var(--cyan)}.navitem .icon{font-size:15px;width:17px;text-align:center;color:#c6c3bb}.navitem.active .icon{color:var(--cyan)}.count{margin-left:auto;background:#332c27;color:var(--amber);font:10px var(--mono);border-radius:10px;padding:3px 6px}.spacer{flex:1}.system{margin:12px 8px 22px;padding:11px;background:#191816;border:1px solid var(--line);border-radius:8px;color:#bcb9b2;font-size:10px}.pulse{display:inline-block;width:7px;height:7px;background:#59dda4;border-radius:50%;margin-right:6px;box-shadow:0 0 8px #59dda455}.person{border-top:1px solid var(--line);padding:16px 8px 0;display:flex;align-items:center;gap:10px}.avatar{width:31px;height:31px;border-radius:50%;background:#3a3835;color:var(--cyan);display:grid;place-items:center;font-weight:700}.person strong{font-size:12px}.person small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.person button{margin-left:auto;color:var(--muted);background:none;border:0}.main{flex:1;min-width:0}.topbar{height:69px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 31px;background:#14131299;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}.crumb{color:var(--muted);font-size:12px}.crumb b{color:var(--text);font-weight:600}.topright{display:flex;align-items:center;gap:13px}.live{display:flex;gap:7px;align-items:center;color:#c0bdb6;font:10px var(--mono)}.live .pulse{margin:0}.iconbtn{width:31px;height:31px;border:1px solid var(--line);background:var(--panel);border-radius:7px;color:#d9d6cd;position:relative}.bellcount{position:absolute;right:-4px;top:-5px;background:#ee7880;color:#141312;border-radius:8px;font-size:9px;padding:1px 4px}.workspace{max-width:1500px;padding:29px 32px 48px;margin:auto}.heading{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:25px}.eyebrow{font:10px var(--mono);letter-spacing:.9px;text-transform:uppercase;color:var(--cyan);margin-bottom:7px}.heading h1{font:750 24px var(--display);letter-spacing:-1px;margin:0}.heading p{margin:7px 0 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:9px}.btn{border:1px solid var(--line);background:#232320;color:#f8f4ea;border-radius:6px;padding:9px 12px;font-size:11px;font-weight:700}.btn:hover{background:#31302d}.btn.primary{background:var(--cyan);color:#262012;border-color:var(--cyan)}.btn.primary:hover{background:#e8d9a8}.btn.mini{padding:6px 9px;font-size:10px}.btn.approve{background:#164537;border-color:#276a53;color:#a7ebc4}.btn.danger{background:#452b31;border-color:#68414a;color:#ff9b9f}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.kpi{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:16px 17px;position:relative;overflow:hidden}.kpi:after{content:'';position:absolute;right:-15px;top:-28px;width:83px;height:83px;border-radius:50%;background:var(--tint);opacity:.08}.kpihead{font:10px var(--mono);color:#c2bfb8;letter-spacing:.4px;text-transform:uppercase;display:flex;align-items:center;gap:7px}.kpinum{font:750 27px var(--display);margin-top:10px;letter-spacing:-1px}.kpifoot{color:#aba8a2;font-size:10px;margin-top:6px}.kpifoot em{font-style:normal;color:var(--tint)}.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(310px,.85fr);gap:13px}.col{display:flex;flex-direction:column;gap:13px}.card{border:1px solid var(--line);background:var(--panel);border-radius:9px;overflow:hidden}.cardhead{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}.cardtitle{font:700 12px var(--display);display:flex;align-items:center;gap:8px}.cardtitle .subtitle{font:10px var(--sans);font-weight:400;color:#aeaba5;margin-left:1px}.link{color:var(--cyan);border:0;background:none;font-size:10px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th{font:9px var(--mono);color:#9e9b95;text-transform:uppercase;letter-spacing:.6px;text-align:left;padding:11px 13px;border-bottom:1px solid #292826}td{padding:11px 13px;border-bottom:1px solid #282724;color:#dad7ce;font-size:11px}tbody tr:last-child td{border:0}tbody tr:hover{background:#242321}.id{font:10px var(--mono);color:#f5f1e8}.pill{border-radius:10px;padding:4px 7px;display:inline-block;font-size:9px;font-weight:700}.pill.critical{color:#ff9b9f;background:#452a32}.pill.high{color:#ffcc7c;background:#413523}.pill.medium{color:#fffff7;background:#2e2d2a}.pill.ok{color:#84e4ac;background:#153629}.pill.pending{color:#ffcb7a;background:#3c3325}.pill.approved{color:#8ae1ad;background:#193b30}.pill.executed{color:#c9a24b;background:#41361e}.pill.rejected{color:#ff989d;background:#432a30}.disruption{padding:14px 16px;border-bottom:1px solid #282724}.disruption:last-child{border:0}.dtop{display:flex;align-items:center;gap:9px}.dtop strong{font:700 11px var(--display)}.dtime{margin-left:auto;color:#93918b;font:9px var(--mono)}.dmeta{margin:8px 0 0 19px;color:#c7c4bc;font-size:10px;line-height:1.55}.impactline{margin:8px 0 0 19px;color:#96948e;font-size:9px}.impactline b{color:#e5e2d9;font-weight:600}.risk{color:var(--red);font-weight:700}.risk.high{color:var(--amber)}.orderid{font:10px var(--mono);color:#f5f1e8}.cust{font-size:11px;color:#ebe8df}.subtext{font-size:9px;color:#a7a49d;margin-top:3px}.explain{max-width:185px;white-space:normal!important;line-height:1.4;color:#bfbcb5!important}.btnrow{display:flex;gap:5px}.plan{padding:13px 15px;border-bottom:1px solid #282724}.plan:last-child{border:0}.plantop{display:flex;align-items:center;gap:7px}.plantop b{font-size:11px}.planmeta{margin-top:7px;color:#bfbcb5;font-size:10px}.planbuttons{margin-top:9px;display:flex;gap:6px}.empty{padding:28px;color:#a8a59f;text-align:center;font-size:11px}.meter{height:3px;background:#32312e;border-radius:3px;overflow:hidden;margin-top:8px}.meter i{display:block;height:100%;background:var(--cyan);width:43%}.notif{display:flex;align-items:flex-start;gap:9px;padding:11px 15px;border-bottom:1px solid #282724}.notif:last-child{border:0}.dot{width:6px;height:6px;border-radius:50%;background:var(--amber);margin-top:4px;flex-shrink:0}.dot.success{background:var(--green)}.dot.critical{background:var(--red)}.notiftext{font-size:10px;line-height:1.4;color:#dcd9d0}.notiftime{display:block;font:9px var(--mono);color:#93918b;margin-top:4px}.activity{padding:10px 15px;border-bottom:1px solid #272623;display:flex;gap:9px}.activity:last-child{border:0}.actline{width:1px;background:#43413e;position:relative;margin-left:4px}.actline:before{content:'';position:absolute;width:7px;height:7px;background:#c9a24b;border-radius:50%;left:-3px;top:4px}.actbody{font-size:10px;color:#e1ded5;line-height:1.4}.actbody span{display:block;color:#92908a;font:9px var(--mono);margin-top:3px}.view{display:none}.view.active{display:block}.subhead{margin:0 0 16px;font:750 19px var(--display)}.toolbar{display:flex;gap:7px;align-items:center}.search{background:#171715;border:1px solid var(--line);color:var(--text);padding:8px 10px;border-radius:5px;font-size:10px;width:180px}.filter{background:#171715;border:1px solid var(--line);color:#dddad1;padding:8px;border-radius:5px;font-size:10px}.modalback{position:fixed;inset:0;z-index:20;background:#0a0909bd;display:none;align-items:center;justify-content:center;padding:20px}.modalback.show{display:flex}.modal{width:min(680px,100%);max-height:88vh;overflow:auto;background:#1e1d1b;border:1px solid #42403d;border-radius:11px;box-shadow:0 20px 100px #0009}.modalhead{padding:16px 19px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modalhead b{font:700 14px var(--display)}.close{background:none;border:0;color:#cdcac2;font-size:20px}.modalbody{padding:17px 19px}.modalfoot{padding:13px 19px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}.option{border:1px solid #3a3835;border-radius:7px;padding:12px;margin-bottom:8px;background:#181716;display:block}.option.selected{border-color:#c9a24b;background:#352c18}.optiontop{display:flex;align-items:center;gap:8px}.optiontop input{accent-color:#c9a24b}.optiontop strong{font-size:11px}.optiontop span{margin-left:auto;color:var(--cyan);font:10px var(--mono)}.option p{margin:8px 0 3px 23px;color:#c8c5bd;font-size:10px;line-height:1.5}.option small{margin-left:23px;color:#a4a19a;font:9px var(--mono)}.modalnote{font-size:10px;color:#aeaba5;margin:12px 0 0;line-height:1.5}.toast{position:fixed;z-index:40;bottom:20px;right:20px;background:#483c21;border:1px solid #32735d;color:#b6efd1;padding:12px 16px;border-radius:7px;box-shadow:0 10px 35px #0007;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;font-size:11px}.toast.show{opacity:1;transform:translateY(0)}.login{position:fixed;inset:0;background:radial-gradient(ellipse at 55% 40%,#282724 0,#121211 55%);z-index:50;display:none;align-items:center;justify-content:center}.login.show{display:flex}.loginbox{width:370px;max-width:92vw;padding:28px;background:#1a1918;border:1px solid var(--line);border-radius:11px}.loginbox h2{font:750 19px var(--display);margin:18px 0 5px}.loginbox p{font-size:11px;color:#bebbb4;line-height:1.5;margin-bottom:20px}.loginbox label{font:10px var(--mono);color:#c5c2ba;display:block;margin:12px 0 6px}.loginbox select,.loginbox input{width:100%;background:#141312;border:1px solid var(--line);color:#f5f1e8;padding:10px;border-radius:5px}.loginbox .btn{width:100%;margin-top:16px}.loginerror{color:var(--red);font-size:10px;margin-top:8px}.toast.error{background:#48282d;border-color:#7b3942;color:#ffd0d2}.hidden{display:none!important}.riskcell{min-width:74px}
+@media(max-width:1100px){.sidebar{width:205px}.workspace{padding:24px 20px}.grid{grid-template-columns:minmax(0,1.3fr) minmax(280px,.8fr)}}@media(max-width:850px){.sidebar{width:62px;padding:18px 8px}.brand{padding:0 6px}.brand>div:last-child,.navlabel,.navitem .label,.navitem .count,.system,.person>div:nth-child(2),.person button{display:none}.navitem{justify-content:center;padding:11px 0}.navitem .icon{font-size:17px}.person{justify-content:center;padding:14px 0 0}.topbar{padding:0 16px}.workspace{padding:20px 15px}.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.heading{display:block}.actions{margin-top:14px}.topright .live{display:none}.kpi{padding:12px}.kpinum{font-size:23px}.kpis{gap:7px}.workspace{padding:17px 10px}.topbar{height:56px}.hide-mobile{display:none}}
+/* motion */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.workspace.intro .kpi{animation:rise .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--n,0)*70ms)}
+.workspace.intro .col>.card{animation:rise .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(280ms + var(--n,0)*90ms)}
+.workspace.intro .col>.card:nth-child(2){--n:1}.workspace.intro .col>.card:nth-child(3){--n:2}
+.workspace.intro .kpi:nth-child(2){--n:1}.workspace.intro .kpi:nth-child(3){--n:2}.workspace.intro .kpi:nth-child(4){--n:3}
+@keyframes viewin{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.view.active{animation:viewin .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modalback.show{animation:fade .2s}.modalback.show .modal{animation:pop .26s cubic-bezier(.2,.9,.3,1.1)}
+.toast{transition:opacity .25s,transform .35s cubic-bezier(.2,.9,.3,1.3)}
+.btn,.navitem,.iconbtn,.option{transition:background .15s,color .15s,border-color .15s,transform .12s}
+.btn:active,.iconbtn:active{transform:scale(.95)}.btn:hover{transform:translateY(-1px)}
+.navitem .icon{transition:transform .2s}.navitem:hover .icon{transform:scale(1.15)}
+tbody tr{transition:background .15s,box-shadow .15s}tbody tr:hover{box-shadow:inset 2px 0 var(--cyan)}
+.option:hover{border-color:#5f5d59;transform:translateX(3px)}
+.plan,.disruption{transition:background .2s}.plan:hover,.disruption:hover{background:#201f1d}
+@keyframes ring{0%{box-shadow:0 0 0 0 #59dda488}100%{box-shadow:0 0 0 9px #59dda400}}
+.pulse{animation:ring 2s infinite}
+@keyframes alert{0%,100%{box-shadow:0 0 0 0 #ff777d00}50%{box-shadow:0 0 12px 1px #ff777d66}}
+.disruption .pill.critical{animation:alert 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.disruption .dtop>span:first-child{animation:blink 2.4s ease-in-out infinite}
+@keyframes fill{from{width:0}}
+.meter i{animation:fill 1s cubic-bezier(.2,.8,.2,1)}
+@keyframes bump{40%{transform:scale(1.5)}}
+.bellcount.bump{animation:bump .4s}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* Interactive network pulse layer */
+.network-panel{margin:0 0 20px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(135deg,#1a1918,#242321);overflow:hidden;position:relative}
+.network-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #373633}
+.network-head strong{font:700 12px var(--display)}.network-head small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.network-stage{padding:8px 12px 12px;position:relative}.network-svg{width:100%;height:auto;display:block;min-height:260px;max-height:460px}
+.net-link{fill:none;stroke:#55534f;stroke-width:2;stroke-dasharray:7 8;animation:routeflow 12s linear infinite}.net-link.alert{stroke:#ff777d;stroke-width:2.5}.net-node{cursor:pointer;outline:none}.net-node circle.node-core{fill:#2b2a27;stroke:#c9a24b;stroke-width:2;transition:fill .2s,stroke-width .2s}.net-node.alert circle.node-core{stroke:#ff777d}.net-node.selected circle.node-core,.net-node:focus circle.node-core{fill:#60502c;stroke-width:4}.net-node text{fill:#f9f5eb;font:11px var(--sans);text-anchor:middle;pointer-events:none}.net-node text.node-sub{fill:#bfbcb5;font-size:9px}.net-signal{fill:none;stroke:#c9a24b;stroke-width:2;opacity:.8;animation:signal 2.5s ease-out infinite}.net-node.alert .net-signal{stroke:#ff777d}.network-detail{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid #373633;padding:10px 15px;color:#cac7bf;font-size:10px}.network-detail b{color:#fefaf0}.network-detail .net-status{margin-left:auto;color:var(--cyan);font:10px var(--mono)}
+@keyframes routeflow{to{stroke-dashoffset:-150}}@keyframes signal{0%{r:13;opacity:.8}100%{r:27;opacity:0}}
+@keyframes shimmer{0%{background-position:-180% 0}100%{background-position:180% 0}}
+.network-panel:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 35%,#fffff704 50%,transparent 65%);background-size:200% 100%;animation:shimmer 8s linear infinite}
+@media(max-width:700px){.network-head{align-items:flex-start}.network-svg{min-height:155px}.network-detail .net-status{margin-left:0;width:100%}}
+@media(prefers-reduced-motion:reduce){.net-link,.net-signal,.network-panel:after{animation:none!important}}
+
+/* ---- website theme overrides ---- */
+body{background:#0A0A0B}
+.heading h1,.kpinum,.loginbox h2,.subhead{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-.02em}
+.heading h1{font-size:42px;line-height:1}.kpinum{font-size:42px;letter-spacing:-.02em}.loginbox h2{font-size:30px}
+.brand b{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:23px;letter-spacing:.01em}
+.eyebrow,.navlabel{letter-spacing:.16em}.eyebrow{color:#C9A24B}
+.btn{border-radius:8px}.btn.primary{background:#C9A24B;border-color:#C9A24B;color:#0A0A0B}.btn.primary:hover{background:#E8D9A8}
+.card,.kpi,.network-panel,.loginbox,.modal{border-radius:14px}
+.logo{background:#0A0A0B;border:1px solid #C9A24B;color:#E8D9A8;font-family:'Instrument Serif',serif;font-weight:400;font-size:20px}
+.navitem.active{box-shadow:inset 2px 0 #C9A24B}
+/* live network map: risk signal levels, suppliers, approved transfers, signal chips */
+.net-node.supplier rect.node-core{fill:#2b2a27;stroke:#c9a24b;stroke-width:2}
+.net-node.lvl-critical circle.node-core,.net-node.lvl-critical rect.node-core{stroke:#ff777d}
+.net-node.lvl-high circle.node-core,.net-node.lvl-high rect.node-core{stroke:#ffbf5e}
+.net-node.lvl-medium circle.node-core,.net-node.lvl-medium rect.node-core{stroke:#e8d9a8}
+.net-node.lvl-recovering circle.node-core{stroke:#70d6a0}
+.net-node.lvl-high .net-signal{stroke:#ffbf5e}
+.net-node.selected rect.node-core,.net-node:focus rect.node-core{stroke-width:4}
+.net-node text.l{text-anchor:end}.net-node text.r{text-anchor:start}
+.net-node text.node-lvl{font:700 8.5px var(--mono);letter-spacing:.6px;fill:#c9a24b}
+.net-node.lvl-critical text.node-lvl{fill:#ff777d}.net-node.lvl-high text.node-lvl{fill:#ffbf5e}.net-node.lvl-medium text.node-lvl{fill:#e8d9a8}.net-node.lvl-recovering text.node-lvl{fill:#70d6a0}
+.net-link.xfer{stroke:#70d6a0;stroke-dasharray:4 5;stroke-width:2.2}
+.network-signals{display:flex;flex-wrap:wrap;gap:6px;padding:0 15px 12px}
+.net-chip{border:1px solid var(--line);background:#1c1b19;color:#e5e2d9;border-radius:999px;padding:5px 10px;font-size:10px}
+.net-chip:hover{border-color:#c9a24b}
+.net-chip.lvl-critical{border-color:#7b3942;color:#ffb0b4}.net-chip.lvl-high{border-color:#6b5226;color:#ffcc7c}.net-chip.lvl-medium{color:#e8d9a8}.net-chip.lvl-recovering{border-color:#276a53;color:#a7ebc4}
+.net-ok{color:#a7ebc4;font-size:10px}
+</style></head><body>
+<div id="site">
+
+<section style="position:relative;overflow:hidden;background:radial-gradient(55% 55% at 78% 30%,rgba(201,162,75,0.17),transparent 70%),radial-gradient(40% 40% at 8% 90%,rgba(138,109,43,0.12),transparent 70%),#0A0A0B">
+  <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(232,217,168,0.055) 1px,transparent 1px),linear-gradient(90deg,rgba(232,217,168,0.055) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(70% 65% at 62% 38%,#000,transparent);mask-image:radial-gradient(70% 65% at 62% 38%,#000,transparent);animation:s-drift 26s linear infinite"></div>
+  <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:0;width:200px;background:linear-gradient(90deg,transparent,rgba(232,217,168,0.07),transparent);animation:s-sweep 11s linear infinite"></div>
+
+  <header class="s-wrap" style="position:relative;z-index:3;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-top:22px;padding-bottom:22px">
+    <a href="#site" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#F4EEDC;min-height:44px">
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="#C9A24B" stroke-width="1.6" aria-hidden="true"><circle cx="16" cy="16" r="3" fill="#E8D9A8" stroke="none"/><circle cx="16" cy="16" r="8"/><circle cx="16" cy="16" r="13" stroke-opacity=".5"/></svg>
+      <span class="s-serif" style="font-size:28px;letter-spacing:.01em">DisruptionIQ</span>
+    </a>
+    <nav aria-label="Main" style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 26px">
+      <a class="s-navlink" href="#chain">Supply chain</a>
+      <a class="s-navlink" href="#sim">Simulator</a>
+      <a class="s-navlink" href="#principles">Principles</a>
+      <a class="s-navlink" href="#roles">Roles</a>
+      <a class="s-navlink" href="#audit">Audit</a>
+      <a class="s-btn s-btn-gold" href="#portal" data-portal style="min-height:44px;padding:0 20px">Open portal →</a>
+    </nav>
+  </header>
+
+  <div class="s-wrap" style="position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:40px;padding-top:36px;padding-bottom:96px">
+    <div style="flex:1 1 460px;min-width:0">
+      <div class="s-rise" style="display:flex;align-items:center;gap:10px;margin-bottom:28px;animation-delay:.05s">
+        <span class="s-blink" style="width:8px;height:8px;border-radius:50%;background:#E8D9A8;display:block"></span>
+        <span class="s-lbl">Overclock'26 · PS 1 · Logistics and supply chain</span>
+      </div>
+      <h1 class="s-serif" style="margin:0;font-size:clamp(48px,7.4vw,108px);line-height:.96;letter-spacing:-.025em;color:#F4EEDC">
+        <span class="s-rise" style="display:inline-block;animation-delay:.15s">Every</span> <span class="s-rise" style="display:inline-block;animation-delay:.25s">delay</span><br>
+        <span class="s-rise" style="display:inline-block;animation-delay:.35s">has</span> <span class="s-rise" style="display:inline-block;animation-delay:.45s">a</span> <span class="s-rise s-gold" style="display:inline-block;animation-delay:.55s,0s">ripple.</span><br>
+        <span class="s-rise" style="display:inline-block;animation-delay:.75s;color:#9A9AA0">We</span> <span class="s-rise" style="display:inline-block;animation-delay:.85s;color:#9A9AA0">trace</span> <span class="s-rise" style="display:inline-block;animation-delay:.95s;color:#9A9AA0">it.</span>
+      </h1>
+      <p class="s-rise" style="margin:30px 0 0;max-width:520px;font-size:18px;color:#B9B5A6;animation-delay:1.1s">DisruptionIQ turns one late shipment into a ranked, explained recovery plan that a person approves. Rules decide. AI advises. Humans sign off.</p>
+      <div class="s-rise" style="display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;animation-delay:1.25s">
+        <a class="s-btn s-btn-gold" href="#portal" data-portal>Open the portal →</a>
+        <a class="s-btn s-btn-ghost" href="#chain">See the supply chain</a>
+      </div>
+      <p class="s-rise s-mono" style="margin:34px 0 0;font-size:12px;color:#8A8A90;animation-delay:1.4s">Sample data. Fictional suppliers, warehouses and orders.</p>
+    </div>
+
+    <div class="s-rise" style="flex:1 1 380px;min-width:0;max-width:580px;margin:0 auto;animation-delay:.5s">
+      <div style="position:relative;border:1px solid #26262A;border-radius:16px;background:rgba(18,18,20,0.72);padding:14px">
+        <span class="s-floaty s-mono" style="position:absolute;top:-16px;left:22px;z-index:2;font-size:11px;letter-spacing:.1em;padding:7px 12px;border-radius:6px;background:#E8D9A8;color:#0A0A0B;font-weight:500">SHP-2041 · +5 DAYS</span>
+        <span class="s-floaty s-mono" style="position:absolute;bottom:-16px;right:22px;z-index:2;font-size:11px;letter-spacing:.1em;padding:7px 12px;border-radius:6px;background:#17171A;color:#E8D9A8;border:1px solid #C9A24B;animation-delay:-3s">6 ORDERS AT RISK</span>
+        <svg viewBox="0 0 560 520" role="img" aria-label="Animated supply chain map. A delay at the port sends ripples to two warehouses and three customers." style="width:100%;height:auto;display:block">
+          <defs><radialGradient id="pg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#E8D9A8" stop-opacity=".45"/><stop offset="1" stop-color="#E8D9A8" stop-opacity="0"/></radialGradient></defs>
+          <circle cx="300" cy="110" r="90" fill="url(#pg)"/>
+          <path d="M70,110 C160,40 220,40 300,110" fill="none" stroke="#E8D9A8" stroke-width="1.6" class="s-flowslow"/>
+          <path d="M300,110 C340,200 300,260 230,330" fill="none" stroke="#C9A24B" stroke-width="1.4" stroke-opacity=".7" class="s-flow"/>
+          <path d="M300,110 C400,160 470,230 470,330" fill="none" stroke="#C9A24B" stroke-width="1.4" stroke-opacity=".7" class="s-flow"/>
+          <path d="M230,330 C190,400 140,440 110,470" fill="none" stroke="#8A6D2B" stroke-width="1.4" class="s-flow"/>
+          <path d="M230,330 C270,400 330,440 380,470" fill="none" stroke="#8A6D2B" stroke-width="1.4" class="s-flow"/>
+          <path d="M470,330 C490,400 510,440 520,470" fill="none" stroke="#8A6D2B" stroke-width="1.4" class="s-flow"/>
+          <circle cx="300" cy="110" r="14" fill="none" stroke="#E8D9A8" stroke-width="1.5" class="s-rip"/>
+          <circle cx="300" cy="110" r="14" fill="none" stroke="#E8D9A8" stroke-width="1.5" class="s-rip" style="animation-delay:1.4s"/>
+          <circle cx="300" cy="110" r="14" fill="none" stroke="#C9A24B" stroke-width="1.5" class="s-rip" style="animation-delay:2.8s"/>
+          <circle r="3.5" fill="#F1E6C0"><animateMotion dur="5s" repeatCount="indefinite" path="M300,110 C340,200 300,260 230,330"/></circle>
+          <circle r="3.5" fill="#F1E6C0"><animateMotion dur="5s" begin="2.5s" repeatCount="indefinite" path="M300,110 C340,200 300,260 230,330"/></circle>
+          <circle r="3.5" fill="#F1E6C0"><animateMotion dur="6s" begin="1s" repeatCount="indefinite" path="M300,110 C400,160 470,230 470,330"/></circle>
+          <circle r="3" fill="#C9A24B"><animateMotion dur="4s" repeatCount="indefinite" path="M230,330 C190,400 140,440 110,470"/></circle>
+          <circle r="3" fill="#C9A24B"><animateMotion dur="4.5s" begin="1.2s" repeatCount="indefinite" path="M230,330 C270,400 330,440 380,470"/></circle>
+          <circle r="3" fill="#C9A24B"><animateMotion dur="3.6s" begin="2s" repeatCount="indefinite" path="M470,330 C490,400 510,440 520,470"/></circle>
+          <circle r="4" fill="#E8D9A8"><animate attributeName="opacity" values="1;0.15;1" dur="1.5s" repeatCount="indefinite"/><animateMotion dur="9s" repeatCount="indefinite" path="M70,110 C160,40 220,40 300,110"/></circle>
+          <g fill="#0A0A0B" stroke="#C9A24B" stroke-width="1.6"><circle cx="70" cy="110" r="13"/><circle cx="300" cy="110" r="13" stroke="#E8D9A8"/><circle cx="230" cy="330" r="13"/><circle cx="470" cy="330" r="13"/><circle cx="110" cy="470" r="9"/><circle cx="380" cy="470" r="9"/><circle cx="520" cy="470" r="9"/></g>
+          <g fill="#C9A24B"><circle cx="70" cy="110" r="4"/><circle cx="300" cy="110" r="4" fill="#F1E6C0"/><circle cx="230" cy="330" r="4"/><circle cx="470" cy="330" r="4"/></g>
+          <g font-family="JetBrains Mono, monospace" font-size="11" fill="#9A9AA0" letter-spacing="1.5"><text x="40" y="146">SUPPLIER</text><text x="266" y="148">PORT</text><text x="176" y="366">WH-BLR</text><text x="430" y="366">WH-MUM</text><text x="76" y="504">CUSTOMER</text><text x="346" y="504">CUSTOMER</text><text x="486" y="504">CUSTOMER</text></g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section aria-label="Live event ticker" style="border-top:1px solid #1E1E22;border-bottom:1px solid #1E1E22;background:#0D0D0F;overflow:hidden;padding:18px 0">
+  <div class="s-mq" id="s-ticker" aria-hidden="true"></div>
+</section>
+
+<!-- SUPPLY CHAIN -->
+<section id="chain" class="s-wrap s-sec">
+  <div class="s-reveal" style="max-width:820px">
+    <span class="s-lbl">Live supply chain</span>
+    <h2 class="s-serif s-h2">Your whole network, one <span class="s-gold">pulse.</span></h2>
+    <p class="s-p">Suppliers and warehouses across India, and the customers waiting at the end. Tap any node to see what the rules know about it, then step into the portal to act.</p>
+  </div>
+
+  <div class="s-glow s-reveal" style="margin-top:44px;padding:clamp(14px,3vw,30px)">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <span class="s-mono" style="font-size:12px;letter-spacing:.12em;color:#8A8A90">NETWORK MAP · SAMPLE DATA</span>
+      <span class="s-mono" style="font-size:11px;color:#8A8A90;display:flex;gap:16px;flex-wrap:wrap"><span><b style="color:#C9A24B">●</b> Healthy</span><span><b style="color:#FF8A80">●</b> Disrupted</span><span><b style="color:#E8D9A8">┄</b> Stock transfer</span></span>
+    </div>
+    <div id="s-chainmap"></div>
+    <div aria-live="polite" style="border-top:1px solid #26262A;margin-top:8px;padding-top:18px;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center">
+      <div style="flex:1 1 360px;min-width:0">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="s-serif" id="s-dname" style="font-size:30px;line-height:1">Coromandel Components</span><span class="s-mono" id="s-dtag" style="font-size:10px;letter-spacing:.1em;padding:3px 8px;border-radius:3px;border:1px solid #FF8A80;color:#FF8A80">DISRUPTED</span></div>
+        <div class="s-mono" id="s-dsub" style="font-size:11px;color:#8A8A90;margin-top:6px;letter-spacing:.08em">SUPPLIER · CHENNAI, TAMIL NADU</div>
+        <p id="s-dinfo" style="margin:10px 0 0;color:#B9B5A6;font-size:15px"></p>
+      </div>
+      <a class="s-btn s-btn-ghost" href="#portal" data-portal>Investigate in portal →</a>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:16px">
+    <div class="s-kpi"><b id="s-k-sup">6</b><span>Suppliers monitored</span></div>
+    <div class="s-kpi"><b id="s-k-wh">10</b><span>Warehouses</span></div>
+    <div class="s-kpi"><b id="s-k-ship">8</b><span>Inbound shipments</span></div>
+    <div class="s-kpi"><b id="s-k-dis" style="color:#FF8A80">2</b><span>Active disruptions</span></div>
+  </div>
+
+  <div class="s-box s-reveal" style="margin-top:22px;display:flex;flex-wrap:wrap;gap:22px 40px;align-items:center;justify-content:space-between;padding:30px 32px;background:linear-gradient(120deg,#17140B,#0F0F11)">
+    <div style="flex:1 1 340px;min-width:0">
+      <span class="s-lbl">Portal access</span>
+      <div class="s-serif" style="font-size:clamp(30px,4vw,46px);line-height:1.05;margin-top:10px">Ready to act on it? <span class="s-gold">Enter the portal.</span></div>
+      <p style="margin:10px 0 0;color:#B9B5A6;font-size:15px;max-width:520px">Review orders at risk, generate recovery options and approve plans. Choose a demo role to sign in as.</p>
+    </div>
+    <div style="flex:1 1 300px;min-width:0">
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <a class="s-role" href="#portal" data-portal data-role="u-analyst" data-pin="1111">Analyst</a>
+        <a class="s-role" href="#portal" data-portal data-role="u-manager" data-pin="2222">Manager</a>
+        <a class="s-role" href="#portal" data-portal data-role="u-warehouse" data-pin="3333">Warehouse</a>
+        <a class="s-role" href="#portal" data-portal data-role="u-procurement" data-pin="4444">Procurement</a>
+        <a class="s-role" href="#portal" data-portal data-role="u-admin" data-pin="9999">Admin</a>
+      </div>
+      <a class="s-btn s-btn-gold" href="#portal" data-portal style="margin-top:16px">Open portal →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATOR -->
+<section id="sim" class="s-wrap s-sec">
+  <div class="s-reveal" style="max-width:760px">
+    <span class="s-lbl">Live simulator</span>
+    <h2 class="s-serif s-h2">Press the button. Watch the ripple get <span class="s-gold">traced.</span></h2>
+    <p class="s-p">A carrier reports a late shipment. DisruptionIQ finds the orders it hurts, ranks them, proposes a fix, and waits for the right person to say yes.</p>
+  </div>
+  <div class="s-glow s-reveal" style="margin-top:44px;padding:clamp(18px,3vw,34px)">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px">
+      <span class="s-mono" style="font-size:12px;letter-spacing:.12em;color:#8A8A90">DISRUPTION SIMULATOR · SAMPLE DATA</span>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <button class="s-btn s-btn-gold" id="sim-start">Trigger disruption</button>
+        <button class="s-btn s-btn-ghost" id="sim-reset">Reset</button>
+      </div>
+    </div>
+    <div class="s-stages" id="sim-stages"></div>
+    <p role="status" aria-live="polite" class="s-mono" id="sim-status" style="margin:26px 0 0;min-height:22px;font-size:13px;color:#E8D9A8"></p>
+    <div style="display:flex;flex-wrap:wrap;gap:28px;margin-top:22px;align-items:stretch">
+      <div style="flex:3 1 420px;min-width:0">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:12px"><span class="s-lbl">Orders ranked by risk</span><span class="s-mono" id="sim-hint" style="font-size:11px;color:#8A8A90"></span></div>
+        <div id="sim-orders"></div>
+      </div>
+      <div style="flex:2 1 320px;min-width:0;display:flex;flex-direction:column;gap:18px">
+        <div class="s-box">
+          <span class="s-lbl">Money at risk</span>
+          <div class="s-serif" id="sim-money" style="font-size:clamp(52px,6vw,84px);line-height:1;margin-top:10px;color:#F1E6C0;letter-spacing:-.02em">₹0.0 L</div>
+          <div style="height:6px;background:#222226;border-radius:3px;margin-top:16px;overflow:hidden"><div id="sim-moneybar" style="height:100%;width:0;background:linear-gradient(90deg,#8A6D2B,#E8D9A8)"></div></div>
+          <div id="sim-cap" style="margin-top:12px;font-size:13px;color:#B9B5A6;min-height:20px"></div>
+        </div>
+        <div class="s-box" id="sim-plan" style="opacity:.3;transition:opacity .8s">
+          <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span class="s-lbl">Recovery plan</span><span class="s-mono" style="font-size:11px;color:#8A8A90">P-0091</span></div>
+          <p style="margin:12px 0 4px;font-weight:600">Reallocate stock, split one order, road-express one order.</p>
+          <p style="margin:0;font-size:13px;color:#9A9AA0">Proposed by the Operations Analyst. Built from rule-checked options only.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px">
+            <button class="s-btn s-btn-gold" id="sim-approve" disabled>Approve as Manager</button>
+            <button class="s-btn s-btn-ghost" id="sim-analyst" disabled>Try as Analyst</button>
+          </div>
+          <p role="status" aria-live="polite" class="s-mono" id="sim-msg" style="margin:14px 0 0;min-height:36px;font-size:12px;color:#E8D9A8"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="principles" class="s-wrap s-sec">
+  <div class="s-reveal" style="max-width:820px">
+    <span class="s-lbl">How it stays safe</span>
+    <h2 class="s-serif s-h2">Rules decide. AI advises. <span class="s-gold">Humans</span> approve.</h2>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:22px;margin-top:48px">
+    <article class="s-glow s-lift s-reveal" style="flex:1 1 300px;min-width:0;padding:34px 30px 30px">
+      <div class="s-serif" style="font-size:84px;line-height:.9;color:#3A3426">01</div>
+      <h3 class="s-serif" style="margin:18px 0 10px;font-size:40px;line-height:1;color:#F4EEDC;font-weight:400">Rules decide</h3>
+      <p style="margin:0;color:#B9B5A6">Stock levels, deadlines and permissions are plain, testable logic. The AI never touches them.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:22px"><span class="s-chip">Stock</span><span class="s-chip">Deadlines</span><span class="s-chip">Permissions</span></div>
+    </article>
+    <article class="s-glow s-lift s-reveal" style="flex:1 1 300px;min-width:0;padding:34px 30px 30px">
+      <div class="s-serif" style="font-size:84px;line-height:.9;color:#3A3426">02</div>
+      <h3 class="s-serif" style="margin:18px 0 10px;font-size:40px;line-height:1;color:#F4EEDC;font-weight:400">AI advises</h3>
+      <p style="margin:0;color:#B9B5A6">It writes the summaries and explains the trade-offs, but can only pick from options the rules already proved feasible.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:22px"><span class="s-chip">Summaries</span><span class="s-chip">Explanations</span></div>
+    </article>
+    <article class="s-glow s-lift s-reveal" style="flex:1 1 300px;min-width:0;padding:34px 30px 30px">
+      <div class="s-serif" style="font-size:84px;line-height:.9;color:#3A3426">03</div>
+      <h3 class="s-serif" style="margin:18px 0 10px;font-size:40px;line-height:1;color:#F4EEDC;font-weight:400">Humans approve</h3>
+      <p style="margin:0;color:#B9B5A6">Nothing runs until a person with the right role confirms. Even then, stock is rechecked first.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:22px"><span class="s-chip">Approve</span><span class="s-chip">Modify</span><span class="s-chip">Reject</span></div>
+    </article>
+  </div>
+</section>
+
+<section id="roles" class="s-wrap s-sec">
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:center">
+    <div class="s-reveal" style="flex:1 1 380px;min-width:0">
+      <span class="s-lbl">Five roles</span>
+      <h2 class="s-serif s-h2" style="font-size:clamp(38px,5vw,66px)">Nobody approves their <span class="s-gold">own</span> plan.</h2>
+      <p class="s-p" style="max-width:480px">Hiding a button is not security. Every action is checked, so the person who proposes a plan can never be the one who signs it off.</p>
+    </div>
+    <div class="s-glow s-reveal" style="flex:1 1 400px;min-width:0;padding:clamp(20px,3vw,34px)">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+        <div style="position:relative;flex:1 1 140px;min-width:0;border:1px solid #3A3426;border-radius:10px;padding:18px;background:#0F0F11">
+          <span class="s-lbl">Proposes</span>
+          <div class="s-serif" style="font-size:28px;line-height:1.05;margin-top:8px">Operations Analyst</div>
+          <span class="s-mono" style="position:absolute;left:12px;right:12px;bottom:-16px;text-align:center;font-size:11px;padding:6px 8px;border-radius:5px;background:#E8D9A8;color:#0A0A0B;font-weight:500;opacity:0;animation:s-deny 6s ease-in-out infinite">403 · cannot approve own plan</span>
+        </div>
+        <svg width="96" height="24" viewBox="0 0 96 24" aria-hidden="true" style="flex:0 0 96px"><path d="M2,12 L82,12" stroke="#C9A24B" stroke-width="2" fill="none" class="s-flow"/><path d="M80,5 L92,12 L80,19" stroke="#E8D9A8" stroke-width="2" fill="none"/></svg>
+        <div style="flex:1 1 140px;min-width:0;border:1px solid #C9A24B;border-radius:10px;padding:18px;background:#14120C"><span class="s-lbl">Approves</span><div class="s-serif" style="font-size:28px;line-height:1.05;margin-top:8px">Supply Chain Manager</div></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:38px">
+        <div style="flex:1 1 150px;border:1px solid #26262A;border-radius:10px;padding:14px;background:#0F0F11"><div style="font-weight:600;font-size:14px">Warehouse Operator</div><div style="font-size:12px;color:#9A9AA0;margin-top:4px">Executes approved plans after a stock recheck</div></div>
+        <div style="flex:1 1 150px;border:1px solid #26262A;border-radius:10px;padding:14px;background:#0F0F11"><div style="font-weight:600;font-size:14px">Procurement Approver</div><div style="font-size:12px;color:#9A9AA0;margin-top:4px">Approves spending: expedites and new suppliers</div></div>
+        <div style="flex:1 1 150px;border:1px solid #26262A;border-radius:10px;padding:14px;background:#0F0F11"><div style="font-weight:600;font-size:14px">Administrator</div><div style="font-size:12px;color:#9A9AA0;margin-top:4px">Full access to every role</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="audit" class="s-wrap s-sec">
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:center">
+    <div class="s-reveal" style="flex:1 1 360px;min-width:0">
+      <span class="s-lbl">Audit trail</span>
+      <h2 class="s-serif s-h2" style="font-size:clamp(38px,5vw,66px)">Every step leaves a <span class="s-gold">trace.</span></h2>
+      <p class="s-p" style="max-width:460px">Duplicate events are ignored. Bad rows are rejected with a reason. Every decision, and every refusal, is written down.</p>
+    </div>
+    <div class="s-glow s-reveal" style="flex:1 1 440px;min-width:0;padding:0;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:10px;padding:16px 22px;border-bottom:1px solid #26262A"><span class="s-blink" style="width:8px;height:8px;border-radius:50%;background:#E8D9A8;display:block"></span><span class="s-mono" style="font-size:12px;letter-spacing:.1em;color:#8A8A90">audit_trail.log</span></div>
+      <div style="padding:14px 22px 22px;overflow-x:auto"><div style="min-width:420px" id="s-audit"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="s-wrap s-sec">
+  <div id="s-stats" style="display:flex;flex-wrap:wrap;border-top:1px solid #26262A;border-bottom:1px solid #26262A"></div>
+  <p class="s-mono" style="margin:16px 0 0;font-size:11px;color:#8A8A90;text-align:center">Demo figures from sample data.</p>
+</section>
+
+<section style="position:relative;overflow:hidden;padding:130px 0 110px">
+  <div aria-hidden="true" style="position:absolute;left:50%;top:50%;width:0;height:0">
+    <div style="position:absolute;width:760px;height:760px;margin:-380px 0 0 -380px;border:1px solid rgba(201,162,75,0.5);border-radius:50%;animation:s-ringOut 6s ease-out infinite"></div>
+    <div style="position:absolute;width:760px;height:760px;margin:-380px 0 0 -380px;border:1px solid rgba(201,162,75,0.5);border-radius:50%;animation:s-ringOut 6s ease-out 2s infinite"></div>
+    <div style="position:absolute;width:760px;height:760px;margin:-380px 0 0 -380px;border:1px solid rgba(201,162,75,0.5);border-radius:50%;animation:s-ringOut 6s ease-out 4s infinite"></div>
+  </div>
+  <div class="s-wrap s-reveal" style="position:relative;text-align:center">
+    <h2 class="s-serif" style="margin:0 auto;max-width:900px;font-size:clamp(42px,6.4vw,92px);line-height:1;letter-spacing:-.025em">See the <span class="s-gold">ripple</span> before it reaches the customer.</h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:42px">
+      <a class="s-btn s-btn-gold" href="#portal" data-portal>Open the portal →</a>
+      <a class="s-btn s-btn-ghost" href="#site">Back to top</a>
+    </div>
+  </div>
+</section>
+
+<footer class="s-wrap" style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:26px;padding-bottom:36px;border-top:1px solid #1E1E22">
+  <span class="s-serif" style="font-size:22px">DisruptionIQ</span>
+  <span class="s-mono" style="font-size:11px;letter-spacing:.1em;color:#8A8A90">OVERCLOCK'26 · PS 1 · SAMPLE DATA ONLY</span>
+</footer>
+</div>
+
+<div id="portal">
+<div class="app"><aside class="sidebar"><div class="brand"><div class="logo">D</div><div><b>disruptioniq</b><small>PROTOTYPE DEMO</small></div></div><div class="navlabel">Workspace</div><button class="navitem active" data-view="dashboard"><span class="icon">◫</span><span class="label">Overview</span></button><button class="navitem" data-view="disruptions"><span class="icon">⌁</span><span class="label">Disruptions</span><span class="count" id="disruption-count">2</span></button><button class="navitem" data-view="orders"><span class="icon">▤</span><span class="label">Orders at risk</span></button><button class="navitem" data-view="recovery"><span class="icon">↗</span><span class="label">Recovery plans</span><span class="count" id="approval-count">1</span></button><div class="navlabel">Network</div><button class="navitem" data-view="inventory"><span class="icon">▦</span><span class="label">Inventory</span></button><button class="navitem" data-view="shipments"><span class="icon">⇢</span><span class="label">Shipments</span></button><button class="navitem" data-view="audit"><span class="icon">◷</span><span class="label">Audit & events</span></button><div class="spacer"></div><div class="system"><span class="pulse"></span>All systems operational<br><span style="padding-left:13px;color:#8c8a84">Data synced just now</span></div><div class="person"><div class="avatar" id="avatar">OA</div><div><strong id="username">Operations Analyst</strong><small id="userrole">Operations Analyst</small></div><button id="switchuser" title="Switch demo user">⇄</button></div></aside>
+<main class="main"><header class="topbar"><div class="crumb">Control tower <span style="color:#817f7a">/</span> <b id="crumb">Overview</b></div><div class="topright"><div class="live"><i class="pulse"></i> DEMO · BROWSER DATA</div><button class="btn mini" id="backhome" title="Back to website">← Website</button><button class="iconbtn" id="bell" title="Notifications">♧<span class="bellcount" id="bell-count">2</span></button><button class="btn mini hide-mobile" id="webhook">↻ Simulate webhook</button></div></header><div class="workspace">
+<section class="view active" id="view-dashboard"><div class="heading"><div><div class="eyebrow" id="today">Network pulse</div><h1>Good morning, <span id="greeting">Operations Analyst</span></h1><p>Here’s where your supply chain stands right now.<br><span id="roleduty" style="color:var(--cyan)"></span></p></div><div class="actions"><button class="btn" id="importbtn">↑ Import data</button><button class="btn primary recommendTop">✦ Generate recovery plans</button></div></div><div class="kpis" id="kpis"></div>
+<div class="network-panel" aria-label="Interactive supply chain network map">
+  <div class="network-head"><div><strong>Live network map</strong><small>Warehouses and suppliers across India. Tap a location to see its units, inbound shipments and risk signals.</small></div><button class="btn mini" id="network-scan" type="button">↻ Run network scan</button></div>
+  <div class="network-stage"><svg class="network-svg" id="network-svg" viewBox="0 0 700 430" role="img" aria-label="Live network map of warehouses and suppliers across India"></svg></div>
+  <div class="network-signals" id="network-signals" aria-label="Risk signals by location"></div>
+  <div class="network-detail" aria-live="polite"><b id="network-selected">Loading network…</b><span id="network-info"></span><span class="net-status" id="network-status">● NETWORK MONITORING</span></div>
+</div><div class="grid"><div class="col"><div class="card"><div class="cardhead"><div class="cardtitle">⚡ Active disruptions <span class="subtitle">· latest network signals</span></div><button class="link" data-goto="disruptions">View all ↗</button></div><div id="disruption-list"></div></div><div class="card"><div class="cardhead"><div class="cardtitle">◎ Orders at risk <span class="subtitle">· ranked by customer impact</span></div><button class="link" data-goto="orders">All affected orders ↗</button></div><div class="tablewrap"><table><thead><tr><th>Order / Customer</th><th>Risk</th><th>SKU · Unreserved</th><th>Due</th><th>Why flagged</th><th></th></tr></thead><tbody id="risk-table"></tbody></table></div></div><div class="card"><div class="cardhead"><div class="cardtitle">⟳ Recovery progress</div><button class="link" data-goto="recovery">Plan queue ↗</button></div><div id="progress-list"></div></div></div><div class="col"><div class="card"><div class="cardhead"><div class="cardtitle">✦ Recovery approvals <span class="subtitle">· action required</span></div><button class="link" data-goto="recovery">See queue ↗</button></div><div id="approvals-list"></div></div><div class="card"><div class="cardhead"><div class="cardtitle">♧ Notifications</div><button class="link" id="allnotifications">All activity</button></div><div id="notifications-list"></div></div><div class="card"><div class="cardhead"><div class="cardtitle">◷ Live audit trail</div><button class="link" data-goto="audit">View full log ↗</button></div><div id="audit-list"></div></div></div></div></section>
+<section class="view" id="view-disruptions"><div class="heading"><div><div class="eyebrow">Network signals</div><h1>Active disruptions</h1><p>Shipment, supplier and inventory alerts linked to downstream order impact.</p></div><div class="actions"><button class="btn" id="webhook2">↻ Simulate carrier webhook</button><button class="btn primary recommendTop">✦ Find recovery options</button></div></div><div id="all-disruptions" class="col"></div></section>
+<section class="view" id="view-orders"><div class="heading"><div><div class="eyebrow">Customer commitments</div><h1>Orders at risk</h1><p>Risk scores explain urgency using priority, due date and available stock.</p></div><div class="toolbar"><input class="search" placeholder="Search orders or customers…" id="order-search"><select class="filter" id="risk-filter"><option value="all">All priorities</option><option>Critical</option><option>High</option><option>Normal</option></select></div></div><div class="card"><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>SKU / Product</th><th>Qty</th><th>Stock available</th><th>Due date</th><th>Risk score</th><th>Risk explanation</th></tr></thead><tbody id="orders-table"></tbody></table></div></div></section>
+<section class="view" id="view-recovery"><div class="heading"><div><div class="eyebrow">Review · approve · execute</div><h1>Recovery plans</h1><p>Separate requester from approver. Execution stays simulated until confirmation.</p></div><div class="actions"><button class="btn primary recommendTop">✦ Generate options</button></div></div><div id="all-plans" class="col"></div></section>
+<section class="view" id="view-inventory"><div class="heading"><div><div class="eyebrow">Available to promise</div><h1>Inventory positions</h1><p>Current quantity, reservations and reorder thresholds across the network.</p></div><button class="btn" id="importbtn2">↑ Import CSV / JSON</button></div><div class="card"><div class="tablewrap"><table><thead><tr><th>SKU</th><th>Product</th><th>Warehouse</th><th>On hand</th><th>Reserved</th><th>Unreserved</th><th>Reorder level</th><th>Signal</th></tr></thead><tbody id="inventory-table"></tbody></table></div></div></section>
+<section class="view" id="view-shipments"><div class="heading"><div><div class="eyebrow">Inbound freight</div><h1>Shipments</h1><p>Carrier ETAs and supplier links. Webhook events are deduplicated by event ID.</p></div><button class="btn" id="webhook3">↻ Simulate webhook</button></div><div class="card"><div class="tablewrap"><table><thead><tr><th>Shipment</th><th>Carrier</th><th>Supplier</th><th>Origin → Destination</th><th>ETA</th><th>Delay</th><th>Status</th></tr></thead><tbody id="shipments-table"></tbody></table></div></div></section>
+<section class="view" id="view-audit"><div class="heading"><div><div class="eyebrow">Every action, traceable</div><h1>Audit & events</h1><p>Persisted event history for imports, carrier updates, approvals and simulated execution.</p></div><button class="btn" id="exportbtn">↓ Export all data JSON</button></div><div class="card"><div class="tablewrap"><table><thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Entity</th><th>Detail</th></tr></thead><tbody id="audit-table"></tbody></table></div></div></section>
+</div></main></div>
+<div class="modalback" id="modalback"><div class="modal"><div class="modalhead"><b id="modal-title">Generate recovery options</b><button class="close" id="modalclose">×</button></div><div class="modalbody" id="modalbody"></div><div class="modalfoot" id="modalfoot"></div></div></div><div class="toast" id="toast"></div>
+<div class="login" id="login"><div class="loginbox"><div class="brand" style="padding:0;margin:0"><div class="logo">D</div><div><b>disruptioniq</b><small>PROTOTYPE DEMO</small></div></div><h2>Sign in to your workspace</h2><p>Choose a demo role. Data is saved in your own browser only; role checks are simulated.</p><label>ROLE</label><select id="loginuser"><option value="u-analyst">Operations Analyst</option><option value="u-manager">Supply Chain Manager</option><option value="u-procurement">Procurement Approver</option><option value="u-warehouse">Warehouse Operator</option><option value="u-admin">Administrator (full access)</option></select><label>PIN</label><input type="password" id="loginpin" value="1111" inputmode="numeric"><div class="modalnote">Demo PINs: Analyst 1111 · Manager 2222 · Warehouse 3333 · Procurement 4444 · Admin 9999</div><div class="loginerror" id="loginerror"></div><button class="btn primary" id="loginbtn">Sign in →</button><button class="btn" id="loginback" style="margin-top:8px">← Back to website</button></div></div>
+<input type="file" id="filepick" accept=".csv,.json,text/csv,application/json" hidden>
+<script>
+let state=null,me=null,options=[],selectedOption=null,toastTimer;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const dt=s=>s?new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'—';const ago=s=>{let m=Math.max(1,Math.floor((Date.now()-Date.parse(s))/60000));return m<60?m+'m ago':m<1440?Math.floor(m/60)+'h ago':Math.floor(m/1440)+'d ago'};
+const mem={};const ss={get:k=>{try{return sessionStorage.getItem(k)}catch{return mem[k]??null}},set:(k,v)=>{mem[k]=v;try{sessionStorage.setItem(k,v)}catch{}},del:k=>{delete mem[k];try{sessionStorage.removeItem(k)}catch{}}};
+// Roles. Stock plans are approved by the Supply Chain Manager, spending plans by the Procurement Approver.
+// The Administrator can do everything (but, like everyone, never approves a plan it submitted).
+const demoRoles={'Operations Analyst':['view','import','recommend','submit'],'Supply Chain Manager':['view','approve_stock','modify'],'Procurement Approver':['view','approve_spend','modify'],'Warehouse Operator':['view','execute'],'Administrator':['view','import','recommend','submit','approve_stock','approve_spend','modify','execute','admin']};
+const APPROVER_PERM={'Reallocate stock':'approve_stock','Split order':'approve_stock','Expedite':'approve_spend','Alternative supplier':'approve_spend'};
+const APPROVER_ROLE={'Reallocate stock':'Supply Chain Manager','Split order':'Supply Chain Manager','Expedite':'Procurement Approver','Alternative supplier':'Procurement Approver'};
+const ROLE_DUTY={'Operations Analyst':'Your job: find the orders at risk, generate recovery options and submit plans for approval.','Supply Chain Manager':'Your job: approve, modify or reject stock plans (reallocate stock, split order).','Procurement Approver':'Your job: approve, modify or reject spending plans (expedite freight, alternative supplier).','Warehouse Operator':'Your job: execute approved plans after the stock recheck, and keep inventory accurate.','Administrator':'Full access: every role’s actions, plus carrier webhooks, data export and the audit log.'};
+const ROLE_NAV={'Operations Analyst':['dashboard','disruptions','orders','recovery','inventory','shipments'],'Supply Chain Manager':['dashboard','disruptions','orders','recovery','inventory'],'Procurement Approver':['dashboard','disruptions','orders','recovery','shipments'],'Warehouse Operator':['dashboard','recovery','inventory','shipments'],'Administrator':['dashboard','disruptions','orders','recovery','inventory','shipments','audit']};
+const CITY_XY={'Chennai':[80.27,13.08],'Bengaluru':[77.59,12.97],'Mumbai':[72.88,19.08],'Delhi':[77.21,28.61],'Kolkata':[88.36,22.57],'Hyderabad':[78.49,17.39],'Ahmedabad':[72.57,23.02],'Jaipur':[75.79,26.91],'Lucknow':[80.95,26.85],'Guwahati':[91.74,26.14],'Pune':[73.86,18.52],'Vadodara':[73.18,22.31],'Kochi':[76.27,9.93]};
+const lday=n=>new Date(Date.now()+n*86400000).toISOString();const ldate=n=>lday(n).slice(0,10);
+function makeDemoDb(){
+ const W=(id,name,city,state)=>({id,name,region:`${city}, ${state}`,city,state});
+ const S=(id,name,city,state,lead_days,status)=>({id,name,region:`${city}, ${state}`,city,state,lead_days,status});
+ const PRODUCT={'SKU-441':'Smart sensor module','SKU-882':'Control unit v2','SKU-310':'Power adapter kit','SKU-725':'Gateway board'};
+ const inventory=[['SKU-441','WH-BLR',45,36,30],['SKU-310','WH-BLR',120,34,25],['SKU-725','WH-BLR',62,22,20],['SKU-441','WH-CHN',70,42,30],['SKU-882','WH-CHN',54,39,24],['SKU-882','WH-MUM',28,22,24],['SKU-725','WH-MUM',18,11,20],['SKU-441','WH-DEL',60,20,30],['SKU-310','WH-DEL',80,30,25],['SKU-725','WH-KOL',40,12,20],['SKU-882','WH-KOL',22,14,24],['SKU-441','WH-HYD',35,10,30],['SKU-882','WH-HYD',30,18,24],['SKU-310','WH-AMD',90,20,25],['SKU-725','WH-AMD',25,10,20],['SKU-310','WH-JAI',50,15,25],['SKU-441','WH-LKO',26,12,30],['SKU-725','WH-GAU',14,6,20],['SKU-310','WH-GAU',30,10,25]]
+  .map((r,i)=>({id:'INV-'+String(i+1).padStart(2,'0'),sku:r[0],product:PRODUCT[r[0]],warehouse_id:r[1],qty:r[2],reserved:r[3],reorder_level:r[4]}));
+ const SH=(id,carrier,supplier_id,origin,warehouse_id,destination,eta,status,delay_days)=>({id,carrier,supplier_id,origin,warehouse_id,destination,eta:lday(eta),status,delay_days,event_id:'evt-init-'+id.slice(-2)});
+ return {
+  users:[{id:'u-analyst',name:'Operations Analyst',role:'Operations Analyst',pin:'1111'},{id:'u-manager',name:'Supply Chain Manager',role:'Supply Chain Manager',pin:'2222'},{id:'u-warehouse',name:'Warehouse Operator',role:'Warehouse Operator',pin:'3333'},{id:'u-procurement',name:'Procurement Approver',role:'Procurement Approver',pin:'4444'},{id:'u-admin',name:'Administrator',role:'Administrator',pin:'9999'}],
+  suppliers:[S('SUP-01','Coromandel Components','Chennai','Tamil Nadu',6,'At risk'),S('SUP-02','Deccan Polymers','Hyderabad','Telangana',4,'On time'),S('SUP-03','Sahyadri Electronics','Pune','Maharashtra',3,'On time'),S('SUP-04','Narmada Freight Goods','Vadodara','Gujarat',5,'At risk'),S('SUP-05','Ganga Industrial Supplies','Kolkata','West Bengal',4,'On time'),S('SUP-06','Malabar Packaging','Kochi','Kerala',5,'On time')],
+  warehouses:[W('WH-BLR','Bengaluru Fulfilment Centre','Bengaluru','Karnataka'),W('WH-CHN','Chennai Distribution Centre','Chennai','Tamil Nadu'),W('WH-MUM','Mumbai Gateway Hub','Mumbai','Maharashtra'),W('WH-DEL','Delhi NCR Hub','Delhi','Delhi'),W('WH-KOL','Kolkata East Hub','Kolkata','West Bengal'),W('WH-HYD','Hyderabad Central Warehouse','Hyderabad','Telangana'),W('WH-AMD','Ahmedabad West Hub','Ahmedabad','Gujarat'),W('WH-JAI','Jaipur North Hub','Jaipur','Rajasthan'),W('WH-LKO','Lucknow Central Hub','Lucknow','Uttar Pradesh'),W('WH-GAU','Guwahati North-East Hub','Guwahati','Assam')],
+  inventory,
+  shipments:[SH('SHP-2041','Maersk','SUP-01','Chennai Port, Tamil Nadu','WH-BLR','Bengaluru, Karnataka',4,'Delayed',5),SH('SHP-2042','Delhivery','SUP-02','Hyderabad, Telangana','WH-CHN','Chennai, Tamil Nadu',2,'In transit',0),SH('SHP-2043','Safexpress','SUP-04','Vadodara, Gujarat','WH-MUM','Mumbai, Maharashtra',1,'In transit',0),SH('SHP-2044','Blue Dart','SUP-03','Pune, Maharashtra','WH-CHN','Chennai, Tamil Nadu',0,'In transit',0),SH('SHP-2045','Gati','SUP-05','Kolkata, West Bengal','WH-GAU','Guwahati, Assam',3,'In transit',0),SH('SHP-2046','Delhivery','SUP-06','Kochi, Kerala','WH-BLR','Bengaluru, Karnataka',2,'In transit',0),SH('SHP-2047','Safexpress','SUP-03','Pune, Maharashtra','WH-DEL','Delhi',5,'In transit',0),SH('SHP-2048','Blue Dart','SUP-05','Kolkata, West Bengal','WH-LKO','Lucknow, Uttar Pradesh',6,'Delayed',2)],
+  orders:[['ORD-8821','Acme Robotics','SKU-441',24,5,'WH-BLR','Critical'],['ORD-8822','Vertex Systems','SKU-441',30,6,'WH-BLR','High'],['ORD-8823','Helix Industrial','SKU-441',20,8,'WH-CHN','High'],['ORD-8816','Nova Medical','SKU-882',18,2,'WH-MUM','Critical'],['ORD-8817','Pioneer Labs','SKU-882',16,4,'WH-MUM','High'],['ORD-8825','Cobalt Manufacturing','SKU-725',14,3,'WH-MUM','High'],['ORD-8826','Atlas Dynamics','SKU-310',20,9,'WH-BLR','Normal'],['ORD-8802','Brightline Devices','SKU-441',10,3,'WH-CHN','Normal'],['ORD-8803','Kinetic Motion','SKU-882',8,7,'WH-CHN','Normal'],['ORD-8827','Luma Energy','SKU-441',12,10,'WH-CHN','Normal'],['ORD-8831','Kaveri Robotics','SKU-441',18,6,'WH-DEL','High'],['ORD-8832','Indus Medical','SKU-882',10,5,'WH-KOL','Critical'],['ORD-8833','Deccan Auto Parts','SKU-441',15,4,'WH-HYD','Normal'],['ORD-8834','Sabarmati Textiles','SKU-310',25,7,'WH-AMD','Normal'],['ORD-8835','Gomti Electricals','SKU-441',12,9,'WH-LKO','High'],['ORD-8836','Brahmaputra Agro','SKU-725',9,6,'WH-GAU','Normal']]
+   .map((x,i)=>({id:x[0],customer:x[1],sku:x[2],qty:x[3],due:ldate(x[4]),warehouse_id:x[5],priority:x[6],status:i<6?'At risk':'On track',created_at:lday(-1)})),
+  disruptions:[{id:'DIS-301',title:'Coromandel sea freight +5 days',type:'Late shipment',severity:'Critical',description:'Maersk updated SHP-2041 ETA by 5 days at Chennai Port. 3 orders / 74 units exposed; Bengaluru available stock covers 9 units after reservations.',shipment_id:'SHP-2041',skus:['SKU-441'],created_at:lday(-.2),status:'Active'},{id:'DIS-302',title:'Narmada supply allocation shortfall',type:'Supplier delay',severity:'High',description:'Narmada allocation is behind schedule; Mumbai gateway inventory is below reorder level. 3 orders / 46 units need review.',shipment_id:'SHP-2043',skus:['SKU-882','SKU-725'],created_at:lday(-.1),status:'Active'}],
+  plans:[{id:'PLAN-701',disruption_id:'DIS-301',order_id:'ORD-8821',kind:'Reallocate stock',sku:'SKU-441',units:15,from_wh:'WH-CHN',to_wh:'WH-BLR',held:true,summary:'Move 15 units of SKU-441 from Chennai Distribution Centre to Bengaluru Fulfilment Centre',impact:'Protects critical customer date; $180 transfer cost',status:'Approved',created_by:'u-analyst',approved_by:'u-manager',executed_by:null,created_at:lday(-.1),executed_at:null}],
+  notifications:[{id:1,at:lday(-.1),message:'2 active disruptions are affecting 6 priority orders. Recovery plans are ready for review.',severity:'critical',read:0}],
+  events:[],
+  audit:[{id:1,at:lday(-.2),actor:'system',action:'DEMO_SEEDED',entity:'workspace',detail:'Seeded synthetic network data across 10 Indian warehouses and two disruption scenarios.'}]
+ }}
+// New storage key: browsers that saved the older demo get the new Indian network on first load.
+let localDb;try{localDb=JSON.parse(localStorage.getItem('disruptioniq-standalone-v2')||'null')}catch{}if(!localDb){localDb=makeDemoDb();try{localStorage.setItem('disruptioniq-standalone-v2',JSON.stringify(localDb))}catch{}}
+function lsave(){try{localStorage.setItem('disruptioniq-standalone-v2',JSON.stringify(localDb))}catch{}}function laudit(actor,action,entity,detail){localDb.audit.unshift({id:Date.now()+Math.random(),at:new Date().toISOString(),actor,action,entity,detail})}function lnotify(message,severity='info'){localDb.notifications.unshift({id:Date.now()+Math.random(),at:new Date().toISOString(),message,severity,read:0})}function luser(){try{const u=JSON.parse(ss.get('disruptioniq-user')||'null');if(u){const current=localDb.users.find(x=>x.id===u.id);if(!current)return null;u.name=current.name;u.role=current.role;return u}return null}catch{return null}}
+function invOf(sku,wh){return localDb.inventory.find(i=>i.sku===sku&&i.warehouse_id===wh)}
+function freeOf(sku,wh){const i=invOf(sku,wh);return i?i.qty-i.reserved:0}
+function whName(id){return localDb.warehouses.find(w=>w.id===id)?.name||id}
+function roleOf(id){return localDb.users.find(u=>u.id===id)?.role||id}
+function activePlanFor(orderId){return localDb.plans.find(p=>p.order_id===orderId&&['Pending approval','Approved'].includes(p.status))}
+function affectedOrders(d){return localDb.orders.filter(o=>o.status==='At risk'&&(d.order_ids?d.order_ids.includes(o.id):(d.skus||[]).includes(o.sku)))}
+// One recovery option of a given kind, built from live stock and shipments, or null if the rules say it is not possible.
+function optionFor(o,d,kind){
+ const own=Math.max(0,freeOf(o.sku,o.warehouse_id)),need=Math.max(1,o.qty-own);
+ const base={orderId:o.id,customer:o.customer,sku:o.sku,due:o.due,disruptionId:d.id,to_wh:o.warehouse_id,kind};
+ if(kind==='Reallocate stock'){const src=localDb.inventory.filter(i=>i.sku===o.sku&&i.warehouse_id!==o.warehouse_id&&i.qty-i.reserved>0).sort((a,b)=>(b.qty-b.reserved)-(a.qty-a.reserved))[0];if(!src)return null;const u=Math.min(need,src.qty-src.reserved);return {...base,units:u,from_wh:src.warehouse_id,title:`Move ${u} units of ${o.sku} from ${whName(src.warehouse_id)} to ${whName(o.warehouse_id)}`,impact:`Protect ${o.customer}'s ${o.due} commitment; ${src.qty-src.reserved} unreserved units at the source.`,cost:`$${u*12} transfer`}}
+ if(kind==='Expedite'){const sh=localDb.shipments.find(s=>s.id===d.shipment_id&&s.status!=='Delivered');if(!sh)return null;return {...base,units:o.qty,shipment_id:sh.id,title:`Upgrade ${sh.id} (${sh.carrier}) to priority handling`,impact:`Recover an estimated 2 days on ${o.id}; customer confirmation required if still late.`,cost:`$${o.qty*8} expedite`}}
+ if(kind==='Alternative supplier'){const orig=localDb.shipments.find(s=>s.id===d.shipment_id)?.supplier_id;const alt=localDb.suppliers.filter(s=>s.status==='On time'&&s.id!==orig).sort((a,b)=>a.lead_days-b.lead_days)[0];if(!alt)return null;const u=Math.max(1,Math.floor(o.qty*.6));return {...base,units:u,supplier_id:alt.id,title:`Request ${u} units from ${alt.name} (${alt.region})`,impact:`Cover ${u} units while the original supplier recovers; ${alt.lead_days}-day lead time.`,cost:`$${u*15} premium`}}
+ if(kind==='Split order'){if(own<=0)return null;const u=Math.min(o.qty,own);return {...base,units:u,title:`Ship ${u} available units from ${whName(o.warehouse_id)} now; backorder ${o.qty-u}`,impact:`Deliver ${u} units by the original date; the balance follows inbound.`,cost:'No transfer fee'}}
+ return null}
+// Approval commits the stock at once, so the network map's units change as soon as a plan is approved.
+function approveEffects(p){
+ if(p.kind==='Reallocate stock'){const src=invOf(p.sku,p.from_wh),free=src?src.qty-src.reserved:0;if(free<p.units)throw Error(`Stock recheck failed: ${whName(p.from_wh)} now has ${free} unreserved units of ${p.sku} (needs ${p.units}).`);src.reserved+=p.units;p.held=true}
+ else if(p.kind==='Split order'){const inv=invOf(p.sku,p.to_wh),free=inv?inv.qty-inv.reserved:0;if(free<p.units)throw Error(`Stock recheck failed: only ${free} unreserved units of ${p.sku} left at ${whName(p.to_wh)}.`);inv.reserved+=p.units;p.held=true}
+ else if(p.kind==='Expedite'){const s=localDb.shipments.find(x=>x.id===p.shipment_id);if(!s||s.status==='Delivered')throw Error('The shipment can no longer be expedited.');s.status='Expedite approved'}}
+// Execution moves the committed stock (simulated: only this browser's data changes).
+function executeEffects(p){
+ if(p.kind==='Reallocate stock'){const src=invOf(p.sku,p.from_wh);if(!src||src.qty<p.units)throw Error(`Stock recheck failed at ${whName(p.from_wh)}.`);src.qty-=p.units;src.reserved=Math.max(0,src.reserved-p.units);let dst=invOf(p.sku,p.to_wh);if(!dst){dst={id:'INV-'+Date.now(),sku:p.sku,product:src.product,warehouse_id:p.to_wh,qty:0,reserved:0,reorder_level:src.reorder_level};localDb.inventory.push(dst)}dst.qty+=p.units;dst.reserved+=p.units}
+ else if(p.kind==='Split order'){const inv=invOf(p.sku,p.to_wh);if(!inv||inv.qty<p.units)throw Error('Stock recheck failed: the units are no longer on hand.');inv.qty-=p.units;inv.reserved=Math.max(0,inv.reserved-p.units)}
+ else if(p.kind==='Expedite'){const s=localDb.shipments.find(x=>x.id===p.shipment_id);if(s){s.eta=new Date(Date.parse(s.eta)-2*86400000).toISOString();s.delay_days=Math.max(0,s.delay_days-2);s.status='Expedited'}}
+ else if(p.kind==='Alternative supplier'){const sup=localDb.suppliers.find(x=>x.id===p.supplier_id);const sid='SHP-ALT-'+String(localDb.shipments.length+1).padStart(2,'0');localDb.shipments.push({id:sid,carrier:'Supplier delivery',supplier_id:p.supplier_id,origin:sup?.region||'—',warehouse_id:p.to_wh,destination:localDb.warehouses.find(w=>w.id===p.to_wh)?.region||'—',eta:lday(sup?.lead_days||5),status:'In transit',delay_days:0,event_id:'alt-'+p.id})}}
+function resolveIfDone(d){if(d&&d.status==='Active'&&!affectedOrders(d).length){d.status='Resolved';laudit('system','DISRUPTION_RESOLVED',d.id,'Every affected order now has a recovery under way.')}}
+// Live picture for the network maps: units, risk signal and reasons for every warehouse and supplier.
+// Risk signal rules: Critical = a Critical-priority order at risk, or 2+ orders at risk with a delayed inbound shipment;
+// High = any order at risk; Medium = delayed inbound or stock below reorder level; Recovering = recovery approved or under way.
+function networkModel(){
+ const approved=localDb.plans.filter(p=>p.status==='Approved');
+ const W=localDb.warehouses.map(w=>{
+  const inv=localDb.inventory.filter(i=>i.warehouse_id===w.id);
+  const free=inv.reduce((n,i)=>n+Math.max(0,i.qty-i.reserved),0),onHand=inv.reduce((n,i)=>n+i.qty,0);
+  const low=inv.filter(i=>i.qty-i.reserved<i.reorder_level).map(i=>i.sku);
+  const orders=localDb.orders.filter(o=>o.warehouse_id===w.id);
+  const atRisk=orders.filter(o=>o.status==='At risk'&&!approved.some(p=>p.order_id===o.id));
+  const covered=orders.filter(o=>o.status==='At risk'&&approved.some(p=>p.order_id===o.id));
+  const recovering=orders.filter(o=>o.status==='Recovering');
+  const short=atRisk.reduce((n,o)=>n+Math.max(0,o.qty-Math.max(0,freeOf(o.sku,w.id))),0);
+  const inbound=localDb.shipments.filter(s=>s.warehouse_id===w.id&&s.status!=='Delivered'),delayed=inbound.filter(s=>s.delay_days>0);
+  const incoming=approved.filter(p=>p.to_wh===w.id&&['Reallocate stock','Alternative supplier'].includes(p.kind)).reduce((n,p)=>n+(p.units||0),0);
+  const outgoing=approved.filter(p=>p.kind==='Reallocate stock'&&p.from_wh===w.id).reduce((n,p)=>n+(p.units||0),0);
+  let level='Healthy';
+  if(atRisk.some(o=>o.priority==='Critical')||(delayed.length&&atRisk.length>=2))level='Critical';
+  else if(atRisk.length)level='High';
+  else if(delayed.length||low.length)level='Medium';
+  else if(covered.length||recovering.length||incoming)level='Recovering';
+  const reasons=[];
+  if(atRisk.length)reasons.push(`${atRisk.length} order${atRisk.length>1?'s':''} at risk (${short?`${short} units short`:'stock covers them today, but inbound is late'})`);
+  if(delayed.length)reasons.push(`inbound delayed: ${delayed.map(s=>`${s.id} +${s.delay_days}d`).join(', ')}`);
+  if(low.length)reasons.push(`below reorder level: ${low.join(', ')}`);
+  if(covered.length)reasons.push(`${covered.length} order${covered.length>1?'s':''} covered by approved plans`);
+  if(incoming)reasons.push(`${incoming} units incoming from approved plans`);
+  if(outgoing)reasons.push(`${outgoing} units committed to approved transfers`);
+  if(recovering.length)reasons.push(`${recovering.length} order${recovering.length>1?'s':''} recovering`);
+  return {...w,free,onHand,low,atRisk:atRisk.length,short,covered:covered.length,recovering:recovering.length,inbound:inbound.length,delayed:delayed.length,incoming,outgoing,level,reasons}});
+ const S=localDb.suppliers.map(s=>{const sh=localDb.shipments.filter(x=>x.supplier_id===s.id&&x.status!=='Delivered'),late=sh.filter(x=>x.delay_days>0);const crit=late.some(x=>localDb.disruptions.some(d=>d.shipment_id===x.id&&d.status==='Active'&&d.severity==='Critical'));return {...s,open:sh.length,late:late.length,level:late.length?(crit?'Critical':'High'):s.status==='At risk'?'Medium':'Healthy'}});
+ const links=localDb.shipments.filter(s=>s.status!=='Delivered').map(s=>({from:s.supplier_id,to:s.warehouse_id,id:s.id,alert:s.delay_days>0,label:`${s.id} · ${s.carrier}${s.delay_days?` · +${s.delay_days} days`:''}`}));
+ const transfers=approved.filter(p=>p.kind==='Reallocate stock'&&p.from_wh&&p.to_wh).map(p=>({from:p.from_wh,to:p.to_wh,units:p.units,id:p.id}));
+ return {warehouses:W,suppliers:S,links,transfers}}
+function localApi(url,body){const u=luser(),need=permission=>{if(!u)throw Error('Sign in to continue.');if(!demoRoles[u.role]?.includes(permission))throw Error(`The ${u.role} role cannot do this.`);return u};
+ if(url==='/api/me')return {user:u};
+ if(url==='/api/login'){const x=localDb.users.find(x=>x.id===body.user&&x.pin===body.pin);if(!x)throw Error('Check the role and PIN.');const out={id:x.id,name:x.name,role:x.role};ss.set('disruptioniq-user',JSON.stringify(out));laudit(x.name,'LOGIN','session',x.role);lsave();return {user:out}}
+ if(url==='/api/logout'){if(u)laudit(u.name,'LOGOUT','session','Signed out');ss.del('disruptioniq-user');lsave();return {ok:true}}
+ if(url==='/api/dashboard'){need('view');
+  const planRows=localDb.plans.map(p=>({...p,disruption_title:localDb.disruptions.find(d=>d.id===p.disruption_id)?.title||'Disruption',customer:localDb.orders.find(o=>o.id===p.order_id)?.customer||'Customer',created_by_role:roleOf(p.created_by),approved_by_role:p.approved_by?roleOf(p.approved_by):null,executed_by_role:p.executed_by?roleOf(p.executed_by):null,approver_role:APPROVER_ROLE[p.kind]}));
+  const rank={Critical:0,High:1,Normal:2};
+  const orderRows=localDb.orders.filter(o=>o.status==='At risk').sort((a,b)=>(rank[a.priority]??9)-(rank[b.priority]??9)||a.due.localeCompare(b.due)).map(o=>({...o,product:localDb.inventory.find(i=>i.sku===o.sku)?.product,available:freeOf(o.sku,o.warehouse_id),covered:localDb.plans.some(p=>p.order_id===o.id&&p.status==='Approved')}));
+  return {user:u,permissions:demoRoles[u.role],roleDuty:ROLE_DUTY[u.role],kpis:{active:localDb.disruptions.filter(d=>d.status==='Active').length,affected:orderRows.length,pending:localDb.plans.filter(p=>p.status==='Pending approval').length,recovering:localDb.plans.filter(p=>['Approved','Executing','Executed'].includes(p.status)).length,inboundRisks:localDb.shipments.filter(s=>s.status!=='Delivered'&&s.delay_days>0).length},disruptions:localDb.disruptions.map(d=>({...d,carrier:localDb.shipments.find(s=>s.id===d.shipment_id)?.carrier,eta:localDb.shipments.find(s=>s.id===d.shipment_id)?.eta})),orders:orderRows,plans:planRows,suppliers:localDb.suppliers,warehouses:localDb.warehouses,inventory:localDb.inventory.map(i=>({...i,warehouse:whName(i.warehouse_id)})),shipments:localDb.shipments.map(s=>({...s,supplier:localDb.suppliers.find(x=>x.id===s.supplier_id)?.name})),notifications:localDb.notifications.slice(0,8),audit:localDb.audit.slice(0,12),network:networkModel()}}
+ if(url==='/api/export'){need('admin');return localDb}
+ if(url==='/api/recommend'){need('recommend');const d=localDb.disruptions.find(x=>x.id===body.disruptionId);if(!d)throw Error('Disruption not found.');const affected=affectedOrders(d).filter(o=>!activePlanFor(o.id));const out=[];for(const o of affected.slice(0,4))for(const k of ['Reallocate stock','Expedite','Alternative supplier','Split order']){const x=optionFor(o,d,k);if(x)out.push(x)}laudit(u.name,'AI_OPTIONS_GENERATED',d.id,`${out.length} stock-grounded recovery options generated.`);lsave();return {options:out,generatedAt:new Date().toISOString(),basis:'Live order commitments, unreserved inventory across warehouses, supplier lead times and disruption severity.'}}
+ if(url==='/api/plans'){need('submit');const o=localDb.orders.find(x=>x.id===body.orderId);if(!o)throw Error('Order not found.');const ex=activePlanFor(o.id);if(ex)throw Error(`${ex.id} is already in progress for ${o.id}.`);let id;do{id='PLAN-'+Math.floor(700+Math.random()*900)}while(localDb.plans.some(p=>p.id===id));const p={id,disruption_id:body.disruptionId,order_id:o.id,kind:body.kind,sku:body.sku||o.sku,units:Number(body.units)||0,from_wh:body.from_wh||null,to_wh:body.to_wh||o.warehouse_id,shipment_id:body.shipment_id||null,supplier_id:body.supplier_id||null,held:false,summary:body.title,impact:body.impact,status:'Pending approval',created_by:u.id,approved_by:null,executed_by:null,created_at:new Date().toISOString(),executed_at:null};localDb.plans.unshift(p);laudit(u.name,'PLAN_SUBMITTED',p.id,`${p.kind}: ${p.summary}. Awaiting the ${APPROVER_ROLE[p.kind]}.`);lnotify(`${u.name} submitted ${p.kind} for ${p.order_id}; ${APPROVER_ROLE[p.kind]} approval needed.`,'warning');lsave();return {id:p.id,status:p.status}}
+ if(url==='/api/webhook/carrier'){need('admin');const b=body;if(!b.event_id||!b.shipment_id||!b.eta||Number.isNaN(Date.parse(b.eta)))throw Error('event_id, shipment_id and valid eta are required.');if(localDb.events.some(e=>e.event_id===b.event_id))return {ok:true,duplicate:true,message:'Duplicate event ignored safely.'};const s=localDb.shipments.find(x=>x.id===b.shipment_id);if(!s)throw Error('Unknown shipment.');if(Date.parse(b.eta)<Date.parse(s.eta)&&!b.authoritative)throw Error('Conflicting earlier ETA rejected.');const delta=Math.max(0,Math.ceil((Date.parse(b.eta)-Date.now())/86400000)-Math.ceil((Date.parse(s.eta)-Date.now())/86400000));s.eta=b.eta;s.delay_days=(s.delay_days||0)+delta;s.status=b.status||'Delayed';s.event_id=b.event_id;localDb.events.push(b);if(delta>=1){const hit=localDb.orders.filter(o=>o.warehouse_id===s.warehouse_id&&o.status!=='Recovering'&&Date.parse(o.due+'T23:59:00')<Date.parse(s.eta));hit.forEach(o=>{o.status='At risk'});const d={id:'DIS-'+Math.floor(310+Math.random()*500),title:`${s.carrier} ETA moved by ${delta} days`,type:'Late shipment',severity:hit.some(o=>o.priority==='Critical')||delta>=3?'High':'Medium',description:`Carrier webhook ${b.event_id} reports ${delta} more delay days for ${s.id} into ${whName(s.warehouse_id)}. ${hit.length} order${hit.length===1?'':'s'} there now at risk.`,shipment_id:s.id,order_ids:hit.map(o=>o.id),created_at:new Date().toISOString(),status:'Active'};localDb.disruptions.unshift(d);lnotify(`Carrier update: ${s.id} moved by ${delta} day(s); ${hit.length} order(s) at ${whName(s.warehouse_id)} at risk.`,'warning')}laudit('Carrier webhook','CARRIER_EVENT_ACCEPTED',s.id,`Event ${b.event_id}; ETA ${b.eta}; delay delta ${delta} day(s).`);lsave();return {ok:true,duplicate:false,deltaDays:delta}}
+ if(url==='/api/import'){need('import');let accepted=0,rejected=0,errors=[];for(let i=0;i<(body.rows||[]).length;i++){const r=body.rows[i];try{if(body.type==='orders'){if(!r.id||!r.sku||!Number.isInteger(Number(r.qty))||Number(r.qty)<=0||!r.due||!localDb.warehouses.some(w=>w.id===r.warehouse_id))throw Error('Required fields, positive integer qty, due date and valid warehouse are required.');const x=localDb.orders.find(x=>x.id===r.id);const o={id:r.id,customer:r.customer||'Imported customer',sku:r.sku,qty:Number(r.qty),due:r.due,warehouse_id:r.warehouse_id,priority:r.priority||'Normal',status:'On track',created_at:new Date().toISOString()};if(x)Object.assign(x,o);else localDb.orders.push(o)}else if(body.type==='inventory'){if(!r.id||!r.sku||!Number.isInteger(Number(r.qty))||Number(r.qty)<0||!localDb.warehouses.some(w=>w.id===r.warehouse_id))throw Error('Required fields, non-negative integer qty and valid warehouse are required.');const x=localDb.inventory.find(x=>x.id===r.id),o={id:r.id,sku:r.sku,product:r.product||r.sku,warehouse_id:r.warehouse_id,qty:Number(r.qty),reserved:Number(r.reserved)||0,reorder_level:Number(r.reorder_level)||0};if(x)Object.assign(x,o);else localDb.inventory.push(o)}else if(body.type==='shipments'){if(!r.id||!localDb.suppliers.some(s=>s.id===r.supplier_id)||!r.eta||Number.isNaN(Date.parse(r.eta)))throw Error('Valid id, known supplier and ETA are required.');const x=localDb.shipments.find(x=>x.id===r.id);if(x&&Date.parse(r.eta)<Date.parse(x.eta))throw Error('Conflicting earlier ETA rejected.');if(x){x.eta=r.eta;x.status=r.status||x.status}else localDb.shipments.push({...r,status:r.status||'In transit',delay_days:Number(r.delay_days)||0})}else throw Error('Unsupported import type.');accepted++}catch(e){rejected++;errors.push({row:i+1,error:e.message})}}laudit(u.name,'DATA_IMPORTED',body.filename||'upload',`${accepted} accepted, ${rejected} rejected.`);lnotify(`CSV/JSON import: ${accepted} accepted, ${rejected} rejected.`,rejected?'warning':'success');lsave();return {accepted,rejected,errors}}
+ const m=url.match(/^\/api\/plans\/([^/]+)\/(approve|reject|modify|execute)$/);
+ if(m){const [,id,action]=m,p=localDb.plans.find(x=>x.id===id);if(!p)throw Error('Plan not found.');
+  if(action!=='execute'){need(APPROVER_PERM[p.kind]||'approve_stock');if(action==='modify')need('modify');if(p.created_by===u.id)throw Error('Separation of duties: you cannot review or change a plan you submitted.');if(p.status!=='Pending approval')throw Error('Only pending plans can be reviewed.')}
+  if(action==='approve'){approveEffects(p);p.status='Approved';p.approved_by=u.id;laudit(u.name,'PLAN_APPROVED',id,`Approved by the ${u.role}.${p.held?` ${p.units} units of ${p.sku} reserved.`:''}`);lnotify(`${id} approved by the ${u.role}; ready for the Warehouse Operator.`,'success')}
+  else if(action==='reject'){p.status='Rejected';p.approved_by=u.id;laudit(u.name,'PLAN_REJECTED',id,`Rejected by the ${u.role}.`);lnotify(`${id} rejected by the ${u.role}.`,'warning')}
+  else if(action==='modify'){const kind=body.kind||p.kind;if(APPROVER_PERM[kind]!==APPROVER_PERM[p.kind])throw Error(`Choose an option that the ${APPROVER_ROLE[p.kind]} approves.`);if(kind!==p.kind){const o=localDb.orders.find(x=>x.id===p.order_id),d=localDb.disruptions.find(x=>x.id===p.disruption_id),x=o&&d?optionFor(o,d,kind):null;if(!x)throw Error(`${kind} is not possible for ${p.order_id} with current stock.`);Object.assign(p,{kind,units:x.units,from_wh:x.from_wh||null,to_wh:x.to_wh,shipment_id:x.shipment_id||null,supplier_id:x.supplier_id||null,summary:x.title,impact:x.impact})}else{p.summary=body.summary||p.summary;p.impact=body.impact||p.impact}laudit(u.name,'PLAN_MODIFIED',id,`Updated to ${p.kind}: ${p.summary}`)}
+  else{need('execute');if(p.status!=='Approved')throw Error('Only approved plans can be executed.');executeEffects(p);p.status='Executed';p.executed_by=u.id;p.executed_at=new Date().toISOString();const o=localDb.orders.find(x=>x.id===p.order_id);if(o)o.status='Recovering';resolveIfDone(localDb.disruptions.find(x=>x.id===p.disruption_id));laudit(u.name,'PLAN_EXECUTED_SIMULATED',id,'Simulation only; no external system was contacted.');lnotify(`${id} executed by the ${u.role} for ${p.order_id}.`,'success')}
+  lsave();return {ok:true,status:p.status}}
+ throw Error('Not found.')}
+async function api(url,body){return localApi(url,body)}
+function showToast(s,err=false){const t=$('#toast');t.textContent=s;t.classList.toggle('error',err);t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3400)}
+function badge(s){const x=String(s||'').toLowerCase();let c=x.includes('critical')?'critical':x.includes('high')?'high':x.includes('medium')?'medium':x.includes('pending')?'pending':x.includes('approved')?'approved':x.includes('executed')||x.includes('recover')?'executed':x.includes('reject')?'rejected':'ok';return `<span class="pill ${c}">${esc(s)}</span>`}
+function score(o){const days=(Date.parse(o.due+'T23:59:00')-Date.now())/86400000;return Math.min(99,Math.max(20,(o.priority==='Critical'?70:o.priority==='High'?59:43)+(days<3?17:days<6?9:0)+(Number(o.available)<Number(o.qty)?12:0)))}
+function why(o){const gaps=Math.max(0,o.qty-(Number(o.available)||0));const d=Math.ceil((Date.parse(o.due+'T23:59:00')-Date.now())/86400000);return `${o.priority} priority · ${d<=0?'due today':`due in ${d}d`} · ${gaps?`${gaps} units uncovered`:`stock covers order`}`}
+async function refresh(){state=await api('/api/dashboard');me=state.user;render();setUser()}
+function setUser(){if(!me)return;$('#username').textContent=me.role;$('#userrole').textContent=me.role==='Administrator'?'Full access':'Signed in';$('#avatar').textContent=me.role.split(' ').map(x=>x[0]).join('');$('#greeting').textContent=me.role;$('#roleduty').textContent=state.roleDuty||'';const p=state.permissions||[];$$('.recommendTop').forEach(b=>b.classList.toggle('hidden',!p.includes('recommend')));['#importbtn','#importbtn2'].forEach(s=>$(s).classList.toggle('hidden',!p.includes('import')));['#webhook','#webhook2','#webhook3','#exportbtn'].forEach(s=>$(s).classList.toggle('hidden',!p.includes('admin')));const nav=ROLE_NAV[me.role]||['dashboard'];$$('.navitem').forEach(b=>b.classList.toggle('hidden',!nav.includes(b.dataset.view)));const cur=($('.view.active')?.id||'').replace('view-','');if(cur&&!nav.includes(cur))goto('dashboard')}
+function render(){const s=state;$('#kpis').innerHTML=[['Active disruptions',s.kpis.active,`${s.kpis.active} scenario${s.kpis.active===1?'':'s'} live`,'⚡','#ff777d'],['Orders affected',s.kpis.affected,`${s.kpis.inboundRisks} delayed inbound shipment${s.kpis.inboundRisks===1?'':'s'}`,'◎','#ffbf5e'],['Pending approvals',s.kpis.pending,'separation of duties on','◇','#d9c9a0'],['Recovery in progress',s.kpis.recovering,'approved / executed plans','↗','#c9a24b']].map(([t,n,f,i,c])=>`<div class="kpi" style="--tint:${c}"><div class="kpihead"><span style="color:${c}">${i}</span>${t}</div><div class="kpinum">${n}</div><div class="kpifoot"><em>${t==='Active disruptions'?'Live':t==='Orders affected'?'Customer impact':t==='Pending approvals'?'Awaiting review':'On path'}</em> · ${f}</div></div>`).join('');$('#disruption-count').textContent=s.kpis.active;$('#approval-count').textContent=s.kpis.pending;$('#bell-count').textContent=s.notifications.length;
+$('#disruption-list').innerHTML=s.disruptions.map(d=>`<div class="disruption"><div class="dtop"><span style="color:${d.severity==='Critical'?'var(--red)':'var(--amber)'}">◆</span><strong>${esc(d.title)}</strong>${badge(d.severity)}<span class="dtime">${ago(d.created_at)}</span></div><div class="dmeta">${esc(d.description)}</div><div class="impactline">SHIPMENT <b>${esc(d.shipment_id||'Supplier signal')}</b>　·　CARRIER <b>${esc(d.carrier||'Supplier update')}</b>　·　ETA <b>${dt(d.eta)}</b></div></div>`).join('');
+const canPlan=(s.permissions||[]).includes('recommend');const rows=s.orders.map(o=>`<tr><td><div class="orderid">${esc(o.id)}</div><div class="subtext">${esc(o.customer)}</div></td><td>${badge(`${score(o)} · ${o.priority}`)}</td><td><div class="id">${esc(o.sku)}</div><div class="subtext">${Math.max(0,o.available)} unreserved</div></td><td>${dt(o.due)}</td><td class="explain">${esc(why(o))}${o.covered?' · recovery approved':''}</td><td>${canPlan&&!o.covered?`<button class="btn mini planorder" data-id="${esc(o.id)}" data-sku="${esc(o.sku)}" data-du="${esc(o.due)}" data-customer="${esc(o.customer)}">Plan</button>`:''}</td></tr>`).join('');$('#risk-table').innerHTML=rows||'<tr><td colspan="6" class="empty">No affected orders.</td></tr>';
+$('#approvals-list').innerHTML=s.plans.filter(p=>p.status==='Pending approval').slice(0,4).map(planCard).join('')||'<div class="empty">No plans awaiting approval.</div>';
+$('#progress-list').innerHTML=s.plans.filter(p=>['Approved','Executed','Executing'].includes(p.status)).map(p=>`<div class="plan"><div class="plantop"><b>${esc(p.order_id)} · ${esc(p.kind)}</b>${badge(p.status)}</div><div class="planmeta">${esc(p.customer)} · ${esc(p.summary)}</div><div class="meter"><i style="width:${p.status==='Executed'?100:62}%"></i></div></div>`).join('')||'<div class="empty">No recovery actions underway.</div>';
+$('#notifications-list').innerHTML=s.notifications.slice(0,5).map(n=>`<div class="notif"><i class="dot ${esc(n.severity)}"></i><div class="notiftext">${esc(n.message)}<span class="notiftime">${ago(n.at)}</span></div></div>`).join('')||'<div class="empty">No notifications.</div>';
+$('#audit-list').innerHTML=s.audit.slice(0,5).map(a=>`<div class="activity"><i class="actline"></i><div class="actbody">${esc(a.action.replaceAll('_',' '))} · ${esc(a.detail)}<span>${esc(a.actor)} · ${ago(a.at)}</span></div></div>`).join('');
+const canRec=(s.permissions||[]).includes('recommend');$('#all-disruptions').innerHTML=s.disruptions.map(d=>`<div class="card"><div class="disruption"><div class="dtop"><strong>${esc(d.title)}</strong>${badge(d.severity)}${d.status!=='Active'?badge(d.status):''}<span class="dtime">${ago(d.created_at)}</span></div><div class="dmeta">${esc(d.description)}</div><div class="impactline">${esc(d.type)} · Shipment ${esc(d.shipment_id||'—')} · ${esc(d.carrier||'Supplier signal')} · ETA ${dt(d.eta)}</div>${canRec&&d.status==='Active'?`<div style="margin:12px 0 0 19px"><button class="btn mini primary suggest" data-id="${esc(d.id)}">✦ Assess impact & options</button></div>`:''}</div></div>`).join('');
+const long=s.orders.map(o=>`<tr data-order-row data-priority="${esc(o.priority)}" data-search="${esc((o.id+' '+o.customer+' '+o.sku).toLowerCase())}"><td class="orderid">${esc(o.id)}</td><td class="cust">${esc(o.customer)}</td><td><div class="id">${esc(o.sku)}</div><div class="subtext">${esc(o.product||'')}</div></td><td>${o.qty}</td><td>${Math.max(0,o.available)} / ${o.qty} needed</td><td>${dt(o.due)}</td><td class="riskcell"><b class="risk ${score(o)<70?'high':''}">${score(o)}</b> ${badge(o.priority)}</td><td class="explain">${esc(why(o))}</td></tr>`).join('');$('#orders-table').innerHTML=long||'<tr><td colspan="8" class="empty">No orders at risk.</td></tr>';
+$('#inventory-table').innerHTML=s.inventory.map(i=>`<tr><td class="id">${esc(i.sku)}</td><td class="cust">${esc(i.product)}</td><td>${esc(i.warehouse)}</td><td>${i.qty}</td><td>${i.reserved}</td><td><b>${i.qty-i.reserved}</b></td><td>${i.reorder_level}</td><td>${badge(i.qty-i.reserved<i.reorder_level?'Shortage':'Healthy')}</td></tr>`).join('');$('#shipments-table').innerHTML=s.shipments.map(x=>`<tr><td class="id">${esc(x.id)}</td><td>${esc(x.carrier)}</td><td>${esc(x.supplier)}</td><td>${esc(x.origin)} → ${esc(x.destination)}</td><td>${dt(x.eta)}</td><td>${x.delay_days?badge(`${x.delay_days}d late`):'—'}</td><td>${badge(x.status)}</td></tr>`).join('');renderPlans();renderAudit();renderNetwork()}
+function planLine(p){if(p.kind==='Reallocate stock'&&p.units)return `${p.units} × ${esc(p.sku)} · ${esc(whName(p.from_wh))} → ${esc(whName(p.to_wh))}${p.status==='Approved'?' · units reserved at source':p.status==='Executed'?' · moved':''}`;if(p.kind==='Split order'&&p.units)return `${p.units} × ${esc(p.sku)} shipped now from ${esc(whName(p.to_wh))}${p.status==='Approved'?' · units reserved':''}`;if(p.kind==='Expedite'&&p.shipment_id)return `Shipment ${esc(p.shipment_id)}${p.status==='Approved'?' · expedite approved':p.status==='Executed'?' · 2 days recovered':''}`;if(p.kind==='Alternative supplier'&&p.units)return `${p.units} × ${esc(p.sku)} from ${esc(localDb.suppliers.find(x=>x.id===p.supplier_id)?.name||'backup supplier')} → ${esc(whName(p.to_wh))}`;return ''}
+function planCard(p){const pms=state.permissions||[];const mayReview=pms.includes(APPROVER_PERM[p.kind])&&p.created_by!==me?.id;let buttons='';if(p.status==='Pending approval'&&mayReview)buttons=`<button class="btn mini approve" data-action="approve" data-id="${esc(p.id)}">Approve</button><button class="btn mini" data-action="modify" data-id="${esc(p.id)}">Modify</button><button class="btn mini danger" data-action="reject" data-id="${esc(p.id)}">Reject</button>`;if(p.status==='Approved'&&pms.includes('execute'))buttons=`<button class="btn mini primary" data-action="execute" data-id="${esc(p.id)}">Confirm & simulate execution</button>`;const line=planLine(p);const waiting=p.status==='Pending approval'?` · Waiting for the ${esc(p.approver_role||'approver')}`:p.status==='Approved'?' · Waiting for the Warehouse Operator':'';return `<div class="plan"><div class="plantop"><b>${esc(p.id)} · ${esc(p.kind)}</b>${badge(p.status)}<span class="dtime">${esc(p.order_id)}</span></div><div class="planmeta"><b>${esc(p.customer)}</b> · ${esc(p.summary)}<br><span style="color:#95928c">${esc(p.impact)}</span></div>${line?`<div class="planmeta">▸ ${line}</div>`:''}<div class="planmeta">Requested by ${esc(p.created_by_role||p.created_by)}${p.approved_by?' · Reviewed by '+esc(p.approved_by_role||p.approved_by):''}${p.executed_by?' · Executed by '+esc(p.executed_by_role||p.executed_by):''}${waiting}</div>${buttons?`<div class="planbuttons">${buttons}</div>`:''}</div>`}
+function renderPlans(){const p=state.plans;$('#all-plans').innerHTML=p.map(x=>`<div class="card">${planCard(x)}</div>`).join('')||'<div class="card empty">No recovery plans. Generate options from an active disruption.</div>'}function renderAudit(){$('#audit-table').innerHTML=state.audit.map(a=>`<tr><td>${new Date(a.at).toLocaleString()}</td><td>${esc(a.actor)}</td><td>${esc(a.action)}</td><td class="id">${esc(a.entity)}</td><td class="explain">${esc(a.detail)}</td></tr>`).join('')}
+function openModal(title,body,foot){$('#modal-title').textContent=title;$('#modalbody').innerHTML=body;$('#modalfoot').innerHTML=foot;$('#modalback').classList.add('show')};function closeModal(){$('#modalback').classList.remove('show')}
+async function recommend(disruptionId){if(!(state.permissions||[]).includes('recommend'))return showToast('This role cannot generate recovery options.',true);try{const id=disruptionId||state.disruptions.find(d=>d.status==='Active')?.id;if(!id)return showToast('No active disruption is available.');const r=await api('/api/recommend',{disruptionId:id});options=r.options;selectedOption=null;if(!options.length)return showToast('No affected orders need a new plan.');openModal('✦ Recovery options',`<p class="modalnote">Ranked options are grounded in ${esc(r.basis)} Select one order-level action to submit for approval.</p>${options.map((o,i)=>`<label class="option"><div class="optiontop"><input type="radio" name="opt" value="${i}"><strong>${esc(o.kind)} <span class="subtext">· ${esc(o.orderId)} / ${esc(o.customer)}</span></strong><span>${esc(o.cost)}</span></div><p>${esc(o.title)} — ${esc(o.impact)}</p><small>${o.units} units · committed ${dt(o.due)} · approved by the ${esc(APPROVER_ROLE[o.kind])}</small></label>`).join('')}<div class="modalnote">Options are rule-based in this demo. Inventory counts, order deadlines, access checks and approval gates are deterministic.</div>`,`<button class="btn" id="cancelmodal">Cancel</button><button class="btn primary" id="submitplan" disabled>Submit for approval →</button>`);$$('input[name=opt]').forEach(x=>x.onchange=()=>{$('#submitplan').disabled=false});$('#cancelmodal').onclick=closeModal;$('#submitplan').onclick=async()=>{const i=Number($('input[name=opt]:checked')?.value);if(!Number.isFinite(i))return;const o=options[i];try{await api('/api/plans',o);closeModal();await refresh();showToast(`Recovery plan submitted. The ${APPROVER_ROLE[o.kind]} must review it.`)}catch(e){showToast(e.message,true)}}}catch(e){showToast(e.message,true)}}
+function loginShow(){$('#login').classList.add('show')}async function doLogin(){try{me=(await api('/api/login',{user:$('#loginuser').value,pin:$('#loginpin').value})).user;$('#login').classList.remove('show');$('#loginerror').textContent='';await refresh()}catch(e){$('#loginerror').textContent=e.message}}
+$$('.navitem').forEach(b=>b.onclick=()=>goto(b.dataset.view));$$('[data-goto]').forEach(b=>b.onclick=()=>goto(b.dataset.goto));function goto(v){$$('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===v));$$('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));$('#crumb').textContent=({dashboard:'Overview',disruptions:'Disruptions',orders:'Orders at risk',recovery:'Recovery plans',inventory:'Inventory',shipments:'Shipments',audit:'Audit & events'})[v];window.scrollTo(0,0)}
+$$('.recommendTop').forEach(b=>b.onclick=()=>recommend());$('#modalclose').onclick=closeModal;$('#modalback').onclick=e=>{if(e.target===$('#modalback'))closeModal()};document.addEventListener('click',async e=>{const a=e.target.closest('[data-action]');if(a){const {id,action}=a.dataset;try{if(action==='modify'){const p=state.plans.find(x=>x.id===id);openModal('Modify recovery plan',`<label class="modalnote">Action type<select id="mkind" class="filter" style="display:block;margin:8px 0;width:100%">${['Reallocate stock','Expedite','Alternative supplier','Split order'].filter(x=>APPROVER_PERM[x]===APPROVER_PERM[p.kind]).map(x=>`<option ${x===p.kind?'selected':''}>${x}</option>`).join('')}</select></label><label class="modalnote">Updated action<input id="msummary" class="search" style="display:block;width:100%;margin:8px 0" value="${esc(p.summary)}"></label><label class="modalnote">Customer impact<input id="mimpact" class="search" style="display:block;width:100%;margin:8px 0" value="${esc(p.impact)}"></label>`,`<button class="btn" id="mcancel">Cancel</button><button class="btn primary" id="msave">Save changes</button>`);$('#mcancel').onclick=closeModal;$('#msave').onclick=async()=>{try{await api(`/api/plans/${id}/modify`,{kind:$('#mkind').value,summary:$('#msummary').value,impact:$('#mimpact').value});closeModal();await refresh();showToast('Plan updated.')}catch(e){showToast(e.message,true)}};return}let body={};if(action==='reject'&&!confirm('Reject this recovery plan?'))return;if(action==='execute'&&!confirm('Confirm simulated execution? This records the action and marks the order as recovering; it does not contact external systems.'))return;await api(`/api/plans/${id}/${action}`,body);await refresh();showToast(action==='execute'?'Execution simulated and recorded.':`Plan ${action}d.`)}catch(e){showToast(e.message,true)}}const sug=e.target.closest('.suggest');if(sug)recommend(sug.dataset.id);const po=e.target.closest('.planorder');if(po){const d=state.disruptions.find(x=>x.status==='Active'&&((x.order_ids||[]).includes(po.dataset.id)||(x.skus||[]).includes(po.dataset.sku)))||state.disruptions.find(x=>x.status==='Active');if(d)recommend(d.id)}});
+$('#order-search').oninput=filterOrders;$('#risk-filter').onchange=filterOrders;function filterOrders(){const q=$('#order-search').value.toLowerCase(),p=$('#risk-filter').value;$$('[data-order-row]').forEach(x=>x.style.display=(x.dataset.search.includes(q)&&(p==='all'||x.dataset.priority===p))?'':'none')}
+async function webhook(){const d=new Date(Date.now()+10*86400000).toISOString(),id='evt-demo-'+Date.now();try{const r=await api('/api/webhook/carrier',{event_id:id,shipment_id:'SHP-2042',eta:d,status:'Delayed'});await refresh();showToast(`Webhook accepted · ${r.deltaDays} day ETA delta · ${id}`)}catch(e){showToast(e.message,true)}}$('#webhook').onclick=webhook;$('#webhook2').onclick=webhook;$('#webhook3').onclick=webhook;
+function importOpen(){$('#filepick').click()}$('#importbtn').onclick=importOpen;$('#importbtn2').onclick=importOpen;$('#filepick').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const text=await f.text();let type='orders',rows;if(f.name.toLowerCase().endsWith('.json')){const j=JSON.parse(text);type=j.type||'orders';rows=Array.isArray(j)?j:j.rows;if(!rows&&j.orders){type='orders';rows=j.orders}}else{const lines=text.trim().split(/\r?\n/),headers=lines.shift().split(',').map(x=>x.trim());rows=lines.map(line=>{const vals=line.split(',');return Object.fromEntries(headers.map((h,i)=>[h,vals[i]?.trim()||'']))})}if(!rows)throw Error('No rows found. JSON format: {"type":"orders","rows":[...]}');const r=await api('/api/import',{filename:f.name,type,rows});await refresh();openModal('Import completed',`<p>Accepted <b>${r.accepted}</b> of ${r.accepted+r.rejected} rows. ${r.rejected} rejected.</p>${r.errors.length?`<div class="option"><strong>Row errors</strong><pre style="white-space:pre-wrap;color:#ffb4b8;font-size:10px">${esc(JSON.stringify(r.errors,null,2))}</pre></div>`:''}`,`<button class="btn primary" id="doneimport">Done</button>`);$('#doneimport').onclick=closeModal}catch(e){showToast(e.message,true)}e.target.value=''};
+$('#exportbtn').onclick=async()=>{try{const r=await api('/api/export'),blob=new Blob([JSON.stringify(r,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='disruptioniq-export.json';a.click();showToast('Full network export downloaded.')}catch(e){showToast(e.message,true)}};$('#bell').onclick=()=>goto('audit');$('#allnotifications').onclick=()=>goto('audit');$('#switchuser').onclick=async()=>{await api('/api/logout',{});me=null;loginShow()};$('#loginbtn').onclick=doLogin;$('#loginuser').onchange=()=>$('#loginpin').value={'u-analyst':'1111','u-manager':'2222','u-warehouse':'3333','u-procurement':'4444','u-admin':'9999'}[$('#loginuser').value];$('#loginpin').onkeydown=e=>{if(e.key==='Enter')doLogin()};
+async function init(){$('#today').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})+' · Network pulse';try{const r=await api('/api/me');if(!r.user)return loginShow();me=r.user;await refresh()}catch(e){loginShow()}}
+(function(){
+  const still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const ws=document.querySelector('.workspace');
+  const prev=[];
+  function countUp(){document.querySelectorAll('#kpis .kpinum').forEach((el,i)=>{const to=parseInt(el.textContent,10);if(Number.isNaN(to))return;const from=prev[i]??0;prev[i]=to;if(still||from===to)return;const t0=performance.now();(function step(t){const p=Math.min(1,(t-t0)/700),e=1-Math.pow(1-p,3);el.textContent=Math.round(from+(to-from)*e);if(p<1)requestAnimationFrame(step)})(t0)})}
+  new MutationObserver(countUp).observe($('#kpis'),{childList:true});
+  const bc=$('#bell-count');let last=bc.textContent;
+  new MutationObserver(()=>{if(bc.textContent!==last){last=bc.textContent;bc.classList.remove('bump');void bc.offsetWidth;bc.classList.add('bump')}}).observe(bc,{childList:true,characterData:true,subtree:true});
+  if(!still){ws.classList.add('intro');setTimeout(()=>ws.classList.remove('intro'),1600)}
+})();
+
+// Live network map of India, redrawn from the same data on every refresh. Units free, incoming units and
+// risk signals change as soon as a plan is approved, executed, or a carrier event arrives.
+let netSel=null;
+const NET_LEFT={'Mumbai':1,'Ahmedabad':1,'Jaipur':1,'Bengaluru':1,'Guwahati':1};
+function netXY(city){const c=CITY_XY[city]||[80,20];return [40+(c[0]-68)/(93-68)*620,26+(30-c[1])/(30-8)*380]}
+function netArc(a,b,k){const mx=(a[0]+b[0])/2+(b[1]-a[1])*k,my=(a[1]+b[1])/2-(b[0]-a[0])*k;return `M${a[0].toFixed(1)} ${a[1].toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${b[0].toFixed(1)} ${b[1].toFixed(1)}`}
+function renderNetwork(){
+ const n=state&&state.network,svg=$('#network-svg');if(!n||!svg)return;
+ const pos={};n.warehouses.forEach(w=>pos[w.id]=netXY(w.city));
+ // A supplier in the same city as a warehouse sits on the opposite side of that city's label.
+ n.suppliers.forEach(s=>{const [x,y]=netXY(s.city);pos[s.id]=n.warehouses.some(w=>w.city===s.city)?[x+(NET_LEFT[s.city]?18:-18),y+14]:[x,y]});
+ let h='';
+ n.links.forEach(l=>{const a=pos[l.from],b=pos[l.to];if(a&&b)h+=`<path class="net-link${l.alert?' alert':''}" d="${netArc(a,b,.16)}"><title>${esc(l.label)}</title></path>`});
+ n.transfers.forEach(t=>{const a=pos[t.from],b=pos[t.to];if(a&&b)h+=`<path class="net-link xfer" d="${netArc(a,b,-.24)}"><title>${esc(`${t.id}: ${t.units} units approved for transfer`)}</title></path>`});
+ n.suppliers.forEach(s=>{const [x,y]=pos[s.id];h+=`<g class="net-node supplier lvl-${s.level.toLowerCase()}${netSel===s.id?' selected':''}" tabindex="0" role="button" aria-label="${esc(s.name)} supplier, ${esc(s.level)}" data-net="${s.id}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><rect class="node-core" x="-6" y="-6" width="12" height="12" transform="rotate(45)"/><title>${esc(s.name)} · ${esc(s.region)}</title></g>`});
+ n.warehouses.forEach(w=>{const [x,y]=pos[w.id],side=NET_LEFT[w.city]?'l':'r',tx=side==='l'?-15:15,alert=w.level==='Critical'||w.level==='High';h+=`<g class="net-node lvl-${w.level.toLowerCase()}${alert?' alert':''}${netSel===w.id?' selected':''}" tabindex="0" role="button" aria-label="${esc(w.city)} warehouse, ${esc(w.level)}" data-net="${w.id}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${alert?'<circle class="net-signal" r="13"/>':''}<circle class="node-core" r="10"/><text class="${side}" x="${tx}" y="-3">${esc(w.city)}</text><text class="node-sub ${side}" x="${tx}" y="9">${w.free} units free${w.incoming?` · +${w.incoming} incoming`:''}</text><text class="node-lvl ${side}" x="${tx}" y="20">${esc(w.level.toUpperCase())}</text></g>`});
+ svg.innerHTML=h;
+ const rank={Critical:0,High:1,Medium:2,Recovering:3,Healthy:4};
+ const sig=n.warehouses.filter(w=>w.level!=='Healthy').sort((a,b)=>rank[a.level]-rank[b.level]);
+ $('#network-signals').innerHTML=sig.map(w=>`<button class="net-chip lvl-${w.level.toLowerCase()}" data-net="${w.id}"><b>${esc(w.city)}</b> · ${esc(w.level)}${w.atRisk?` · ${w.atRisk} at risk`:''}${w.incoming?` · +${w.incoming} incoming`:''}</button>`).join('')||'<span class="net-ok">No risk signals. Every location is healthy.</span>';
+ showNet(netSel&&pos[netSel]?netSel:(sig[0]?.id||n.warehouses[0]?.id));
+}
+function showNet(id){
+ const n=state&&state.network;if(!n||!id)return;netSel=id;
+ $$('#network-svg .net-node').forEach(g=>g.classList.toggle('selected',g.dataset.net===id));
+ const w=n.warehouses.find(x=>x.id===id),s=n.suppliers.find(x=>x.id===id);let name='',info='',level='Healthy';
+ if(w){name=`${w.name} · ${w.state}`;info=`${w.free} units free of ${w.onHand} on hand. `+(w.reasons.length?w.reasons.join(' · ')+'.':'No orders at risk and no delays.');level=w.level}
+ else if(s){const sh=localDb.shipments.filter(x=>x.supplier_id===s.id&&x.status!=='Delivered'),late=sh.filter(x=>x.delay_days>0);name=`${s.name} · ${s.region}`;info=`Supplier, ${s.lead_days}-day lead time. ${sh.length} open shipment${sh.length===1?'':'s'}`+(late.length?`, ${late.length} delayed (${late.map(x=>`${x.id} +${x.delay_days}d`).join(', ')}).`:', all on time.');level=s.level}
+ $('#network-selected').textContent=name;$('#network-info').textContent=info;
+ $('#network-status').textContent=level==='Healthy'?'● HEALTHY':`● RISK SIGNAL · ${level.toUpperCase()}`}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-net]');if(t&&t.closest('.network-panel'))showNet(t.dataset.net)});
+document.addEventListener('keydown',e=>{const t=e.target&&e.target.closest?e.target.closest('#network-svg [data-net]'):null;if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();showNet(t.dataset.net)}});
+(function(){const scan=$('#network-scan');if(!scan)return;scan.addEventListener('click',()=>{scan.disabled=true;scan.textContent='Scanning…';$('#network-status').textContent='◌ SCANNING NETWORK';$$('#network-svg .net-node').forEach(n=>{n.style.opacity='.45'});setTimeout(()=>{$$('#network-svg .net-node').forEach(n=>{n.style.opacity='1'});scan.disabled=false;scan.textContent='↻ Run network scan';const k=(state?.network?.warehouses||[]).filter(w=>w.level!=='Healthy').length;$('#network-status').textContent=`● SCAN COMPLETE · ${k} RISK SIGNAL${k===1?'':'S'}`;showToast(`Network scan complete · ${k} location${k===1?'':'s'} with risk signals.`)},850)})})();
+init();
+</script></div>
+<script>(function(){
+const q=s=>document.querySelector(s),NS='http://www.w3.org/2000/svg';
+const site=q('#site'),portal=q('#portal');
+
+/* ---------- navigation between website and portal ---------- */
+function showPortal(){site.style.display='none';portal.style.display='block';window.scrollTo(0,0);try{history.replaceState(null,'','#portal')}catch(e){}}
+function showSite(){portal.style.display='none';site.style.display='block';if(typeof buildChain==='function')buildChain();window.scrollTo(0,0);try{history.replaceState(null,'','#site')}catch(e){}}
+document.addEventListener('click',e=>{
+  const p=e.target.closest('[data-portal]');
+  if(p){e.preventDefault();showPortal();const r=p.dataset.role;if(r){const sel=q('#loginuser');if(sel){sel.value=r;const pin=q('#loginpin');if(pin)pin.value=p.dataset.pin||'';}}return}
+  if(e.target.closest('#backhome,#loginback')){e.preventDefault();showSite()}
+});
+if(location.hash==='#portal')showPortal();
+
+/* ---------- ticker, audit, stats ---------- */
+const tick=['SHP-2041 · DELAYED +5 DAYS','6 ORDERS AT RISK','ALTERNATIVE SUPPLIER QUOTED','PLAN P-0091 AWAITING APPROVAL','403 · SELF-APPROVAL BLOCKED','DUPLICATE EVENT IGNORED','STOCK RECHECKED BEFORE EXECUTION'];
+q('#s-ticker').innerHTML=tick.concat(tick).map(t=>`<span class="s-mono" style="display:flex;align-items:center;gap:18px;padding-right:44px;font-size:12px;letter-spacing:.12em;color:#B9B5A6;white-space:nowrap"><span style="width:6px;height:6px;background:#C9A24B;transform:rotate(45deg);display:block"></span>${t}</span>`).join('');
+
+const COL={WEBHOOK:'#C9A24B',DETECT:'#C9A24B',DEDUPE:'#9A9AA0',IMPORT:'#9A9AA0',PROPOSED:'#E8D9A8',DENIED:'#F1E6C0',APPROVED:'#C9A24B',EXECUTED:'#C9A24B'};
+q('#s-audit').innerHTML=[['09:12:04','WEBHOOK','carrier.delay received for SHP-2041'],['09:12:04','DETECT','DIS-301 opened, 3 orders linked'],['09:12:06','DEDUPE','Duplicate evt_8f31 ignored'],['09:13:40','IMPORT','orders_q4.csv: 497 loaded, 3 rejected'],['09:21:15','PROPOSED','Plan P-0091 by Operations Analyst'],['09:22:02','DENIED','approve P-0091 returned 403'],['09:24:31','APPROVED','P-0091 approved by Supply Chain Manager'],['09:24:33','EXECUTED','Stock rechecked, move simulated']].map((a,i)=>`<div class="s-ll s-mono" style="display:grid;grid-template-columns:62px 86px minmax(0,1fr);gap:12px;padding:9px 0;font-size:12px;border-bottom:1px solid #1C1C20;animation-delay:${(i*1.3).toFixed(1)}s"><span style="color:#8A8A90">${a[0]}</span><span style="color:${COL[a[1]]};letter-spacing:.06em">${a[1]}</span><span style="color:#D9D3C0">${a[2]}</span></div>`).join('');
+
+const stats=[[8,'s','From alert to ranked plan'],[5,'','Roles, enforced on the server'],[3,'','Recovery options per order'],[100,'%','Of actions in the audit trail']];
+const sEl=q('#s-stats');
+sEl.innerHTML=stats.map(s=>`<div class="s-reveal" style="flex:1 1 240px;min-width:0;padding:44px 24px;text-align:center"><div class="s-serif s-gold" data-n="${s[0]}" data-u="${s[1]}" style="font-size:clamp(64px,8vw,112px);line-height:1;font-style:normal">0${s[1]}</div><div style="margin-top:12px;font-size:14px;color:#B9B5A6">${s[2]}</div></div>`).join('');
+let counted=false;
+function countUp(){if(counted)return;counted=true;const t0=performance.now();(function step(t){const k=Math.min(1,(t-t0)/1900),e=1-Math.pow(1-k,3);sEl.querySelectorAll('[data-n]').forEach(el=>{el.textContent=Math.round(el.dataset.n*e)+el.dataset.u});if(k<1)requestAnimationFrame(step)})(t0)}
+if('IntersectionObserver' in window){new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){countUp();o.disconnect()}},{threshold:.3}).observe(sEl)}else countUp();
+
+/* ---------- supply chain map (built from the same data as the portal, so it stays in step) ---------- */
+const SX=110,WX=500,CX=890;
+let byId={};
+function curve(a,b){const x1=a.x+18,x2=b.x-18,m=(x1+x2)/2;return `M${x1},${a.y} C${m},${a.y} ${m},${b.y} ${x2},${b.y}`}
+function column(list,H){const k=list.length;return list.map((x,i)=>({...x,y:k<2?H/2:70+i*((H-120)/(k-1))}))}
+function buildChain(){
+ if(typeof localDb==='undefined'||typeof networkModel!=='function')return;
+ const nm=networkModel();
+ const cust=localDb.orders.filter(o=>o.status!=='On track').slice(0,8);
+ const H=Math.max(500,Math.max(nm.suppliers.length,nm.warehouses.length,cust.length)*56+100);
+ const sup=column(nm.suppliers.map(s=>({id:s.id,x:SX,n:s.name,s:`${s.city.toUpperCase()}, ${s.state.toUpperCase()}`,kind:'SUPPLIER',alert:s.level!=='Healthy',info:`${s.region}. Lead time ${s.lead_days} days. ${s.open} open shipment${s.open===1?'':'s'}${s.late?`, ${s.late} delayed`:', all on time'}.`})),H);
+ const wh=column(nm.warehouses.map(w=>({id:w.id,x:WX,n:w.city,s:`${w.free} UNITS FREE · ${w.level.toUpperCase()}`,kind:'WAREHOUSE',alert:w.level==='Critical'||w.level==='High',info:`${w.name}, ${w.state}. ${w.free} unreserved units of ${w.onHand} on hand. `+(w.reasons.length?w.reasons.join(' · ')+'.':'No risk signals.')})),H);
+ const cu=column(cust.map(o=>({id:'C-'+o.id,wh:o.warehouse_id,x:CX,n:o.customer,s:o.id,kind:'CUSTOMER',alert:o.status==='At risk',info:`${o.priority} priority order for ${o.qty} × ${o.sku}, served from ${whName(o.warehouse_id)}, due ${o.due}. Status: ${o.status}.`})),H);
+ const nodes=[...sup,...wh,...cu];byId=Object.fromEntries(nodes.map(n=>[n.id,n]));
+ const edges=[...nm.links.map(l=>[l.from,l.to,l.alert]),...cu.map(c=>[c.wh,c.id,c.alert])];
+ let svg=`<svg class="s-chainsvg" viewBox="0 0 1000 ${H}" role="group" aria-label="Interactive supply chain network map of India">`;
+ svg+=`<text class="s-colhd" x="${SX}" y="26">SUPPLIERS</text><text class="s-colhd" x="${WX}" y="26">WAREHOUSES</text><text class="s-colhd" x="${CX}" y="26">CUSTOMERS</text>`;
+ edges.forEach(([a,b,al],i)=>{if(!byId[a]||!byId[b])return;const d=curve(byId[a],byId[b]);svg+=`<path class="s-edge${al?' alert':''}" d="${d}"/><circle r="3.5" fill="${al?'#FF8A80':'#F1E6C0'}"><animateMotion dur="${al?3.2:4.6}s" begin="${(i*.4).toFixed(1)}s" repeatCount="indefinite" path="${d}"/></circle>`});
+ nm.transfers.forEach(t=>{const a=byId[t.from],b=byId[t.to];if(!a||!b)return;const lo=Math.min(a.y,b.y),hi=Math.max(a.y,b.y);svg+=`<path class="s-edge xfer" d="M${WX+20},${a.y} C${WX+90},${a.y} ${WX+90},${b.y} ${WX+20},${b.y}"/><text x="${WX+96}" y="${((lo+hi)/2+4).toFixed(0)}" fill="#E8D9A8" font-family="JetBrains Mono,monospace" font-size="10" letter-spacing="1">TRANSFER ${t.units}</text>`});
+ const first=nodes.find(n=>n.alert&&n.kind!=='CUSTOMER')||nodes[0];
+ nodes.forEach(n=>{svg+=`<g class="s-node${n.alert?' alert':''}${n===first?' sel':''}" tabindex="0" role="button" aria-label="${n.n} ${n.kind.toLowerCase()}" data-id="${n.id}" transform="translate(${n.x} ${n.y.toFixed(1)})">${n.alert?'<circle r="14" fill="none" stroke="#FF8A80" stroke-width="1.5" class="s-rip"/>':''}<circle class="nc" r="${n.kind==='CUSTOMER'?11:15}"/><circle r="4" fill="${n.alert?'#FF8A80':'#C9A24B'}" pointer-events="none"/><text y="-24">${n.n}</text><text class="sub" y="32">${n.s}</text></g>`});
+ svg+='</svg>';
+ q('#s-chainmap').innerHTML=svg;
+ document.querySelectorAll('.s-node').forEach(g=>{g.addEventListener('click',()=>pick(g));g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(g)}})});
+ const sel=document.querySelector('.s-node.sel');if(sel)pick(sel);
+ const k=(id,v)=>{const el=q(id);if(el)el.textContent=v};
+ k('#s-k-sup',nm.suppliers.length);k('#s-k-wh',nm.warehouses.length);k('#s-k-ship',localDb.shipments.filter(s=>s.status!=='Delivered').length);k('#s-k-dis',localDb.disruptions.filter(d=>d.status==='Active').length);
+}
+function pick(g){const n=byId[g.dataset.id];if(!n)return;document.querySelectorAll('.s-node').forEach(x=>x.classList.toggle('sel',x===g));q('#s-dname').textContent=n.n+(n.kind==='WAREHOUSE'?' warehouse':n.kind==='SUPPLIER'?' supplier':'');q('#s-dsub').textContent=n.kind+' · '+n.s;q('#s-dinfo').textContent=n.info;const t=q('#s-dtag');t.textContent=n.alert?'DISRUPTED':'HEALTHY';const c=n.alert?'#FF8A80':'#C9A24B';t.style.color=c;t.style.borderColor=c}
+buildChain();
+
+/* ---------- disruption simulator ---------- */
+const labels=['Event arrives','Impact traced','Risk ranked','Plan ready','Approved'];
+q('#sim-stages').innerHTML=labels.map((l,i)=>`<div style="min-width:0"><div class="s-stagetop"><span class="s-dot" data-d="${i}">${i+1}</span>${i<4?`<span class="s-track"><span class="s-fill" data-f="${i}"></span></span>`:''}</div><div class="s-stlabel" data-l="${i}">${l}</div></div>`).join('');
+const base=[['ORD-8821','Acme Robotics','₹18.4 L',89],['ORD-8822','Vertex Systems','₹9.2 L',75],['ORD-8816','Nova Medical','₹14.4 L',74],['ORD-8823','Helix Industrial','₹6.0 L',58]];
+q('#sim-orders').innerHTML=base.map((o,i)=>`<div class="s-orow" data-o="${i}" style="transition-delay:${i*.2}s"><span class="s-mono" style="font-size:24px;color:#E8D9A8;min-width:34px">${o[3]}</span><div style="min-width:0"><div style="font-weight:600">${o[1]} <span class="s-mono" style="font-size:11px;color:#8A8A90;font-weight:400;margin-left:6px">${o[0]}</span></div><div class="s-bar"><i data-b="${o[3]}" style="transition-delay:${i*.2}s"></i></div></div><div style="text-align:right"><div class="s-mono" style="font-size:13px">${o[2]}</div><span class="s-tag" data-t="${i}">AT RISK</span></div></div>`).join('');
+const status=['All clear. No active disruptions.','Carrier event received: SHP-2041 is 5 days late.','Impact traced: 4 orders depend on this shipment.','Risk ranked from five factors, each one visible.','Plan P-0091 is ready. A person must approve it.','Approved and executed in simulation. Money at risk dropped.'];
+let phase=0,money=0,mv=null,timers=[];
+const later=(f,ms)=>timers.push(setTimeout(f,ms));
+function clearAll(){timers.forEach(clearTimeout);timers=[];clearInterval(mv)}
+function tween(a,b,ms){clearInterval(mv);const t0=Date.now();mv=setInterval(()=>{const p=Math.min(1,(Date.now()-t0)/ms),e=1-Math.pow(1-p,3);money=a+(b-a)*e;paintMoney();if(p>=1)clearInterval(mv)},40)}
+function paintMoney(){q('#sim-money').textContent='₹'+money.toFixed(1)+' L';q('#sim-moneybar').style.width=Math.max(0,Math.min(100,money/48*100))+'%';q('#sim-cap').textContent=phase>=5?'Saved ₹'+(48-money).toFixed(1)+' L with one approved plan.':phase>=2?'4 orders depend on the delayed shipment.':'No active disruption.'}
+function paint(){
+  document.querySelectorAll('[data-d]').forEach(el=>{const i=+el.dataset.d;el.classList.toggle('lit',phase>=i+1);el.classList.toggle('now',phase===i+1)});
+  document.querySelectorAll('[data-l]').forEach(el=>el.classList.toggle('lit',phase>=+el.dataset.l+1));
+  document.querySelectorAll('[data-f]').forEach(el=>el.classList.toggle('full',phase>+el.dataset.f+1));
+  q('#sim-status').textContent=status[phase];
+  q('#sim-hint').textContent=phase<2?'Waiting for a disruption':phase<3?'Running impact analysis':'Highest risk first';
+  document.querySelectorAll('[data-o]').forEach(el=>el.classList.toggle('on',phase>=3));
+  document.querySelectorAll('[data-b]').forEach(el=>el.style.width=phase>=3?el.dataset.b+'%':'0');
+  document.querySelectorAll('[data-t]').forEach(el=>{const i=+el.dataset.t,rec=phase>=5&&i<3;el.textContent=rec?'RECOVERED':phase>=5?'MONITORING':'AT RISK';el.classList.toggle('rec',rec)});
+  q('#sim-plan').style.opacity=phase>=4?1:.3;
+  q('#sim-approve').disabled=q('#sim-analyst').disabled=phase!==4;
+  paintMoney();
+}
+function msg(t,shake){const m=q('#sim-msg');m.textContent=t;m.classList.remove('s-shakeA','s-shakeB');if(shake){void m.offsetWidth;m.classList.add(shake)}}
+let sk=0;
+q('#sim-start').onclick=()=>{clearAll();phase=1;money=0;msg('');paint();later(()=>{phase=2;paint();tween(0,48,1300)},1400);later(()=>{phase=3;paint()},3100);later(()=>{phase=4;paint()},5200)};
+q('#sim-reset').onclick=()=>{clearAll();phase=0;money=0;msg('');paint()};
+q('#sim-approve').onclick=()=>{if(phase!==4)return;phase=5;msg('Approved by Supply Chain Manager. Executed in simulation only.');paint();tween(48,6,1700)};
+q('#sim-analyst').onclick=()=>{if(phase!==4)return;sk++;msg('403 · Plan P-0091 was proposed by the Analyst, so the Analyst cannot approve it.',sk%2?'s-shakeA':'s-shakeB')};
+paint();
+})();
+</script></body></html>

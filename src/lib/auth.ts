@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
 import { db } from "./db";
 import { ApiError } from "./http";
-import { can, type Permission } from "./rbac";
+import { can, PERMISSION_TEXT, type Permission } from "./roles";
 
 export const SESSION_COOKIE = "diq_session";
 const SESSION_HOURS = 12;
@@ -37,10 +37,16 @@ export async function currentUser(): Promise<SessionUser | null> {
   return { id: s.user.id, name: s.user.name, role: s.user.role };
 }
 
+export async function requireUser(): Promise<SessionUser> {
+  const u = await currentUser();
+  if (!u) throw new ApiError(401, "Sign in to continue.");
+  return u;
+}
+
 // Throws 401 if nobody is signed in, 403 if the role lacks the permission.
 export async function requirePermission(permission: Permission): Promise<SessionUser> {
   const u = await currentUser();
   if (!u) throw new ApiError(401, "Sign in to continue.");
-  if (!can(u.role, permission)) throw new ApiError(403, `${u.role} cannot ${permission} this item.`);
+  if (!can(u.role, permission)) throw new ApiError(403, `The ${u.role} role can’t ${PERMISSION_TEXT[permission]}.`);
   return u;
 }

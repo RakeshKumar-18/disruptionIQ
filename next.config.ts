@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
-// The UI is the prototype's plain HTML/CSS/JS in public/. The site root serves it.
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return [{ source: "/", destination: "/index.html" }];
+  // The demo reset reads the dataset CSVs at runtime, so ship them with that route.
+  outputFileTracingIncludes: {
+    "/api/admin/reset": ["./data/*.csv"],
   },
 };
 

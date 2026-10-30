@@ -1,5 +1,6 @@
-// DisruptionIQ data model (step 1: mirrors the browser prototype, now in Postgres).
-// Step 2 adds shipment lines, customers with tiers and penalties, and order lines.
+// DisruptionIQ data model (step 2: loaded from the synthetic dataset in data/).
+// Master data comes from the CSVs. Disruptions, impact links, plans and the logs are created
+// by the app's rules engine as events arrive.
 
 generator client {
   provider = "prisma-client-js"
@@ -10,14 +11,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ---------- people ----------
+
 model User {
   id            String    @id
   name          String
-  role          String // see src/lib/rbac.ts
+  role          String // see src/lib/roles.ts
   pinHash       String
   sessions      Session[]
   plansCreated  Plan[]    @relation("PlanCreatedBy")
-  plansApproved Plan[]    @relation("PlanApprovedBy")
+  plansReviewed Plan[]    @relation("PlanReviewedBy")
+  plansExecuted Plan[]    @relation("PlanExecutedBy")
 }
 
 model Session {
@@ -30,77 +34,194 @@ model Session {
   @@index([userId])
 }
 
+// ---------- master data (from data/*.csv) ----------
+
 model Supplier {
-  id        String     @id
-  name      String
-  region    String
-  leadDays  Int
-  status    String
-  shipments Shipment[]
+  id             String     @id
+  name           String
+  city           String
+  reliabilityPct Int
+  leadTimeDays   Int
+  riskTier       String
+  active         Boolean    @default(true)
+  shipments      Shipment[]
 }
 
 model Warehouse {
-  id        String          @id
-  name      String
-  region    String
-  inventory InventoryItem[]
-  orders    Order[]
+  id            String      @id
+  name          String
+  city          String
+  region        String
+  capacityUnits Int
+  status        String      @default("Active")
+  inventory     Inventory[]
+  orders        Order[]
+  shipments     Shipment[]
 }
 
-model InventoryItem {
-  id           String    @id
-  sku          String
-  product      String
-  warehouseId  String
-  warehouse    Warehouse @relation(fields: [warehouseId], references: [id])
-  qty          Int
-  reserved     Int       @default(0)
-  reorderLevel Int       @default(0)
-
-  @@unique([sku, warehouseId])
+model Product {
+  id           String         @id
+  name         String
+  category     String
+  unitCost     Float
+  criticality  String
+  reorderLevel Int
+  inventory    Inventory[]
+  orderItems   OrderItem[]
+  shipItems    ShipmentItem[]
 }
 
-model Shipment {
-  id          String       @id
-  carrier     String
-  supplierId  String
-  supplier    Supplier     @relation(fields: [supplierId], references: [id])
-  origin      String
-  destination String
-  eta         DateTime
-  status      String
-  delayDays   Int          @default(0)
-  lastEventId String?
-  disruptions Disruption[]
+model Inventory {
+  id          String    @id
+  warehouseId String
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id])
+  onHand      Int
+  reserved    Int
+  inbound     Int
+  updatedAt   DateTime
+
+  @@unique([warehouseId, productId])
+}
+
+// Derived on import: tier from total order value, penalty rate from tier (see README).
+model Customer {
+  id               String  @id
+  tier             String // Premium | Standard
+  totalValue       Float
+  penaltyPctPerDay Float
+  orders           Order[]
 }
 
 model Order {
-  id          String    @id
-  customer    String
-  sku         String
-  qty         Int
-  due         DateTime  @db.Date
-  warehouseId String
-  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
-  priority    String // Critical | High | Normal
-  status      String // On track | At risk | Recovering
-  createdAt   DateTime  @default(now())
-  plans       Plan[]
+  id           String            @id
+  customerId   String
+  customer     Customer          @relation(fields: [customerId], references: [id])
+  warehouseId  String
+  warehouse    Warehouse         @relation(fields: [warehouseId], references: [id])
+  deliveryCity String
+  createdAt    DateTime
+  deadline     DateTime
+  priority     String // Critical | High | Normal | Low
+  status       String // Confirmed | Processing | Partially Fulfilled
+  items        OrderItem[]
+  impacts      DisruptionOrder[]
+  plans        Plan[]
+
+  @@index([warehouseId, deadline])
+}
+
+model OrderItem {
+  id        String  @id
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Float
+
+  @@index([productId])
+  @@index([orderId])
+}
+
+model Shipment {
+  id                String         @id
+  supplierId        String
+  supplier          Supplier       @relation(fields: [supplierId], references: [id])
+  warehouseId       String
+  warehouse         Warehouse      @relation(fields: [warehouseId], references: [id])
+  carrier           String
+  trackingNumber    String
+  plannedDispatchAt DateTime
+  expectedArrivalAt DateTime? // null = no usable arrival date (shutdown, quarantine)
+  actualArrivalAt   DateTime?
+  status            String
+  delayDays         Int
+  lastEventAt       DateTime? // time of the last carrier event applied by this app
+  items             ShipmentItem[]
+  disruptions       Disruption[]
+
+  @@index([supplierId])
+}
+
+model ShipmentItem {
+  id         String   @id
+  shipmentId String
+  shipment   Shipment @relation(fields: [shipmentId], references: [id])
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  quantity   Int
+
+  @@index([shipmentId])
+}
+
+// Carrier events from the dataset, waiting to be "sent" by the simulator.
+model InboundEvent {
+  eventId        String   @id
+  idempotencyKey String
+  type           String
+  shipmentId     String
+  location       String
+  delayDays      Int
+  occurredAt     DateTime
+  sentAt         DateTime?
+}
+
+// ---------- created by the app ----------
+
+// One row per carrier event the app accepted. The unique idempotency key is what makes
+// duplicate deliveries safe, even when they arrive at the same moment.
+model CarrierEvent {
+  idempotencyKey String   @id
+  eventId        String
+  type           String
+  shipmentId     String
+  location       String?
+  delayDays      Int
+  occurredAt     DateTime
+  receivedAt     DateTime @default(now())
+  outcome        String // what the app did with it
+  payload        Json
 }
 
 model Disruption {
-  id           String    @id
-  title        String
-  type         String
-  severity     String
-  description  String
-  shipmentId   String?
-  shipment     Shipment? @relation(fields: [shipmentId], references: [id])
-  // SKUs this disruption touches. Seeded for the two scenarios; step 2 derives it from shipment lines.
-  affectedSkus String[]
-  status       String    @default("Active")
-  createdAt    DateTime  @default(now())
-  plans        Plan[]
+  id          String            @id
+  type        String
+  title       String
+  description String
+  severity    String // Critical | High | Medium | Low
+  status      String // Active | Resolved | Monitoring
+  shipmentId  String?
+  shipment    Shipment?         @relation(fields: [shipmentId], references: [id])
+  supplierId  String?
+  warehouseId String?
+  location    String?
+  delayDays   Int
+  eventKey    String?
+  createdAt   DateTime          @default(now())
+  impacts     DisruptionOrder[]
+  plans       Plan[]
+}
+
+// Which orders a disruption puts at risk, why, and how risky (factor breakdown in `factors`).
+model DisruptionOrder {
+  disruptionId String
+  disruption   Disruption @relation(fields: [disruptionId], references: [id])
+  orderId      String
+  order        Order      @relation(fields: [orderId], references: [id])
+  lines        Json // [{ productId, productName, needed, short, unitPrice }]
+  unitsShort   Int
+  daysLate     Int
+  exposureInr  Float
+  riskScore    Int
+  riskLevel    String
+  factors      Json // [{ key, label, points, max, detail }]
+  status       String // At risk | Recovering | Recovered
+  createdAt    DateTime   @default(now())
+
+  @@id([disruptionId, orderId])
+  @@index([orderId])
 }
 
 model Plan {
@@ -109,34 +230,32 @@ model Plan {
   disruption   Disruption @relation(fields: [disruptionId], references: [id])
   orderId      String
   order        Order      @relation(fields: [orderId], references: [id])
-  kind         String
+  kind         String // Reallocate stock | Split order | Expedite shipment | Alternative supplier
+  approverRole String
   summary      String
-  impact       String
-  status       String // Pending approval | Approved | Rejected | Executed
+  details      Json
+  costInr      Float
+  note         String?
+  status       String // Pending approval | Changes proposed | Approved | Rejected | Withdrawn | Executed | Blocked
   createdById  String
   createdBy    User       @relation("PlanCreatedBy", fields: [createdById], references: [id])
-  approvedById String?
-  approvedBy   User?      @relation("PlanApprovedBy", fields: [approvedById], references: [id])
+  reviewedById String?
+  reviewedBy   User?      @relation("PlanReviewedBy", fields: [reviewedById], references: [id])
+  executedById String?
+  executedBy   User?      @relation("PlanExecutedBy", fields: [executedById], references: [id])
   createdAt    DateTime   @default(now())
+  reviewedAt   DateTime?
   executedAt   DateTime?
-}
-
-// Raw inbound carrier events. The primary key on eventId is what makes duplicates safe.
-model CarrierEvent {
-  eventId    String   @id
-  shipmentId String
-  eta        DateTime
-  status     String?
-  payload    Json
-  receivedAt DateTime @default(now())
+  proposed     Json? // a change proposed by the approver, waiting for the requester to accept
 }
 
 model Notification {
-  id       Int      @id @default(autoincrement())
-  at       DateTime @default(now())
-  message  String
-  severity String   @default("info")
-  read     Boolean  @default(false)
+  id           Int      @id @default(autoincrement())
+  at           DateTime @default(now())
+  targetRole   String?
+  targetUserId String?
+  message      String
+  severity     String   @default("info")
 }
 
 model AuditLog {
@@ -148,8 +267,12 @@ model AuditLog {
   detail String
 }
 
-// Atomic counters for readable IDs such as PLAN-702 and DIS-303.
 model Counter {
   name  String @id
   value Int
+}
+
+model Meta {
+  key   String @id
+  value String
 }

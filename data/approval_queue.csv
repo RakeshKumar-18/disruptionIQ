@@ -1,0 +1,3 @@
+approval_id,recovery_id,requested_by,approver_id,status,decision_at,comments
+APR000001,REC00101,USR001,USR002,Pending,,
+APR000002,REC00201,USR001,USR004,Pending,,
