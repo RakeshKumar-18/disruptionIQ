@@ -831,7 +831,9 @@ const plural=(n,w)=>`${n} ${w}${n===1?'':'s'}`;
 let briefFor=null;
 function briefFacts(){const s=state||{},k=s.impact||{},role=me?.role,plans=s.plans||[];const open=(s.disruptions||[]).filter(d=>d.status!=='Resolved'),pending=plans.filter(p=>p.status==='Pending approval');
  const mine=pending.filter(p=>role==='Administrator'||p.approver_role===role).map(p=>`${p.id} to review`).concat((s.permissions||[]).includes('execute')?plans.filter(p=>p.status==='Approved').map(p=>`${p.id} to execute`):[]);
- return {role,role_duty:s.roleDuty||'',open_disruptions:open.slice(0,8).map(d=>({title:d.title,severity:d.severity,status:d.status,orders_hit:d.progress?.total,recovered:d.progress?.recovered,need_a_plan:d.progress?.atRisk,awaiting_approval:d.progress?.pending})),
+ const sum=key=>open.reduce((n,d)=>n+(d.progress?.[key]||0),0);
+ // Totals are worked out here so the AI never has to add numbers up itself.
+ return {role,role_duty:s.roleDuty||'',totals:{open_disruptions:open.length,orders_at_risk:k.atRiskOrders||0,value_at_risk:inr(k.atRiskValue||0),orders_needing_a_plan:sum('atRisk'),orders_awaiting_approval:sum('pending'),orders_approved_waiting_to_execute:sum('approved'),orders_recovered:sum('recovered')},open_disruptions:open.slice(0,8).map(d=>({title:d.title,severity:d.severity,status:d.status,orders_hit:d.progress?.total,recovered:d.progress?.recovered,need_a_plan:d.progress?.atRisk,awaiting_approval:d.progress?.pending})),
   value_at_risk:inr(k.atRiskValue||0),orders_at_risk:k.atRiskOrders||0,value_protected:inr(k.protectedValue||0),orders_saved:`${k.saved||0} of ${k.hit||0}`,
   most_urgent_orders:(s.orders||[]).slice(0,5).map(o=>({order:o.id,customer:o.customer,priority:o.priority,due_date:o.due,value:inr(orderValue(o)),has_approved_plan:!!o.covered})),
   plans_awaiting_approval:pending.slice(0,6).map(p=>({plan:p.id,kind:p.kind,order:p.order_id,approver:p.approver_role})),waiting_on_this_role:mine}}

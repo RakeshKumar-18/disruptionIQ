@@ -9,7 +9,8 @@ const MODELS = [process.env.GEMINI_MODEL, 'gemini-3.5-flash-lite', 'gemini-3.8-f
 const RULES =
   'You are the assistant inside DisruptionIQ, a supply-chain disruption tool for a company with warehouses across India. ' +
   'Use only the facts given; never invent numbers, names or dates. Write plain English with no markdown and no bullet points. ' +
-  'Write rupee amounts with the ₹ sign. A human makes the final decision.';
+  'Write rupee amounts with the ₹ sign. Use totals exactly as given; never add up or recount numbers yourself. ' +
+  'You advise and the user decides; do not add a closing line about who makes decisions.';
 
 const TASKS = {
   order:
