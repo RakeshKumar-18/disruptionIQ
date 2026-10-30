@@ -18,6 +18,16 @@ const TASKS = {
     'The rules engine produced the numbered recovery options below. In at most 3 short sentences (under 70 words), recommend which ' +
     'option number(s) the analyst should submit and why. Protect Critical-priority orders and the earliest due dates first, and ' +
     'prefer the lowest cost when options are similar.',
+  briefing:
+    'Write the morning briefing for the signed-in user (their role is in the facts) in at most 3 short sentences (under 70 words): ' +
+    'the overall situation, the single most urgent action and why, and anything waiting on this role. If nothing is open, say so briefly.',
+  approval:
+    'Brief the approver on this pending recovery plan in at most 3 short sentences (under 70 words): what approving commits the company ' +
+    'to (cost, stock or shipment), what it protects (order value, priority, due date) and one thing to check first. Mention a cheaper ' +
+    'or faster alternative only if the facts list one. Do not tell them to approve or reject; they decide.',
+  incident:
+    'Write a short incident report for the audit log in at most 4 sentences (under 90 words): what happened, which orders and how much ' +
+    'value were hit, how each order was recovered, the recovery cost if given, and how long recovery took. Neutral, factual tone.',
 };
 
 // Only this site (and local testing) may call the function from a browser.
