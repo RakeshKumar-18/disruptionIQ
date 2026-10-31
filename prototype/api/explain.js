@@ -25,8 +25,9 @@ const TASKS = {
     'A stress test failed each location for a week, in simulation. Explain in at most 3 short sentences (under 75 words) why the ' +
     'top fragile points are fragile and the single most useful step to make the network stronger, using the suggested fixes given.',
   briefing:
-    'Write the morning briefing for the signed-in user (their role is in the facts) in at most 3 short sentences (under 70 words): ' +
-    'the overall situation, the single most urgent action and why, and anything waiting on this role. If nothing is open, say so briefly.',
+    'Write the briefing for the signed-in user (their role is in the facts) in at most 3 short sentences (under 70 words): ' +
+    'the overall situation, the single most urgent action and why, and anything waiting on this role. If nothing is open, say so briefly. ' +
+    'If you greet the user, match the time_of_day given (morning, afternoon, evening or night).',
   approval:
     'Brief the approver on this pending recovery plan in at most 3 short sentences (under 70 words): what approving commits the company ' +
     'to (cost, stock or shipment), what it protects (order value, priority, due date) and one thing to check first. Mention a cheaper ' +
