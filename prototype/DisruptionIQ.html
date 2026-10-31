@@ -1302,9 +1302,13 @@ addEventListener('resize',queueGlide);setTimeout(syncGliders,300);
  function hide(){m.seen=false;m.x=m.y=m.rx=m.ry=-99;rings.length=0;ctx.clearRect(0,0,W,H)}
  window.fxHide=hide;
  addEventListener('pointerdown',e=>{add(e.clientX,e.clientY,hot(e.target)?62:46,680,.75,2);setTimeout(()=>add(e.clientX,e.clientY,hot(e.target)?96:70,900,.35,1.2),90)},{passive:true});
- function go(){if(!running){running=true;lastFrame=0;requestAnimationFrame(frame)}}
+ // Self-healing loop: if a browser pop-up (or a background tab) swallowed the frame we asked for, start a new one
+ // instead of waiting forever. Without this the ring froze where it was while the real cursor moved on.
+ let askedAt=0;
+ function go(){const now=performance.now();if(running&&now-askedAt>250)running=false;if(!running){running=true;lastFrame=0;askedAt=now;requestAnimationFrame(frame)}}
  let lastFrame=0;
- function frame(now){ctx.clearRect(0,0,W,H);let busy=false;
+ addEventListener('focus',()=>go());addEventListener('pageshow',()=>go());document.addEventListener('visibilitychange',()=>{if(!document.hidden)go()});
+ function frame(now){askedAt=performance.now();ctx.clearRect(0,0,W,H);let busy=false;
   // A long gap between frames means the page was paused (e.g. a dialog): jump to the cursor instead of easing there.
   if(lastFrame&&now-lastFrame>120){m.rx=m.x;m.ry=m.y}lastFrame=now;
   if(m.seen){m.rx+=(m.x-m.rx)*.2;m.ry+=(m.y-m.ry)*.2;m.r+=(m.tr-m.r)*.2;if(Math.abs(m.x-m.rx)+Math.abs(m.y-m.ry)+Math.abs(m.tr-m.r)>.3)busy=true;
@@ -1312,7 +1316,7 @@ addEventListener('resize',queueGlide);setTimeout(syncGliders,300);
    const g=ctx.createRadialGradient(m.rx,m.ry,0,m.rx,m.ry,m.r*2.4);g.addColorStop(0,'rgba(232,217,168,.13)');g.addColorStop(1,'rgba(232,217,168,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(m.rx,m.ry,m.r*2.4,0,7);ctx.fill()}
   for(let i=rings.length-1;i>=0;i--){const q=rings[i],p=(now-q.t0)/q.life;if(p>=1){rings.splice(i,1);continue}busy=true;const e=1-Math.pow(1-p,3);
    ctx.beginPath();ctx.arc(q.x,q.y,4+q.max*e,0,7);ctx.strokeStyle=`rgba(201,162,75,${q.a*(1-p)})`;ctx.lineWidth=q.w*(1-p*.5);ctx.stroke()}
-  if(busy||m.seen&&rings.length)requestAnimationFrame(frame);else running=false}})();
+  if(busy||m.seen&&rings.length){askedAt=performance.now();requestAnimationFrame(frame)}else running=false}})();
 
 // Home page: the background grid behaves like a soft sheet. Near the cursor it bulges gently, gets dragged a little
 // in the direction you move, then springs back with a small wobble. It never shows under the text, buttons, nav or graph.
@@ -1340,16 +1344,19 @@ addEventListener('resize',queueGlide);setTimeout(syncGliders,300);
  // Spring physics: the drag (px,py) chases the cursor's velocity, then settles back to 0 with a little overshoot.
  let tx=-999,ty=-999,cx=-999,cy=-999,lx=0,ly=0,tvx=0,tvy=0,px=0,py=0,vx=0,vy=0,act=0,actT=0,lastMove=0,raf=0;
  const over=(X,Y)=>holes.some(r=>X>r.x&&X<r.x+r.w&&Y>r.y&&Y<r.y+r.h);
+ // Same self-healing as the cursor: a frame swallowed by a browser pop-up must not stop the effect for good.
+ let rafAt=0;const kick=()=>{const now=performance.now();if(raf&&now-rafAt>250)raf=0;if(!raf){rafAt=now;raf=requestAnimationFrame(tick)}};
+ addEventListener('focus',kick);
  const tick=t=>{raf=0;if(t-lastMove>1200)actT=0;act+=(actT-act)*.09;tvx*=.86;tvy*=.86;
   const ax=(tvx-px)*.12-vx*.18,ay=(tvy-py)*.12-vy*.18;vx+=ax;vy+=ay;px+=vx;py+=vy;cx+=(tx-cx)*.2;cy+=(ty-cy)*.2;
   const kb=.34*act;mix.setAttribute('values',`${kb.toFixed(3)} 0 ${(px*act).toFixed(3)} 0 ${(.5-.5*kb).toFixed(3)}  0 ${kb.toFixed(3)} ${(py*act).toFixed(3)} 0 ${(.5-.5*kb).toFixed(3)}  0 0 0 0 .5  0 0 0 0 1`);
   map.setAttribute('x',(cx-R).toFixed(1));map.setAttribute('y',(cy-R).toFixed(1));disp.setAttribute('scale',(46*act).toFixed(2));
   hero.style.setProperty('--mx',cx.toFixed(0)+'px');hero.style.setProperty('--my',cy.toFixed(0)+'px');
-  if(Math.abs(actT-act)>.004||Math.abs(px)+Math.abs(py)+Math.abs(vx)+Math.abs(vy)>.002||Math.abs(tx-cx)+Math.abs(ty-cy)>.5)raf=requestAnimationFrame(tick)};
+  if(Math.abs(actT-act)>.004||Math.abs(px)+Math.abs(py)+Math.abs(vx)+Math.abs(vy)>.002||Math.abs(tx-cx)+Math.abs(ty-cy)>.5){rafAt=performance.now();raf=requestAnimationFrame(tick)}};
  hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),nx=e.clientX-r.left,ny=e.clientY-r.top;if(cx<-900){cx=lx=nx;cy=ly=ny}
   tvx=Math.max(-.7,Math.min(.7,tvx+(nx-lx)/90));tvy=Math.max(-.7,Math.min(.7,tvy+(ny-ly)/90));lx=nx;ly=ny;tx=nx;ty=ny;lastMove=performance.now();
-  const free=!over(nx,ny);actT=free?1:0;light.classList.toggle('on',free);if(!raf)raf=requestAnimationFrame(tick)},{passive:true});
- hero.addEventListener('pointerleave',()=>{light.classList.remove('on');actT=0;if(!raf)raf=requestAnimationFrame(tick)})})();
+  const free=!over(nx,ny);actT=free?1:0;light.classList.toggle('on',free);kick()},{passive:true});
+ hero.addEventListener('pointerleave',()=>{light.classList.remove('on');actT=0;kick()})})();
 
 // In-app confirmation dialog (replaces the browser's own confirm() pop-up, which froze the page and the cursor effect).
 // Resolves true (confirm) or false (cancel). Enter confirms, Esc or a click outside cancels.
