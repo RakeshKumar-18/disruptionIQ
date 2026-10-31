@@ -284,15 +284,15 @@ body{background:#0A0A0B}
 .loginbox.rolebox{width:min(820px,95vw);padding:30px 32px}
 .rolebox h2{font:750 26px var(--display);margin:18px 0 6px}
 .rolepick{display:flex;align-items:center;gap:10px;margin:14px -8px 4px}
-.rp-track{flex:1;display:flex;justify-content:center;gap:12px;padding:24px 6px 18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
-.rp-track::-webkit-scrollbar{display:none}
+.rp-track{--gap:118px;flex:1;position:relative;height:250px;perspective:1100px;overflow:hidden;touch-action:pan-y;outline:none}
 .rp-arrow{flex:0 0 34px;height:34px;border-radius:50%;border:1px solid #6b5a2e;background:#1c1b19;color:#e8d9a8;font-size:20px;line-height:1;display:grid;place-items:center;padding:0 0 2px;transition:transform .2s,background .2s,border-color .2s}
 .rp-arrow:hover{background:#2a2620;border-color:#c9a24b;transform:scale(1.08)}
 .rp-arrow:active{transform:scale(.92)}
-.rolecard{--rx:0deg;--ry:0deg;--px:50%;--py:30%;flex:0 0 126px;height:186px;scroll-snap-align:center;position:relative;border-radius:22px;border:1px solid #34322e;background:linear-gradient(165deg,#24221e,#171614 70%);color:#d9d6cd;padding:14px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;opacity:.78;transform:perspective(700px) translateY(0) scale(.94) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .5s cubic-bezier(.2,.9,.25,1.25),opacity .35s,border-color .35s,box-shadow .5s,background .5s;overflow:hidden}
+.rolecard{--rx:0deg;--ry:0deg;--px:50%;--py:30%;--d:0;--ad:0;position:absolute;left:50%;top:50%;width:150px;height:208px;margin:-104px 0 0 -75px;border-radius:24px;border:1px solid #34322e;background:linear-gradient(165deg,#24221e,#171614 70%);color:#d9d6cd;padding:16px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:7px;opacity:calc(1 - var(--ad)*.3);transform:translateX(calc(var(--d)*var(--gap))) translateZ(calc(var(--ad)*-120px)) rotateY(calc(var(--d)*-26deg)) scale(calc(1 - var(--ad)*.09));transition:transform .65s cubic-bezier(.22,.9,.25,1.12),opacity .5s,border-color .35s,box-shadow .5s,background .5s,filter .5s;overflow:hidden}
+.rolecard.far{filter:saturate(.7) brightness(.85)}
 .rolecard::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(160px circle at var(--px) var(--py),rgba(232,217,168,.16),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
-.rolecard:hover{opacity:.95;border-color:#5f5634}.rolecard:hover::after,.rolecard.on::after{opacity:1}
-.rolecard.on{opacity:1;border-color:#c9a24b;background:linear-gradient(165deg,#5a4516 0%,#33270f 48%,#1d1a14 100%);transform:perspective(700px) translateY(-14px) scale(1.07) rotateX(var(--rx)) rotateY(var(--ry));box-shadow:0 22px 46px rgba(201,162,75,.24),0 0 0 1px rgba(201,162,75,.45) inset}
+.rolecard:not(.on):hover{border-color:#5f5634;opacity:calc(1 - var(--ad)*.2)}.rolecard:hover::after,.rolecard.on::after{opacity:1}
+.rolecard.on{opacity:1;border-color:#c9a24b;background:linear-gradient(165deg,#5a4516 0%,#33270f 48%,#1d1a14 100%);transform:translateY(-6px) translateZ(40px) scale(1.04) rotateX(var(--rx)) rotateY(var(--ry));box-shadow:0 24px 54px rgba(201,162,75,.28),0 0 0 1px rgba(201,162,75,.45) inset}
 .rolecard.pop{animation:rcPop .55s cubic-bezier(.2,.9,.25,1.3)}
 @keyframes rcPop{0%{scale:1}35%{scale:1.05}100%{scale:1}}
 .login.show .rolecard:not(.pop){animation:rcIn .65s cubic-bezier(.2,.9,.25,1.2) both;animation-delay:calc(var(--i)*70ms + .08s)}
@@ -309,7 +309,7 @@ body{background:#0A0A0B}
 .rolecard:focus-visible{outline:2px solid #e8d9a8;outline-offset:3px}
 .loginbox.shake{animation:shake .45s}
 @keyframes shake{20%{translate:-8px 0}40%{translate:7px 0}60%{translate:-5px 0}80%{translate:3px 0}}
-@media(max-width:700px){.rp-track{justify-content:flex-start}.rp-arrow{display:none}.rolecard{flex-basis:118px}.loginbox.rolebox{padding:24px 18px}}
+@media(max-width:700px){.rp-track{--gap:66px;height:236px}.rp-arrow{flex-basis:30px;height:30px}.rolecard{width:138px;height:198px;margin:-99px 0 0 -69px}.loginbox.rolebox{padding:24px 16px}.rolepick{gap:4px;margin:12px -6px 4px}}
 /* greeting follows the clock */
 #greetword.swap{display:inline-block;animation:greetIn .6s cubic-bezier(.2,.8,.2,1)}
 @keyframes greetIn{from{opacity:0;translate:0 8px;filter:blur(4px)}}
@@ -333,9 +333,35 @@ body{background:#0A0A0B}
 /* gold cursor ring and click ripples */
 .fx-canvas{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999}
 /* home page: grid bends around the cursor and lights up near it */
-#s-gridlight{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle 280px at var(--mx,-999px) var(--my,-999px),rgba(201,162,75,.17),transparent 70%),linear-gradient(rgba(232,217,168,.42) 1px,transparent 1px),linear-gradient(90deg,rgba(232,217,168,.42) 1px,transparent 1px);background-size:100% 100%,56px 56px,56px 56px;-webkit-mask-image:radial-gradient(circle 270px at var(--mx,-999px) var(--my,-999px),#000 0,rgba(0,0,0,.55) 45%,transparent 74%);mask-image:radial-gradient(circle 270px at var(--mx,-999px) var(--my,-999px),#000 0,rgba(0,0,0,.55) 45%,transparent 74%);opacity:0;transition:opacity .5s}
+#s-gridlight{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle 280px at var(--mx,-999px) var(--my,-999px),rgba(201,162,75,.11),transparent 70%),linear-gradient(rgba(232,217,168,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(232,217,168,.3) 1px,transparent 1px);background-size:100% 100%,56px 56px,56px 56px;-webkit-mask-image:radial-gradient(circle 270px at var(--mx,-999px) var(--my,-999px),#000 0,rgba(0,0,0,.55) 45%,transparent 74%);mask-image:radial-gradient(circle 270px at var(--mx,-999px) var(--my,-999px),#000 0,rgba(0,0,0,.55) 45%,transparent 74%);opacity:0;transition:opacity .5s}
 #s-gridlight.on{opacity:1}
 #s-hero.s-warping #s-warpgrid,#s-hero.s-warping #s-gridlight{filter:url(#diq-warp)}
+/* "Recovered" pop-up */
+.recpop{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,rgba(201,162,75,.16),rgba(10,9,8,.6) 62%);animation:fade .25s ease both;cursor:pointer}
+.recpop:not(.big){background:none;pointer-events:none;place-items:start center;padding-top:84px}
+.recpop.out{animation:recOut .38s ease forwards}@keyframes recOut{to{opacity:0}}
+.rp-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:28px 38px 24px;border-radius:24px;background:linear-gradient(165deg,#3d3015,#1d1a14 70%);border:1px solid #c9a24b;box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(201,162,75,.35) inset,0 0 70px rgba(201,162,75,.25);text-align:center;min-width:320px;animation:recIn .7s cubic-bezier(.2,1.4,.35,1) both}
+@keyframes recIn{0%{opacity:0;transform:scale(.4) translateY(24px)}60%{opacity:1;transform:scale(1.07)}100%{transform:none}}
+.rp-burst{position:relative;width:68px;height:68px;display:grid;place-items:center;flex:0 0 auto}
+.rp-burst svg{width:100%;height:100%;position:relative;z-index:1}
+.rp-burst circle{fill:#1b1a17;stroke:#70d6a0;stroke-width:2.5;stroke-dasharray:150;stroke-dashoffset:150;animation:draw .6s .15s ease forwards}
+.rp-burst path{fill:none;stroke:#70d6a0;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:draw .45s .55s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.rp-burst i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:#e8d9a8;opacity:0;animation:spark .95s calc(.35s + var(--dl)) cubic-bezier(.2,.8,.3,1) forwards}
+.rp-burst i:nth-child(odd){background:#c9a24b;width:5px;height:5px;margin:-2.5px}
+@keyframes spark{0%{opacity:1;transform:rotate(var(--a)) translateX(12px)}100%{opacity:0;transform:rotate(var(--a)) translateX(var(--r))}}
+.rp-ring{position:absolute;inset:0;border-radius:50%;border:2px solid #c9a24b;opacity:0;animation:ring 1s .3s ease-out forwards}
+.rp-ring.two{animation-delay:.5s;border-color:#70d6a0}
+@keyframes ring{0%{opacity:.8;transform:scale(.9)}100%{opacity:0;transform:scale(2.6)}}
+.rp-card b{font:800 32px var(--display);letter-spacing:.02em;color:#f3e3b5;margin-top:8px;animation:recWord .65s .5s cubic-bezier(.2,1.4,.35,1) both}
+@keyframes recWord{from{opacity:0;transform:translateY(10px) scale(.88);letter-spacing:.3em}}
+.rp-line{font-size:12.5px;color:#e8d9a8;max-width:360px}
+.rp-card em{font:normal 11px var(--mono);color:#70d6a0;letter-spacing:.3px}
+.recpop:not(.big) .rp-card{flex-direction:row;gap:12px;padding:10px 22px 10px 12px;min-width:0;text-align:left;pointer-events:auto;border-radius:999px}
+.recpop:not(.big) .rp-burst{width:40px;height:40px}
+.recpop:not(.big) .rp-card b{font-size:17px;margin:0}
+.recpop:not(.big) .rp-line{font-size:11.5px}.recpop:not(.big) .rp-card em{font-size:10px}
+@media(prefers-reduced-motion:reduce){.recpop *,.recpop{animation:none!important}.rp-burst circle,.rp-burst path{stroke-dashoffset:0}.rp-burst i,.rp-ring{display:none}}
 @media(prefers-reduced-motion:reduce){.view.active,.rolecard,.login.show .rolecard,.login.show .loginbox,#greetword.swap,.network-panel.modeswap *,.option.selected{animation:none!important}.glider[data-ready],.rolecard{transition:none!important}}
 </style></head><body>
 <div id="site">
@@ -379,7 +405,7 @@ body{background:#0A0A0B}
     </div>
 
     <div class="s-rise" style="flex:1 1 380px;min-width:0;max-width:580px;margin:0 auto;animation-delay:.5s">
-      <div style="position:relative;border:1px solid #26262A;border-radius:16px;background:rgba(18,18,20,0.72);padding:14px">
+      <div style="position:relative;border:1px solid #26262A;border-radius:16px;background:rgba(18,18,20,0.96);padding:14px">
         <span class="s-floaty s-mono" style="position:absolute;top:-16px;left:22px;z-index:2;font-size:11px;letter-spacing:.1em;padding:7px 12px;border-radius:6px;background:#E8D9A8;color:#0A0A0B;font-weight:500">SHP-2041 · +5 DAYS</span>
         <span class="s-floaty s-mono" style="position:absolute;bottom:-16px;right:22px;z-index:2;font-size:11px;letter-spacing:.1em;padding:7px 12px;border-radius:6px;background:#17171A;color:#E8D9A8;border:1px solid #C9A24B;animation-delay:-3s">6 ORDERS AT RISK</span>
         <svg viewBox="0 0 560 520" role="img" aria-label="Animated supply chain map. A delay at the port sends ripples to two warehouses and three customers." style="width:100%;height:auto;display:block">
@@ -893,7 +919,7 @@ function why(o){const gaps=Math.max(0,o.qty-(Number(o.available)||0));const d=Ma
 async function refresh(){state=await api('/api/dashboard');me=state.user;render();setUser()}
 function setUser(){if(!me)return;$('#username').textContent=me.role;$('#userrole').textContent=me.role==='Administrator'?'Full access':'Signed in';$('#avatar').textContent=me.role.split(' ').map(x=>x[0]).join('');$('#greeting').textContent=me.role;$('#roleduty').textContent=state.roleDuty||'';const p=state.permissions||[];$$('.recommendTop').forEach(b=>b.classList.toggle('hidden',!p.includes('recommend')));['#importbtn','#importbtn2'].forEach(s=>$(s).classList.toggle('hidden',!p.includes('import')));['#webhook','#webhook2','#webhook3','#exportbtn'].forEach(s=>$(s).classList.toggle('hidden',!p.includes('admin')));const nav=ROLE_NAV[me.role]||['dashboard'];$$('.navitem').forEach(b=>b.classList.toggle('hidden',!nav.includes(b.dataset.view)));const cur=($('.view.active')?.id||'').replace('view-','');if(cur&&!nav.includes(cur))goto('dashboard')}
 function render(){const s=state;$('#kpis').innerHTML=[['Active disruptions',s.kpis.active,`${s.kpis.active} open, not yet resolved`,'⚡','#ff777d'],['Orders affected',s.kpis.affected,`${s.kpis.inboundRisks} delayed inbound shipment${s.kpis.inboundRisks===1?'':'s'}`,'◎','#ffbf5e'],['Pending approvals',s.kpis.pending,'separation of duties on','◇','#d9c9a0'],['Recovery in progress',s.kpis.recovering,'approved / executed plans','↗','#c9a24b']].map(([t,n,f,i,c])=>`<div class="kpi" style="--tint:${c}"><div class="kpihead"><span style="color:${c}">${i}</span>${t}</div><div class="kpinum">${n}</div><div class="kpifoot"><em>${t==='Active disruptions'?'Live':t==='Orders affected'?'Customer impact':t==='Pending approvals'?'Awaiting review':'On path'}</em> · ${f}</div></div>`).join('');$('#disruption-count').textContent=s.kpis.active;$('#approval-count').textContent=s.kpis.pending;$('#bell-count').textContent=s.notifications.length;
-renderImpact(s);updateGreeting();renderBrief();autoIncidents();$('#disruption-list').innerHTML=s.disruptions.filter(d=>d.status!=='Resolved').map(d=>`<div class="disruption"><div class="dtop"><span style="color:${d.status==='Recovering'?'var(--green)':d.severity==='Critical'?'var(--red)':'var(--amber)'}">◆</span><strong>${esc(d.title)}</strong>${badge(d.severity)}${d.status!=='Active'?badge(d.status):''}<span class="dtime">${ago(d.created_at)}</span></div><div class="dmeta">${esc(d.description)}</div><div class="impactline">${d.shipment_id?`SHIPMENT <b>${esc(d.shipment_id)}</b>　·　CARRIER <b>${esc(d.carrier||'Supplier update')}</b>　·　ETA <b>${dt(d.eta)}</b>`:`SIGNAL <b>${esc(d.type)}</b>`}</div>${progressHtml(d)}</div>`).join('')||'<div class="empty">No open disruptions. Everything has recovered.</div>';
+renderImpact(s);updateGreeting();renderBrief();autoIncidents();celebrateNew();$('#disruption-list').innerHTML=s.disruptions.filter(d=>d.status!=='Resolved').map(d=>`<div class="disruption"><div class="dtop"><span style="color:${d.status==='Recovering'?'var(--green)':d.severity==='Critical'?'var(--red)':'var(--amber)'}">◆</span><strong>${esc(d.title)}</strong>${badge(d.severity)}${d.status!=='Active'?badge(d.status):''}<span class="dtime">${ago(d.created_at)}</span></div><div class="dmeta">${esc(d.description)}</div><div class="impactline">${d.shipment_id?`SHIPMENT <b>${esc(d.shipment_id)}</b>　·　CARRIER <b>${esc(d.carrier||'Supplier update')}</b>　·　ETA <b>${dt(d.eta)}</b>`:`SIGNAL <b>${esc(d.type)}</b>`}</div>${progressHtml(d)}</div>`).join('')||'<div class="empty">No open disruptions. Everything has recovered.</div>';
 const canPlan=(s.permissions||[]).includes('recommend');const rows=s.orders.map(o=>`<tr><td><div class="orderid">${esc(o.id)}</div><div class="subtext">${esc(o.customer)}</div></td><td>${badge(`${score(o)} · ${o.priority}`)}</td><td><div class="id">${esc(o.sku)}</div><div class="subtext">${Math.max(0,o.available)} unreserved</div></td><td>${dt(o.due)}</td><td class="explain" data-oid="${esc(o.id)}">${aiOrderHtml.get(o.id+'|'+(o.covered?1:0))||`${esc(why(o))}${o.covered?' · recovery approved':''} <button class="aiwhy" data-id="${esc(o.id)}" title="Ask Gemini to explain this in plain English">✦ Why?</button>`}</td><td>${canPlan&&!o.covered?`<button class="btn mini planorder" data-id="${esc(o.id)}" data-sku="${esc(o.sku)}" data-du="${esc(o.due)}" data-customer="${esc(o.customer)}">Plan</button>`:''}</td></tr>`).join('');$('#risk-table').innerHTML=rows||'<tr><td colspan="6" class="empty">No affected orders.</td></tr>';
 $('#approvals-list').innerHTML=s.plans.filter(p=>p.status==='Pending approval').slice(0,4).map(planCard).join('')||'<div class="empty">No plans awaiting approval.</div>';
 $('#progress-list').innerHTML=s.plans.filter(p=>['Approved','Executed','Executing'].includes(p.status)).map(p=>`<div class="plan"><div class="plantop"><b>${esc(p.order_id)} · ${esc(p.kind)}</b>${badge(p.status)}</div><div class="planmeta">${esc(p.customer)} · ${esc(p.summary)}</div><div class="meter"><i style="width:${p.status==='Executed'?100:62}%"></i></div></div>`).join('')||'<div class="empty">No recovery actions underway.</div>';
@@ -1211,20 +1237,26 @@ const CALM=matchMedia('(prefers-reduced-motion: reduce)').matches,FINE=matchMedi
 function updateGreeting(){const el=$('#greetword');if(!el)return;const w=GREET[dayPart()];if(el.textContent===w)return;el.classList.remove('swap');void el.offsetWidth;el.textContent=w;el.classList.add('swap')}
 setInterval(updateGreeting,60000);
 
-// Sign-in: five role cards. Click (or arrow keys) to choose; double-click, Enter or the button to sign in.
-(function(){const track=$('#rp-track');if(!track)return;const cards=[...track.querySelectorAll('.rolecard')],sel=$('#loginuser'),btn=$('#loginbtn');
- const pick=(c,opts={})=>{cards.forEach(x=>{const on=x===c;x.classList.toggle('on',on);x.setAttribute('aria-checked',String(on));x.tabIndex=on?0:-1});
+// Sign-in: a carousel of five role cards. The chosen role sits centred in front; the others are stacked behind it
+// on both sides (wrapping round), and choosing another role shuffles it to the centre.
+// Click a side card, use ‹ ›, arrow keys or swipe to choose; double-click the centre card, press Enter or the button to sign in.
+(function(){const track=$('#rp-track');if(!track)return;const cards=[...track.querySelectorAll('.rolecard')],n=cards.length,sel=$('#loginuser'),btn=$('#loginbtn');let cur=0,swiped=0;
+ const place=()=>cards.forEach((c,i)=>{let d=((i-cur)%n+n)%n;if(d>n/2)d-=n;const a=Math.abs(d);
+  c.style.setProperty('--d',d);c.style.setProperty('--ad',a);c.style.zIndex=10-a;c.classList.toggle('on',d===0);c.classList.toggle('far',a>1);
+  c.setAttribute('aria-checked',String(d===0));c.tabIndex=d===0?0:-1});
+ const pick=(i,opts={})=>{cur=((i%n)+n)%n;place();const c=cards[cur];
   if(sel.value!==c.dataset.user){sel.value=c.dataset.user;sel.dispatchEvent(new Event('change'))}
-  btn.textContent=`Sign in as ${c.dataset.role} →`;$('#loginerror').textContent='';
-  if(opts.scroll!==false)c.scrollIntoView({block:'nearest',inline:'center',behavior:CALM?'auto':'smooth'});if(opts.focus)c.focus({preventScroll:true});
+  btn.textContent=`Sign in as ${c.dataset.role} →`;$('#loginerror').textContent='';if(opts.focus)c.focus({preventScroll:true});
   if(opts.pop!==false){c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop')}};
- const step=d=>{const i=cards.findIndex(c=>c.classList.contains('on'));pick(cards[(i+d+cards.length)%cards.length],{focus:true})};
- cards.forEach(c=>{c.addEventListener('click',()=>pick(c));c.addEventListener('dblclick',()=>doLogin());
-  c.addEventListener('pointermove',e=>{if(CALM)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;c.style.setProperty('--ry',`${(x-.5)*14}deg`);c.style.setProperty('--rx',`${(.5-y)*12}deg`);c.style.setProperty('--px',`${x*100}%`);c.style.setProperty('--py',`${y*100}%`)});
+ const step=(d,focus)=>pick(cur+d,{focus});
+ cards.forEach((c,i)=>{c.addEventListener('click',()=>{if(Date.now()-swiped<250||i===cur)return;pick(i)});c.addEventListener('dblclick',()=>{if(i===cur)doLogin()});
+  c.addEventListener('pointermove',e=>{if(CALM||i!==cur)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;c.style.setProperty('--ry',`${(x-.5)*14}deg`);c.style.setProperty('--rx',`${(.5-y)*12}deg`);c.style.setProperty('--px',`${x*100}%`);c.style.setProperty('--py',`${y*100}%`)});
   c.addEventListener('pointerleave',()=>{c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')})});
- track.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();step(1)}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();step(-1)}else if(e.key==='Enter'){e.preventDefault();doLogin()}});
+ track.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();step(1,true)}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();step(-1,true)}else if(e.key==='Enter'){e.preventDefault();doLogin()}});
+ let sx=null;track.addEventListener('pointerdown',e=>{sx=e.clientX});
+ track.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>40){swiped=Date.now();step(dx<0?1:-1)}});
  $('#rp-prev').onclick=()=>step(-1);$('#rp-next').onclick=()=>step(1);
- const sync=()=>pick(cards.find(c=>c.dataset.user===sel.value)||cards[0],{scroll:false,pop:false});sync();
+ const sync=()=>pick(Math.max(0,cards.findIndex(c=>c.dataset.user===sel.value)),{pop:false});sync();
  // Re-sync when the sign-in screen or the portal opens (website buttons like "Try as Analyst" preselect a role).
  const mo=new MutationObserver(()=>{if($('#login').classList.contains('show'))setTimeout(sync,0)});
  mo.observe($('#login'),{attributes:true,attributeFilter:['class']});mo.observe($('#portal'),{attributes:true,attributeFilter:['style']})})();
@@ -1262,21 +1294,55 @@ addEventListener('resize',queueGlide);setTimeout(syncGliders,300);
    ctx.beginPath();ctx.arc(q.x,q.y,4+q.max*e,0,7);ctx.strokeStyle=`rgba(201,162,75,${q.a*(1-p)})`;ctx.lineWidth=q.w*(1-p*.5);ctx.stroke()}
   if(busy||m.seen&&rings.length)requestAnimationFrame(frame);else running=false}})();
 
-// Home page: the hero's grid bends around the cursor like a lens, and lights up near it.
-(function(){const hero=$('#s-hero'),light=$('#s-gridlight');if(!hero||CALM||!FINE)return;
- const R=200,S=256,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d'),img=x.createImageData(S,S);
- for(let j=0;j<S;j++)for(let i=0;i<S;i++){const dx=(i-S/2)/(S/2),dy=(j-S/2)/(S/2),d2=dx*dx+dy*dy,f=d2<1?Math.pow(1-d2,2):0,k=(j*S+i)*4;img.data[k]=128+127*dx*f;img.data[k+1]=128+127*dy*f;img.data[k+2]=128;img.data[k+3]=255}
+// Home page: the background grid behaves like a soft sheet. Near the cursor it bulges gently, gets dragged a little
+// in the direction you move, then springs back with a small wobble. It never shows under the text, buttons, nav or graph.
+(function(){const hero=$('#s-hero'),light=$('#s-gridlight'),grid=$('#s-warpgrid');if(!hero||!grid||CALM||!FINE)return;
+ // Lens map: red/green = outward bulge direction, blue = how strongly this point is affected (fades to 0 at the edge).
+ const R=210,S=256,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d'),img=x.createImageData(S,S);
+ for(let j=0;j<S;j++)for(let i=0;i<S;i++){const dx=(i-S/2)/(S/2),dy=(j-S/2)/(S/2),d2=dx*dx+dy*dy,f=d2<1?Math.pow(1-d2,2):0,k=(j*S+i)*4;img.data[k]=128+127*dx*f;img.data[k+1]=128+127*dy*f;img.data[k+2]=255*f;img.data[k+3]=255}
  x.putImageData(img,0,0);
  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('width','0');svg.setAttribute('height','0');svg.setAttribute('aria-hidden','true');svg.style.position='absolute';
- svg.innerHTML=`<filter id="diq-warp" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feFlood flood-color="rgb(128,128,128)" result="flat"/><feImage id="diq-warp-map" href="${c.toDataURL()}" x="-999" y="-999" width="${R*2}" height="${R*2}" preserveAspectRatio="none" result="lens"/><feComposite in="lens" in2="flat" operator="over" result="map"/><feDisplacementMap id="diq-warp-disp" in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>`;
- document.body.appendChild(svg);const map=svg.querySelector('#diq-warp-map'),disp=svg.querySelector('#diq-warp-disp');
- hero.classList.add('s-warping');let tx=-999,ty=-999,cx=-999,cy=-999,sc=0,target=0,lastMove=0,raf=0;
- const tick=t=>{raf=0;const idle=t-lastMove>900;const goal=idle?0:target;sc+=(goal-sc)*.08;cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;
-  const wob=Math.sin(t/180)*3*(sc/40);map.setAttribute('x',(cx-R).toFixed(1));map.setAttribute('y',(cy-R).toFixed(1));disp.setAttribute('scale',(sc+wob).toFixed(2));
+ svg.innerHTML=`<filter id="diq-warp" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feFlood flood-color="rgb(128,128,0)" result="flat"/><feImage id="diq-warp-map" href="${c.toDataURL()}" x="-999" y="-999" width="${R*2}" height="${R*2}" preserveAspectRatio="none" result="lens"/><feComposite in="lens" in2="flat" operator="over" result="raw"/><feColorMatrix id="diq-warp-mix" in="raw" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 0 0 .5  0 0 0 0 1" result="map"/><feDisplacementMap id="diq-warp-disp" in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>`;
+ document.body.appendChild(svg);const map=svg.querySelector('#diq-warp-map'),mix=svg.querySelector('#diq-warp-mix'),disp=svg.querySelector('#diq-warp-disp');
+ // Keep the effect off the content: a soft-edged mask with holes over the header, text, buttons and the graph card.
+ const blocks=()=>[hero.querySelector('header>a'),hero.querySelector('header nav'),...hero.querySelectorAll('h1,h1~p,h1~div,.s-rise>.s-lbl'),hero.querySelector('svg[viewBox="0 0 560 520"]')?.parentElement].filter(Boolean);
+ let holes=[];const buildMask=()=>{const hr=hero.getBoundingClientRect(),W=Math.round(hr.width),H=Math.round(hr.height),P=18;
+  holes=blocks().map(b=>{const r=b.getBoundingClientRect();return {x:r.left-hr.left-P,y:r.top-hr.top-P,w:r.width+2*P,h:r.height+2*P}}).filter(r=>r.w>2*P&&r.h>2*P);
+  const s=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs><filter id="b"><feGaussianBlur stdDeviation="12"/></filter></defs><rect width="${W}" height="${H}" fill="white"/><g filter="url(#b)">${holes.map(r=>`<rect x="${r.x.toFixed(0)}" y="${r.y.toFixed(0)}" width="${r.w.toFixed(0)}" height="${r.h.toFixed(0)}" rx="18" fill="black"/>`).join('')}</g></svg>`;
+  const url=`url("data:image/svg+xml,${encodeURIComponent(s)}")`;
+  [[grid,'radial-gradient(70% 65% at 62% 38%,#000,transparent)'],[light,'radial-gradient(circle 260px at var(--mx,-999px) var(--my,-999px),#000 0,rgba(0,0,0,.5) 45%,transparent 74%)']].forEach(([el,first])=>{
+   for(const p of ['maskImage','webkitMaskImage'])el.style[p]=`${first}, ${url}`;el.style.maskSize=el.style.webkitMaskSize='100% 100%, 100% 100%';el.style.maskRepeat=el.style.webkitMaskRepeat='no-repeat';
+   el.style.maskComposite='intersect';el.style.webkitMaskComposite='source-in'})};
+ // Measure again once the hero's intro animation (text rising in) has finished, and after fonts load or a resize.
+ let mt=0;const remask=()=>{clearTimeout(mt);mt=setTimeout(buildMask,150)};addEventListener('resize',remask);hero.addEventListener('animationend',remask);
+ [400,2600,4200].forEach(t=>setTimeout(buildMask,t));document.fonts?.ready.then(buildMask);
+ hero.classList.add('s-warping');
+ // Spring physics: the drag (px,py) chases the cursor's velocity, then settles back to 0 with a little overshoot.
+ let tx=-999,ty=-999,cx=-999,cy=-999,lx=0,ly=0,tvx=0,tvy=0,px=0,py=0,vx=0,vy=0,act=0,actT=0,lastMove=0,raf=0;
+ const over=(X,Y)=>holes.some(r=>X>r.x&&X<r.x+r.w&&Y>r.y&&Y<r.y+r.h);
+ const tick=t=>{raf=0;if(t-lastMove>1200)actT=0;act+=(actT-act)*.09;tvx*=.86;tvy*=.86;
+  const ax=(tvx-px)*.12-vx*.18,ay=(tvy-py)*.12-vy*.18;vx+=ax;vy+=ay;px+=vx;py+=vy;cx+=(tx-cx)*.2;cy+=(ty-cy)*.2;
+  const kb=.34*act;mix.setAttribute('values',`${kb.toFixed(3)} 0 ${(px*act).toFixed(3)} 0 ${(.5-.5*kb).toFixed(3)}  0 ${kb.toFixed(3)} ${(py*act).toFixed(3)} 0 ${(.5-.5*kb).toFixed(3)}  0 0 0 0 .5  0 0 0 0 1`);
+  map.setAttribute('x',(cx-R).toFixed(1));map.setAttribute('y',(cy-R).toFixed(1));disp.setAttribute('scale',(46*act).toFixed(2));
   hero.style.setProperty('--mx',cx.toFixed(0)+'px');hero.style.setProperty('--my',cy.toFixed(0)+'px');
-  if(Math.abs(goal-sc)>.05||Math.abs(tx-cx)+Math.abs(ty-cy)>.5)raf=requestAnimationFrame(tick)};
- hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();const nx=e.clientX-r.left,ny=e.clientY-r.top;if(cx<-900){cx=nx;cy=ny}tx=nx;ty=ny;target=-64;lastMove=performance.now();light.classList.add('on');if(!raf)raf=requestAnimationFrame(tick)},{passive:true});
- hero.addEventListener('pointerleave',()=>{light.classList.remove('on');lastMove=0;if(!raf)raf=requestAnimationFrame(tick)})})();
+  if(Math.abs(actT-act)>.004||Math.abs(px)+Math.abs(py)+Math.abs(vx)+Math.abs(vy)>.002||Math.abs(tx-cx)+Math.abs(ty-cy)>.5)raf=requestAnimationFrame(tick)};
+ hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect(),nx=e.clientX-r.left,ny=e.clientY-r.top;if(cx<-900){cx=lx=nx;cy=ly=ny}
+  tvx=Math.max(-.7,Math.min(.7,tvx+(nx-lx)/90));tvy=Math.max(-.7,Math.min(.7,tvy+(ny-ly)/90));lx=nx;ly=ny;tx=nx;ty=ny;lastMove=performance.now();
+  const free=!over(nx,ny);actT=free?1:0;light.classList.toggle('on',free);if(!raf)raf=requestAnimationFrame(tick)},{passive:true});
+ hero.addEventListener('pointerleave',()=>{light.classList.remove('on');actT=0;if(!raf)raf=requestAnimationFrame(tick)})})();
+
+// "Recovered" pop-up: a big one when a whole disruption is resolved, a smaller one when orders recover.
+const celebrated=new Set();
+function celebrateNew(){if(!state)return;const now=Date.now(),fresh=t=>t&&now-Date.parse(t)<15000;
+ const dis=(state.disruptions||[]).filter(d=>d.status==='Resolved'&&fresh(d.resolved_at)&&!celebrated.has(d.id));
+ const ords=localDb.orders.filter(o=>o.status==='Recovered'&&fresh(o.recovered_at)&&!celebrated.has(o.id));
+ dis.forEach(d=>celebrated.add(d.id));ords.forEach(o=>celebrated.add(o.id));
+ if(dis.length){const d=dis[0],os=(d.order_ids||[]).map(id=>localDb.orders.find(o=>o.id===id)).filter(Boolean);
+  recPop({big:true,title:'Recovered',line:`${d.id} · ${d.title}`,detail:`${os.length} order${os.length===1?'':'s'} back on track · ${inr(os.reduce((n,o)=>n+orderValue(o),0))} protected · ${durText(Date.parse(d.resolved_at)-Date.parse(d.created_at))}`})}
+ else if(ords.length)recPop({big:false,title:'Recovered',line:ords.length===1?`${ords[0].id} · ${ords[0].customer}`:`${ords.map(o=>o.id).join(', ')}`,detail:`${inr(ords.reduce((n,o)=>n+orderValue(o),0))} protected`})}
+function recPop({big,title,line,detail}){$$('.recpop').forEach(x=>x.remove());const el=document.createElement('div');el.className='recpop'+(big?' big':'');el.setAttribute('role','status');el.setAttribute('aria-live','polite');
+ el.innerHTML=`<div class="rp-card"><div class="rp-burst">${Array.from({length:14},(_,i)=>`<i style="--a:${(i*360/14).toFixed(0)}deg;--r:${big?120:84}px;--dl:${(i%3)*40}ms"></i>`).join('')}<span class="rp-ring"></span><span class="rp-ring two"></span><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l7.5 7.5L37.5 19"/></svg></div><b>${esc(title)}</b><span class="rp-line">${esc(line)}</span><em>${esc(detail)}</em></div>`;
+ document.body.appendChild(el);const close=()=>{el.classList.add('out');setTimeout(()=>el.remove(),380)};el.addEventListener('click',close);setTimeout(close,big?3400:2000)}
 init();
 </script></div>
 <script>(function(){
