@@ -16,9 +16,14 @@ const TASKS = {
   order:
     'Explain in at most 2 short sentences (under 45 words) why this customer order is at risk and what matters most for recovering it.',
   options:
-    'The rules engine produced the numbered recovery options below. In at most 3 short sentences (under 70 words), recommend which ' +
-    'option number(s) the analyst should submit and why. Protect Critical-priority orders and the earliest due dates first, and ' +
-    'prefer the lowest cost when options are similar.',
+    'The rules engine produced the numbered recovery options below. Recommend which option number(s) the analyst should submit: at ' +
+    'most one per order. Never pick an option whose side_effects are not "none" if the same order has a safe option (do no harm). ' +
+    'Prefer options that cover the whole order. Protect Critical-priority orders and the earliest due dates first, and prefer the ' +
+    'lowest cost when options are similar. ' +
+    'Return "recommended" (the option numbers) and "advice" (at most 3 short sentences, under 70 words, naming options as #N).',
+  fragility:
+    'A stress test failed each location for a week, in simulation. Explain in at most 3 short sentences (under 75 words) why the ' +
+    'top fragile points are fragile and the single most useful step to make the network stronger, using the suggested fixes given.',
   briefing:
     'Write the morning briefing for the signed-in user (their role is in the facts) in at most 3 short sentences (under 70 words): ' +
     'the overall situation, the single most urgent action and why, and anything waiting on this role. If nothing is open, say so briefly.',
@@ -29,6 +34,15 @@ const TASKS = {
   incident:
     'Write a short incident report for the audit log in at most 4 sentences (under 90 words): what happened, which orders and how much ' +
     'value were hit, how each order was recovered, the recovery cost if given, and how long recovery took. Neutral, factual tone.',
+};
+
+// Tasks that answer in JSON, so the page can act on the answer (highlight the suggested options).
+const SCHEMAS = {
+  options: {
+    type: 'OBJECT',
+    properties: { advice: { type: 'STRING' }, recommended: { type: 'ARRAY', items: { type: 'INTEGER' } } },
+    required: ['advice', 'recommended'],
+  },
 };
 
 // Only this site (and local testing) may call the function from a browser.
@@ -50,7 +64,20 @@ module.exports = async (req, res) => {
   const body = {
     systemInstruction: { parts: [{ text: RULES }] },
     contents: [{ role: 'user', parts: [{ text: `${TASKS[kind]}\n\nFacts (JSON):\n${data}` }] }],
-    generationConfig: { temperature: 0.4 },
+    generationConfig: SCHEMAS[kind]
+      ? { temperature: 0.3, responseMimeType: 'application/json', responseSchema: SCHEMAS[kind] }
+      : { temperature: 0.4 },
+  };
+  // For JSON tasks, return the advice as `text` and the option numbers as `picks` (only numbers that exist).
+  const shape = (raw) => {
+    if (!SCHEMAS[kind]) return { text: raw };
+    const n = Array.isArray(facts.options) ? facts.options.length : 0;
+    let j = null;
+    try { j = JSON.parse(raw.replace(/^```(?:json)?\s*|\s*```$/g, '')); } catch { j = null; }
+    const text = j && typeof j.advice === 'string' ? j.advice.trim() : raw;
+    const from = j && Array.isArray(j.recommended) ? j.recommended : (text.match(/#\s?(\d+)/g) || []).map((x) => x.replace(/\D/g, ''));
+    const picks = [...new Set(from.map(Number).filter((x) => Number.isInteger(x) && x >= 1 && x <= n))];
+    return { text, picks };
   };
 
   let lastError = 'No model answered.';
@@ -74,7 +101,7 @@ module.exports = async (req, res) => {
       }
       const parts = (j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || [];
       const text = parts.filter((p) => !p.thought).map((p) => p.text || '').join('').trim();
-      if (text) return res.status(200).json({ text, model });
+      if (text) return res.status(200).json({ ...shape(text), model });
       lastError = 'Gemini returned an empty answer.';
     } catch (e) {
       if (e && e.name === 'TimeoutError') { lastError = 'Gemini took too long to answer.'; break; } // the page falls back to rule text
